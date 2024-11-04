@@ -1,0 +1,43 @@
+*** Invoice Payment Option Change log ***
+
+2024-07-29 - version 1.3.2
+* Fix - Fixed Warning and errors.
+
+2024-05-02 - version 1.3.1
+* Fix - Fixed checkout loading issue.
+
+2024-04-16 - version 1.3.0
+* Update - Improve PDF UI layout.
+* Add - Added checkbox to enable/disable separate admin and customer emails.
+* Add - Added placeholders for separate admin and customer emails.
+
+2024-04-03 - version 1.2.0
+Feature - Generates PDF invoice for orders place using invoice payment method.
+
+2023-12-06 - version 1.1.1
+* Fix - Fixed undefined function error.
+
+2023-12-06 - version 1.1.0
+* Update - Compatibility updated for latest versions of WooCommerce and WordPress.
+* Update - Compatible with WooCommerce High-Performance Order Storage (HPOS).
+
+2023-03-17 - version 1.0.5
+* Update - Checkbox to select all products to show invoice payment option.
+* Fix - Fixed bug with Paypal on checkout page.
+
+2022-11-03 - version 1.0.4
+* Fix - Fixed nonce issues.
+* Update - Compatibility updated for latest versions of WooCommerce and WordPress.
+
+2022-07-26 - version 1.0.3
+* Fix - Fixed failed security check issue when adding a payment method in admin.
+
+2022-03-03 - version 1.0.2
+* Fix - Fixed the issue of display html in instructions.
+* Add - Moved the rules menu in WooCommerce's submenu.
+
+2021-12-31 - version 1.0.1
+* Fix - Fixed bug with assets not including.
+
+2021-08-19 - version 1.0.0
+* Other - Initial release of the plugin.

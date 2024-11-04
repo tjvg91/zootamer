@@ -1,0 +1,28 @@
+2024-11-04T04:59:12+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T04:59:12+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T05:12:45+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Domain association file updated.
+====End Log====
+
+2024-11-04T05:12:47+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Your domain has been verified with Apple Pay!
+====End Log====
+

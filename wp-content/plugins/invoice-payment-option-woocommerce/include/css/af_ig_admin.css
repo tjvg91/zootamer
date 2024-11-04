@@ -1,0 +1,56 @@
+.af_invoice_templates.selected {
+    border: 3px solid #879da3;
+}
+
+
+
+.addify-cod-settings input[type="text"], .addify-cod-settings select{
+	width: 60%;
+	margin: 1em;
+}
+.af_invoice_templates{
+   margin-right: 20px;
+}
+table.addify-table-optoin {
+	width: 100%;
+	border-collapse: collapse;
+}
+tr.addify-option-field th {
+	width: 30%;
+}
+tr.addify-option-field td {
+	padding: 12.5px;
+}
+.addify-option-field th .option-head h3 {
+	text-align: left;
+	margin-left: 25px;
+}
+.addify-option-field th span.description p {
+	font-style: normal;
+	text-align: left;
+	font-weight: 100;
+}
+.addify-option-field td .addify-input-field {
+
+}
+tr.addify-option-field {
+	border-bottom: 1px solid #E7E7E7;
+}
+
+.addify-tabs{
+	width: 100%;
+	overflow:hidden;
+}
+
+.extra-fee-conditions select, .extra-fee-conditions input[type=number]{
+	width: 60%;
+}
+
+.extra-fee input[type=number]{
+	width: 60%;
+}
+
+.extra-fee-conditions .input-text-half{
+	width: 30% !important;
+	float: left;
+}

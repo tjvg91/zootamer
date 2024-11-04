@@ -1,0 +1,251 @@
+2024-10-28T10:50:48+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T12:51:24+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T14:52:24+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:00+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:00+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:10+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-10-28T17:11:10+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:10+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-10-28T17:11:10+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:20+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-10-28T17:11:20+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:20+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-10-28T17:11:20+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:30+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-10-28T17:11:30+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-10-28T17:11:30+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-10-28T17:11:30+00:00 DEBUG 
+====Stripe Version: 8.6.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
