@@ -68,3 +68,7 @@ button.merchant-clear-cart-button--mini-cart.merchant-clear-cart-button--outline
 .merchant-floating-side-mini-cart-widget button.merchant-clear-cart-button--side-cart {
   display: block;
 }
+
+.site-header-cart .merchant-clear-cart-button ~ .merchant-clear-cart-button {
+  display: none;
+}

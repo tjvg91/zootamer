@@ -2413,8 +2413,8 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
           flex-direction: column;
   padding: 30px;
   background-color: #fff;
-  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
-          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
 
@@ -2437,7 +2437,7 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
 
 .merchant-module-page-preview-title,
 .merchant-module-page-setting-title {
-  margin-top: 10px;
+  margin-top: 0;
   padding-right: 50px;
   font-size: 20px;
   font-weight: 500;
@@ -2491,6 +2491,9 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
 }
 .merchant-module-page-setting-field.merchant-hide {
   display: none;
+}
+.merchant-module-page-setting-field[data-id=shortcode_text] {
+  margin-top: 24px;
 }
 
 .merchant-module-page-setting-field-title {
@@ -3043,6 +3046,7 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
 .merchant-module-page-setting-field-select_ajax .select2-container .select2-selection--multiple .select2-search__field,
 .merchant-module-page-setting-field-select_size_chart .select2-container .select2-selection--multiple .select2-search__field {
   min-height: 0;
+  border: none;
 }
 .merchant-module-page-setting-field-select .select2-container.select2-container--focus .select2-selection--single,
 .merchant-module-page-setting-field-select .select2-container.select2-container--focus .select2-selection--multiple,
@@ -3425,6 +3429,9 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
 .merchant-group-field .merchant-group-fields-container {
   padding-top: 20px;
 }
+.merchant-group-field .merchant-module-page-setting-field:last-child {
+  margin-bottom: 0 !important;
+}
 
 .merchant-sortable-repeater-control {
   max-width: 100%;
@@ -3548,6 +3555,7 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
   position: relative;
 }
 .merchant-flexible-content-control .sortable {
+  position: relative;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -3567,30 +3575,16 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
           box-shadow: none;
 }
 .merchant-flexible-content-control .customize-control-flexible-content-move {
+  display: none;
   cursor: -webkit-grab;
   cursor: grab;
+  position: absolute;
+  top: 19px;
+  left: -22px;
+  z-index: 999;
 }
 .merchant-flexible-content-control .customize-control-flexible-content-delete,
 .merchant-flexible-content-control .customize-control-flexible-content-duplicate {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  margin: 0;
-  width: 40px;
-  height: auto;
-  font-size: 1.3em;
-  line-height: 34px;
-  color: #d4d4d4;
-  background: #fff;
-  padding: 0;
-  vertical-align: top;
-  margin-left: -1px;
   text-decoration: none;
 }
 .merchant-flexible-content-control .customize-control-flexible-content-delete .dashicons-no-alt,
@@ -3628,9 +3622,9 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   margin: 0;
   width: 40px;
   height: auto;
@@ -3641,12 +3635,14 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
   padding: 0;
   vertical-align: top;
   cursor: pointer;
+}
+.merchant-flexible-content-control .customize-control-flexible-content-accordion svg {
   -webkit-transition: 300ms;
   transition: 300ms;
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
 }
-.merchant-flexible-content-control .layout-header.ui-accordion-header-collapsed .customize-control-flexible-content-accordion {
+.merchant-flexible-content-control .layout-header.ui-accordion-header-collapsed .customize-control-flexible-content-accordion svg {
   -webkit-transform: rotate(0deg);
           transform: rotate(0deg);
 }
@@ -3661,10 +3657,13 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
   border-left: 3px solid #3858e9;
 }
 .merchant-flexible-content-control.default-style .layout .layout-header {
-  padding: 8px 15px;
+  padding: 15px 20px;
 }
 .merchant-flexible-content-control.default-style .layout .layout-body {
-  padding: 15px;
+  padding: 15px 20px;
+}
+.merchant-flexible-content-control.default-style .layout .layout-body .layout-field:last-of-type .merchant-group-field {
+  margin-bottom: 5px;
 }
 .merchant-flexible-content-control.table-style .layout .layout-header {
   padding-bottom: 8px;
@@ -3687,6 +3686,14 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
 }
 .merchant-flexible-content-control .layout {
   margin-bottom: 20px;
+}
+.merchant-flexible-content-control .layout .layout__inner {
+  width: calc(100% + 60px);
+  margin-left: -30px;
+  padding-inline: 30px;
+}
+.merchant-flexible-content-control .layout .layout__inner:hover .customize-control-flexible-content-move {
+  display: block;
 }
 .merchant-flexible-content-control .layout .layout-header {
   display: -webkit-box;
@@ -3721,8 +3728,7 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
   font-size: 14px;
   font-weight: bold;
 }
-.merchant-flexible-content-control .layout .layout-toggle,
-.merchant-flexible-content-control .layout .layout-actions {
+.merchant-flexible-content-control .layout .layout-toggle {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3735,6 +3741,9 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
       -ms-flex-positive: 1;
           flex-grow: 1;
 }
+.merchant-flexible-content-control .layout .layout-toggle span:hover {
+  opacity: 0.6;
+}
 .merchant-flexible-content-control .layout .layout-body {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3746,8 +3755,53 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
 }
 .merchant-flexible-content-control .layout .layout-actions {
   position: absolute;
-  top: 9px;
-  right: 55px;
+  top: 15px;
+  right: 22px;
+}
+.merchant-flexible-content-control .layout .layout-actions-has_accordion {
+  right: 43px;
+}
+.merchant-flexible-content-control .layout .layout-actions-no_accordion {
+  top: 0;
+  right: 0;
+}
+.merchant-flexible-content-control .layout .layout-actions a:hover {
+  opacity: 0.6;
+}
+.merchant-flexible-content-control .layout .layout-actions__toggle:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.merchant-flexible-content-control .layout .layout-actions__inner {
+  position: absolute;
+  right: -5px;
+  top: 25px;
+  z-index: 99;
+  font-size: 13px;
+  padding: 7px 15px;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #DDDDDD;
+  border-radius: 5px;
+}
+.merchant-flexible-content-control .layout .layout-actions__inner a {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+}
+.merchant-flexible-content-control .layout .layout-actions__inner svg {
+  width: 24px;
+  height: 20px;
+}
+.merchant-flexible-content-control .layout .layout-actions__inner span {
+  color: #1E1E1E;
 }
 .merchant-flexible-content-control .layout .layout-field.flex-grow {
   -webkit-box-flex: 1;
@@ -3855,7 +3909,7 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
   color: #3858E9;
   border-color: #3858E9;
   background-color: transparent;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   padding: 4px 19px;
 }
 .merchant-flexible-content-control .customize-control-flexible-content-add-button:hover, .merchant-flexible-content-control .customize-control-flexible-content-add-button:focus {
@@ -4112,6 +4166,9 @@ body.merchant-module-disabled .merchant-module-page-link-preview svg path {
   border-radius: 4px;
   border: 1px solid #0d65d7;
   background-color: #e6effa;
+}
+.merchant-module-page-setting-field-info[data-id=shortcode_info] {
+  margin-bottom: 0;
 }
 
 .merchant-module-page-setting-field-divider {

@@ -25,8 +25,8 @@
           justify-content: center;
 }
 .merchant-cart-reserved-timer-icon img {
-  min-width: 36px;
-  max-width: 36px;
+  min-width: 36px !important;
+  max-width: 36px !important;
 }
 
 .merchant-cart-reserved-timer-content p {

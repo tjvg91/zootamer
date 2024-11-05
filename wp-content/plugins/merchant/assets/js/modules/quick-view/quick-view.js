@@ -37,6 +37,9 @@ merchant.modules = merchant.modules || {};
               wc_single_product_params.zoom_enabled = window.merchant.setting.quick_view_zoom;
               if (typeof $.fn.wc_product_gallery === 'function' && $gallery.length) {
                 $gallery.trigger('wc-product-gallery-before-init', [$gallery.get(0), wc_single_product_params]);
+
+                // Force-enable the gallery slider in case the theme/plugin has removed it using `remove_theme_support( 'wc-product-gallery-slider' )`
+                wc_single_product_params['flexslider_enabled'] = '1';
                 $gallery.wc_product_gallery(wc_single_product_params);
                 $gallery.trigger('wc-product-gallery-after-init', [$gallery.get(0), wc_single_product_params]);
               }

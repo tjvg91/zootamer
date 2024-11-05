@@ -9,7 +9,7 @@
         var $buyBtn = $form.find('.merchant-buy-now-button');
         $form.find('input[name="variation_id"]').on('change woocommerce_variation_has_changed', function () {
           var selectedVariationId = +$form.find('.variation_id').val();
-          $buyBtn.toggleClass('disabled', !selectedVariationId);
+          $buyBtn.toggleClass('disabled', !selectedVariationId).attr('disabled', !selectedVariationId);
           $buyBtn.val(selectedVariationId);
         });
       });

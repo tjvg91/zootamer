@@ -63,6 +63,27 @@ Merchant_Admin_Options::create( array(
 			),
 			'default' => array( 'title_and_price', 'description', 'thumbnail' ),
 		),
+
+		array(
+			'id'      => 'description_type',
+			'type'    => 'radio',
+			'title'   => esc_html__( 'Description type', 'merchant' ),
+			'options' => array(
+				'full'  => esc_html__( 'Full description', 'merchant' ),
+				'short' => esc_html__( 'Short description', 'merchant' ),
+			),
+			'default' => 'short',
+			'conditions' => array(
+				'terms' => array(
+					array(
+						'field'    => 'show_product_info', // field ID
+						'operator' => 'contains', // Available operators: ===, !==, >, <, >=, <=, in, !in, contains, !contains
+						'value'    => 'description', // can be a single value or an array of string/number/int
+					),
+				),
+			),
+		),
+
 		array(
 			'id'         => 'description_length',
 			'type'       => 'range',
@@ -153,8 +174,8 @@ Merchant_Admin_Options::create( array(
 			'options'    => array(
 				'related_products'           => esc_html__( 'Related Products', 'merchant' ),
 				'recently_viewed_products'   => esc_html__( 'Recently Viewed Products', 'merchant' ),
-				'frequently_bought_together' => esc_html__( 'Frequently Bought Together', 'merchant' ),
-				'buy_x_get_y'                => esc_html__( 'Buy X Get Y', 'merchant' ),
+//              'frequently_bought_together' => esc_html__( 'Frequently Bought Together', 'merchant' ),
+//              'buy_x_get_y'                => esc_html__( 'Buy X Get Y', 'merchant' ),
 			),
 			'default'    => 'related_products',
 			'conditions' => array(

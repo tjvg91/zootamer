@@ -20,6 +20,7 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  text-decoration: none !important;
   padding-top: var(--mrc-buy-now-padding-top-bottom, 13px) !important;
   padding-bottom: var(--mrc-buy-now-padding-top-bottom, 13px) !important;
   padding-left: var(--mrc-buy-now-padding-left-right, 24px) !important;
@@ -29,6 +30,10 @@
   color: var(--mrc-buy-now-text-color, #FFF) !important;
   border-color: var(--mrc-buy-now-border-color, #212121) !important;
   background-color: var(--mrc-buy-now-background-color, #212121) !important;
+}
+.merchant-buy-now-button.merchant-custom-buy-now-button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 .merchant-buy-now-button.merchant-custom-buy-now-button:hover {
   color: var(--mrc-buy-now-text-hover-color, #FFF) !important;

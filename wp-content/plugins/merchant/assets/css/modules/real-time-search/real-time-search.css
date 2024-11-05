@@ -4,7 +4,7 @@
  */
 .merchant-ajax-search {
   position: relative;
-  z-index: 99;
+  z-index: 999;
 }
 
 .merchant-ajax-search-products {
@@ -182,7 +182,6 @@
 }
 
 .woocommerce-product-search.merchant-ajax-search {
-  max-width: 500px;
   width: 100%;
   margin: 0 auto;
   display: -webkit-box;
@@ -194,22 +193,42 @@
   padding: 20px;
 }
 
-input#woocommerce-product-search-field-search-form-1 {
+form.merchant-product-search, form.merchant-product-search.woocommerce-product-search.merchant-ajax-search {
+  margin-block: 15px;
+}
+
+body form.woocommerce-product-search,
+.merchant-product-search {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+body form.woocommerce-product-search .search-field,
+.merchant-product-search .search-field {
   border: 1px solid #212121;
   border-radius: 0;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  padding-inline: 0.75em;
+  margin-block: 0;
 }
-
-button.search-submit {
-  background: #212121;
-  color: white;
+body form.woocommerce-product-search button[type=submit],
+body form.woocommerce-product-search button.search-submit,
+.merchant-product-search button[type=submit],
+.merchant-product-search button.search-submit {
+  background: #212121 !important;
+  color: #fff;
   border: 0;
   margin-left: 10px;
+  margin-block: 0;
   padding: 9px 15px;
+  line-height: 1;
 }
-
-button.search-submit svg {
+body form.woocommerce-product-search button[type=submit] svg,
+body form.woocommerce-product-search button.search-submit svg,
+.merchant-product-search button[type=submit] svg,
+.merchant-product-search button.search-submit svg {
   fill: white;
 }

@@ -1,9 +1,9 @@
 === Merchant - All-in-One WooCommerce Plugin for Pre-Orders, Product Labels, Buy Now, Quick View, and More ===
-Tags: pre-orders, buy now button, product labels, quick view, trust badge
+Tags: pre-orders, buy now button, product labels, quick view, clear cart
 Requires at least: 5.5
 Tested up to: 6.6
 Requires PHP: 7.2
-Stable tag: 1.9.15
+Stable tag: 1.10.3
 Contributors: aThemes
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ Enhance your WooCommerce store with 40+ modules including Pre-Orders, Product La
 
 [TRY A LIVE DEMO](https://app.instawp.io/launch?t=merchant-pro&d=v2)
 
-### A QUICK LOOK AT ALL FREE MODULES (15 AND COUNTING)
+### A QUICK LOOK AT ALL FREE MODULES (16 AND COUNTING)
 
 Let's take a closer look at what each module offers, along with how it can improve your WooCommerce store.
 
@@ -53,6 +53,8 @@ Let's take a closer look at what each module offers, along with how it can impro
 **5. IMPROVE EXPERIENCE**
 
 **Real-Time Search**: Upgrade your WooCommerce product search with real-time predictive search results and frequently searched term suggestions.
+
+**Clear Cart**: Allow customers to easily clear their carts and start fresh.
 
 **Scroll to Top**: Let your shoppers easily navigate back to the top of your site’s pages, which can help create a smooth browsing experience for your store.
 
@@ -90,6 +92,8 @@ With these 15 modules, you can boost your store’s sales, reduce cart abandonme
 **Spending Goal**: Motivate higher average order values by gamifying the shopping experience and offering customers discounts for reaching spending goals.
 
 **Free Gifts**: Increase average order value and boost customer satisfaction by rewarding shoppers with a gift for hitting a spending target or applying a coupon.
+
+**Free Shipping Bar**: Displays the remaining amount needed to qualify for free shipping.
 
 **2. CONVERT MORE**
 
@@ -214,6 +218,35 @@ Absolutely not. You can enable and customize modules without any coding knowledg
 15. Cookie Banner Module
 
 == Changelog ==
+= 1.10.3 =
+* Fixed - Default values from flexible content field not being applied when a new entry is added.
+
+= 1.10.2 =
+* Fixed - Quick View: Button position not allowing a value of 0 to be saved
+
+= 1.10.1 =
+* Added - Pre-Orders: Tag selection option
+* Added - Pre-Orders: Pre-order Rule duplication option
+* Added - Product Labels: Tag selection option
+* Added - Product Labels: "Pre-order Products" option (visible only when Pre-orders module is active)
+* Added - Real-Time Search: Shortcode support
+* Added - Quick View: Shortcode support
+* Added - Quick View: Separate position options for mobile
+* Fixed - Quick View: Styling compatibility issues across different themes
+* Fixed - Real-Time Search: Search issue on Elementor
+* Fixed - Product Labels: Excluded product not working
+* Fixed - Product Labels: Excluded product not working for some triggers
+* Changed - Reasons To Buy List: Refactored module settings. Users can now add multiple lists with Product triggering option
+
+= 1.10.0 =
+* Fixed - Fatal error when WooCommerce is not active
+
+= 1.9.17 =
+* Added - Backward compatibility for {amount} markup
+
+= 1.9.16 =
+* Changed - Conditional changes implemented in several modules
+
 = 1.9.15 =
 * Added - Clear Cart: New module added under Improve Experience category
 * Fixed - Quick View: Bulk Discounts are now clickable in Quick View

@@ -30,6 +30,11 @@ body.merchant-gift-was-claimed {
 .merchant-free-gifts-widget.merchant-free-gifts-widget--top_right, .merchant-free-gifts-widget.merchant-free-gifts-widget--bottom_right {
   right: calc(var(--merchant-content-width) * -1);
 }
+@media (max-width: 768px) {
+  .merchant-free-gifts-widget.merchant-free-gifts-widget--top_right.merchant-free-gifts-widget-has-mobile-width, .merchant-free-gifts-widget.merchant-free-gifts-widget--bottom_right.merchant-free-gifts-widget-has-mobile-width {
+    right: calc(var(--merchant-content-width-mobile) * -1);
+  }
+}
 .merchant-free-gifts-widget.merchant-free-gifts-widget--top_right .merchant-free-gifts-widget-button, .merchant-free-gifts-widget.merchant-free-gifts-widget--bottom_right .merchant-free-gifts-widget-button {
   border-radius: 5px 0 0 5px;
   left: -45px;
@@ -39,6 +44,11 @@ body.merchant-gift-was-claimed {
 }
 .merchant-free-gifts-widget.merchant-free-gifts-widget--top_left, .merchant-free-gifts-widget.merchant-free-gifts-widget--bottom_left {
   left: calc(var(--merchant-content-width) * -1);
+}
+@media (max-width: 768px) {
+  .merchant-free-gifts-widget.merchant-free-gifts-widget--top_left.merchant-free-gifts-widget-has-mobile-width, .merchant-free-gifts-widget.merchant-free-gifts-widget--bottom_left.merchant-free-gifts-widget-has-mobile-width {
+    left: calc(var(--merchant-content-width-mobile) * -1);
+  }
 }
 .merchant-free-gifts-widget.merchant-free-gifts-widget--top_left .merchant-free-gifts-widget-button, .merchant-free-gifts-widget.merchant-free-gifts-widget--bottom_left .merchant-free-gifts-widget-button {
   border-radius: 0 5px 5px 0;
@@ -75,6 +85,11 @@ body.merchant-gift-was-claimed {
   border-bottom-left-radius: 4px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .merchant-free-gifts-widget-has-mobile-width .merchant-free-gifts-widget-offers {
+    width: var(--merchant-content-width-mobile);
+  }
 }
 
 .merchant-free-gifts-widget-offer-product {

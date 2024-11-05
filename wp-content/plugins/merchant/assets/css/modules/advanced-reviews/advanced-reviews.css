@@ -384,7 +384,8 @@ body:not(.merchant-pagination-load-more) .merchant-pagination-wrapper {
     font-size: 0.8em;
   }
 }
-.merchant-reviews-list-wrapper .merchant-reviews-list-item .verified {
+.merchant-reviews-list-wrapper .merchant-reviews-list-item .verified,
+.merchant-reviews-list-wrapper .merchant-reviews-list-item .owner-reply {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -454,6 +455,9 @@ body:not(.merchant-pagination-load-more) .merchant-pagination-wrapper {
   opacity: 1;
   -webkit-transition: ease opacity 300ms;
   transition: ease opacity 300ms;
+}
+.merchant-reviews-list-wrapper .merchant-reviews-list-item.merchant-reviews-list-item-child {
+  margin-left: 40px;
 }
 .merchant-reviews-list-wrapper .merchant-reviews-list-item + .merchant-reviews-list-item {
   border-top: 1px solid var(--mrc-adv-reviews-dividers-color, #e9e9e9);
@@ -1018,6 +1022,9 @@ body:not(.merchant-pagination-load-more) .merchant-pagination-wrapper {
   outline: none;
   margin: 0;
 }
+.merchant-adv-reviews-modal-next-prev.hidden {
+  display: none;
+}
 @media screen and (min-width: 769px) {
   .merchant-adv-reviews-modal-next-prev {
     padding: 15px;
@@ -1046,4 +1053,303 @@ body:not(.merchant-pagination-load-more) .merchant-pagination-wrapper {
 
 .merchant-adv-reviews-modal-photo-slider-single-review .merchant-adv-reviews-modal-next-prev {
   display: none;
+}
+
+.merchant-collect-order-review .merchant-order-review-product {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 25px;
+  margin-bottom: 50px;
+}
+.merchant-collect-order-review .merchant-product-image {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+          flex: 0 0 100px;
+}
+.merchant-collect-order-review .merchant-product-image img {
+  width: 100px;
+  height: auto;
+}
+.merchant-collect-order-review .merchant-product-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.merchant-collect-order-review .merchant-product-details .merchant-product-name h5 {
+  margin: 0 0 15px;
+}
+.merchant-collect-order-review .merchant-product-details .merchant-product-name h5 a {
+  text-decoration: none;
+}
+.merchant-collect-order-review .merchant-product-details .merchant-product-desc {
+  margin-bottom: 25px;
+}
+.merchant-collect-order-review .merchant-add-review {
+  width: 200px;
+}
+.merchant-collect-order-review .review-modal-body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999999;
+  opacity: 0;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+  right: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  visibility: hidden;
+}
+.merchant-collect-order-review .review-modal-body.show {
+  opacity: 1;
+  visibility: visible;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form {
+  position: relative;
+  padding: 45px 50px;
+  background-color: var(--mrc-adv-reviews-modal-bg-color, #f5f5f5);
+  max-width: 500px;
+  max-height: 100vh;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .modal-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0;
+  color: var(--mrc-adv-reviews-modal-title-color, #212121);
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-form-group {
+  margin-bottom: 25px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-form-group > label {
+  margin-bottom: 10px;
+  display: block;
+  font-weight: bold;
+  font-size: 15px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .product-data {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .product-data .product-image {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+          flex: 0 0 100px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .product-data .product-image img {
+  width: 100px;
+  height: auto;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .product-data .product-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .product-data .product-details .product-name h5 {
+  margin: 0 0 15px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .product-data .product-details .product-name h5 a {
+  text-decoration: none;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-star-rating {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  font-size: 24px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-star-rating input {
+  display: none;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-star-rating label {
+  direction: rtl;
+  cursor: pointer;
+  -webkit-transition: 100ms;
+  transition: 100ms;
+  color: var(--mrc-adv-reviews-stars-bg-color, #757575);
+  font-family: star;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-star-rating input:checked ~ label,
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-star-rating input:hover ~ label {
+  color: #f5c518;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-star-rating label:hover ~ label {
+  color: #f5c518;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area {
+  border: 1px dashed #828181;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fafafa;
+  border-radius: 3px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area.dragover {
+  border-color: #2196F3;
+  background-color: #2196F3;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area p {
+  margin-bottom: 0;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area .merchant-uploaded-images-preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 15px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area .merchant-uploaded-images-preview .uploaded-image {
+  position: relative;
+  margin-right: 10px;
+  width: 100px;
+  height: 100px;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area .merchant-uploaded-images-preview .uploaded-image img {
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  max-width: 100%;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area .merchant-uploaded-images-preview .uploaded-image button {
+  position: absolute;
+  background-color: unset;
+  border: unset;
+  outline: unset;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  opacity: 0;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area .merchant-uploaded-images-preview .uploaded-image:hover img {
+  -webkit-filter: brightness(0.5);
+          filter: brightness(0.5);
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-image-drop-area .merchant-uploaded-images-preview .uploaded-image:hover button {
+  opacity: 1;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-button {
+  border: 2px solid var(--bt-color-button-border, #212121);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  background: var(--bt-color-button-bg, #212121);
+  color: var(--bt-color-button, #FFF);
+  padding-top: var(--bt-padding-button-top-bottom, 13px);
+  padding-bottom: var(--bt-padding-button-top-bottom, 13px);
+  padding-left: var(--bt-padding-button-left-right, 24px);
+  padding-right: var(--bt-padding-button-left-right, 24px);
+  cursor: pointer;
+  display: inline-block;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  height: auto;
+  border-radius: var(--bt-border-radius-button, 0);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--bt-letter-spacing-button, 0px);
+  font-size: var(--bt-font-size-button, 14px);
+  background-color: var(--bt-color-button-bg, #212121);
+  text-decoration: none;
+  width: 100%;
+  position: relative;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-button.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-top-color: #fff;
+  border-radius: 50%;
+  -webkit-animation: loading_spinner_animation 0.6s linear infinite;
+          animation: loading_spinner_animation 0.6s linear infinite;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-ajax-message {
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-ajax-message.success {
+  background-color: #4BB543;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-ajax-message.error {
+  background-color: #ff3333;
+}
+.merchant-collect-order-review .review-modal-body .merchant-product-review-form .merchant-ajax-message.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+@-webkit-keyframes loading_spinner_animation {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes loading_spinner_animation {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }

@@ -26,3 +26,391 @@ Domain association file updated.
 Your domain has been verified with Apple Pay!
 ====End Log====
 
+2024-11-04T11:13:02+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T11:13:03+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T13:13:49+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:33:49+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:33:56+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:00+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:00+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => cURL error 28: Operation timed out after 10926 milliseconds with 0 out of 0 bytes received
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:00+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:06+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:06+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:10+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => cURL error 28: Operation timed out after 10000 milliseconds with 0 out of 0 bytes received
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:10+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:10+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => cURL error 28: Operation timed out after 10001 milliseconds with 0 out of 0 bytes received
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:10+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:16+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:16+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:20+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => cURL error 28: Operation timed out after 10000 milliseconds with 0 out of 0 bytes received
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:20+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:20+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => cURL error 28: Operation timed out after 10002 milliseconds with 0 out of 0 bytes received
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:20+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:26+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => stream_socket_client(): SSL: Handshake timed out
+stream_socket_client(): Failed to enable crypto
+stream_socket_client(): Unable to connect to ssl://api.stripe.com:443 (Unknown error)
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:26+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:30+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => cURL error 28: Operation timed out after 10002 milliseconds with 0 out of 0 bytes received
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:30+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2024-11-04T17:34:30+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+Error Response: WP_Error Object
+(
+    [errors] => Array
+        (
+            [http_request_failed] => Array
+                (
+                    [0] => cURL error 28: Operation timed out after 10004 milliseconds with 0 out of 0 bytes received
+                )
+
+        )
+
+    [error_data] => Array
+        (
+        )
+
+    [additional_data:protected] => Array
+        (
+        )
+
+)
+
+====End Log====
+
+2024-11-04T17:34:30+00:00 DEBUG 
+====Stripe Version: 8.8.1====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+

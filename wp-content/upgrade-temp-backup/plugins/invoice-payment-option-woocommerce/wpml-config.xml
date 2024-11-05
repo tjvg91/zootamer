@@ -1,5 +1,0 @@
-<wpml-config>
-  <custom-types>
-    <custom-type translate="1">payment_gateway</custom-type>
-  </custom-types>
-</wpml-config>

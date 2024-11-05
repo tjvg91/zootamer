@@ -198,3 +198,7 @@ p.stars.selected a:not(.active)::before {
   margin-right: 20px;
   margin-left: unset;
 }
+
+.merchant-module-page-setting-field-fields_group > .merchant-module-page-setting-field-title {
+  display: none;
+}

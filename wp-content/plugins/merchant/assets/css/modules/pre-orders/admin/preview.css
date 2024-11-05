@@ -7,6 +7,10 @@
   border-color: #5c5f62;
 }
 
+.merchant-module-page-setting-field-info_block {
+  margin-bottom: 0;
+}
+
 .merchant-module-page-preview-browser-inner {
   display: -webkit-box;
   display: -ms-flexbox;

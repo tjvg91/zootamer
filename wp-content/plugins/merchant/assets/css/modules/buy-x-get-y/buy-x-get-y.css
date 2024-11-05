@@ -48,9 +48,15 @@
 .merchant-bogo-product span {
   font-size: 13px;
 }
+.merchant-bogo-product p del,
+.merchant-bogo-product p bdi,
+.merchant-bogo-product span del,
+.merchant-bogo-product span bdi {
+  font-size: inherit !important;
+}
 .merchant-bogo-product img {
-  max-height: 80px;
-  max-width: 80px;
+  max-height: 80px !important;
+  max-width: 80px !important;
 }
 
 .merchant-bogo-product-price .error {

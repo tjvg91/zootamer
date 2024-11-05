@@ -66,16 +66,18 @@ merchant.modules = merchant.modules || {};
       var self = this;
       var $counter = $('.merchant-floating-mini-cart-icon-counter');
       $counter.text();
-      jQuery.ajax({
-        type: 'POST',
-        url: merchant.setting.ajax_url,
-        data: {
-          'action': 'merchant_get_cart_count'
-        },
-        success: function success(response) {
-          $counter.text(response);
-        }
-      });
+      if (!$('body').hasClass('wp-admin')) {
+        jQuery.ajax({
+          type: 'POST',
+          url: merchant.setting.ajax_url,
+          data: {
+            'action': 'merchant_get_cart_count'
+          },
+          success: function success(response) {
+            $counter.text(response);
+          }
+        });
+      }
     }
   };
   $(document).ready(function () {

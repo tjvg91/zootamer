@@ -14,7 +14,7 @@
           align-items: center !important;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
-  text-decoration: none;
+  text-decoration: none !important;
   -ms-flex-item-align: start;
       align-self: flex-start;
   color: var(--mrc-qv-button-text-color, #FFF) !important;
@@ -56,15 +56,23 @@
 .products .product .merchant-quick-view-position-overlay {
   position: absolute;
   z-index: 10;
-  top: var(--mrc-qv-button-position-top, 50%);
-  left: var(--mrc-qv-button-position-left, 50%);
-  -webkit-transform: translate(calc(var(--mrc-qv-button-position-top, 50%) * -1), calc(var(--mrc-qv-button-position-left, 50%) * -1));
-          transform: translate(calc(var(--mrc-qv-button-position-top, 50%) * -1), calc(var(--mrc-qv-button-position-left, 50%) * -1));
-  margin: 0;
+  margin: 0 !important;
   white-space: nowrap !important;
   opacity: 0;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+  top: var(--mrc-qv-button-position-top, 50%);
+  left: var(--mrc-qv-button-position-left, 50%);
+  -webkit-transform: translate(calc(var(--mrc-qv-button-position-top, 50%) * -1), calc(var(--mrc-qv-button-position-left, 50%) * -1)) !important;
+          transform: translate(calc(var(--mrc-qv-button-position-top, 50%) * -1), calc(var(--mrc-qv-button-position-left, 50%) * -1)) !important;
+}
+@media (max-width: 768px) {
+  .products .product .merchant-quick-view-position-overlay.merchant-quick-view-position-has-mobile-position {
+    top: var(--mrc-qv-button-position-top-mobile, 50%);
+    left: var(--mrc-qv-button-position-left-mobile, 50%);
+    -webkit-transform: translate(calc(var(--mrc-qv-button-position-top-mobile, 50%) * -1), calc(var(--mrc-qv-button-position-left-mobile, 50%) * -1)) !important;
+            transform: translate(calc(var(--mrc-qv-button-position-top-mobile, 50%) * -1), calc(var(--mrc-qv-button-position-left-mobile, 50%) * -1)) !important;
+  }
 }
 .products .product:hover .merchant-quick-view-position-overlay {
   opacity: 1;
@@ -100,6 +108,9 @@
 .merchant-quick-view-modal.merchant-loading .merchant-quick-view-loader {
   opacity: 1;
   visibility: visible;
+}
+.merchant-quick-view-modal .merchant-freespb-wrapper {
+  display: none;
 }
 
 .merchant-quick-view-overlay {

@@ -51,7 +51,7 @@ class WC_Payments_Utils {
 		'@^\/wc\/store(\/v[\d]+)?\/order\/(?P<id>[\d]+)@',
 		// The route below is not a Store API route. However, this REST endpoint is used by WooPay to indirectly reach the Store API.
 		// By adding it to this list, we're able to identify the user and load the correct session for this route.
-		'@^\/wc\/v3\/woopay\/session$@',
+		'@^\/payments\/woopay\/session$@',
 	];
 
 	/**
@@ -555,6 +555,19 @@ class WC_Payments_Utils {
 	}
 
 	/**
+	 * Checks if the currently displayed page is the WooPayments onboarding page.
+	 *
+	 * @return bool
+	 */
+	public static function is_onboarding_page(): bool {
+		return (
+			is_admin()
+			&& isset( $_GET['page'] ) && 'wc-admin' === $_GET['page']  // phpcs:ignore WordPress.Security.NonceVerification
+			&& isset( $_GET['path'] ) && '/payments/onboarding' === $_GET['path']  // phpcs:ignore WordPress.Security.NonceVerification
+		);
+	}
+
+	/**
 	 * Converts a locale to the closest supported by Stripe.js.
 	 *
 	 * Stripe.js supports only a subset of IETF language tags, if a country specific locale is not supported we use
@@ -703,6 +716,62 @@ class WC_Payments_Utils {
 	}
 
 	/**
+	 * Retrieves Stripe minimum order value authorized per currency.
+	 * The values are based on Stripe's recommendations.
+	 * See https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts.
+	 *
+	 * @param string $currency The currency.
+	 *
+	 * @return int The minimum amount.
+	 */
+	public static function get_stripe_minimum_amount( $currency ) {
+		switch ( $currency ) {
+			case 'AED':
+			case 'MYR':
+			case 'PLN':
+			case 'RON':
+				$minimum_amount = 200;
+				break;
+			case 'BGN':
+				$minimum_amount = 100;
+				break;
+			case 'CZK':
+				$minimum_amount = 1500;
+				break;
+			case 'DKK':
+				$minimum_amount = 250;
+				break;
+			case 'GBP':
+				$minimum_amount = 30;
+				break;
+			case 'HKD':
+				$minimum_amount = 400;
+				break;
+			case 'HUF':
+				$minimum_amount = 17500;
+				break;
+			case 'JPY':
+				$minimum_amount = 5000;
+				break;
+			case 'MXN':
+			case 'THB':
+				$minimum_amount = 1000;
+				break;
+			case 'NOK':
+			case 'SEK':
+				$minimum_amount = 300;
+				break;
+			default:
+				$minimum_amount = 50;
+				break;
+		}
+
+		self::cache_minimum_amount( $currency, $minimum_amount );
+
+		return $minimum_amount;
+	}
+
+	/**
 	 * Saves the minimum amount required for transactions in a given currency.
 	 *
 	 * @param string $currency The currency.
@@ -716,12 +785,20 @@ class WC_Payments_Utils {
 	 * Checks if there is a minimum amount required for transactions in a given currency.
 	 *
 	 * @param string $currency The currency to check for.
+	 * @param bool   $fallback_to_local_list Whether to fallback to the local Stripe list if the cached value is not available.
 	 *
 	 * @return int|null Either the minimum amount, or `null` if not available.
 	 */
-	public static function get_cached_minimum_amount( $currency ) {
+	public static function get_cached_minimum_amount( $currency, $fallback_to_local_list = false ) {
 		$cached = get_transient( 'wcpay_minimum_amount_' . strtolower( $currency ) );
-		return (int) $cached ? (int) $cached : null;
+
+		if ( (int) $cached ) {
+			return (int) $cached;
+		} elseif ( $fallback_to_local_list ) {
+			return self::get_stripe_minimum_amount( $currency );
+		}
+
+		return null;
 	}
 
 	/**
@@ -1191,6 +1268,24 @@ class WC_Payments_Utils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns true if the request that's currently being processed is a Store API batch request, false
+	 * otherwise.
+	 *
+	 * @return bool True if the request is a Store API batch request, false otherwise.
+	 */
+	public static function is_store_batch_request(): bool {
+		if ( isset( $_REQUEST['rest_route'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$rest_route = sanitize_text_field( $_REQUEST['rest_route'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.NonceVerification
+		} else {
+			$url_parts    = wp_parse_url( esc_url_raw( $_SERVER['REQUEST_URI'] ?? '' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			$request_path = $url_parts ? rtrim( $url_parts['path'], '/' ) : '';
+			$rest_route   = str_replace( trailingslashit( rest_get_url_prefix() ), '', $request_path );
+		}
+
+		return 1 === preg_match( '@^\/wc\/store(\/v[\d]+)?\/batch@', $rest_route );
 	}
 
 	/**

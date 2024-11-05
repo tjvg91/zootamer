@@ -14,7 +14,7 @@ ul.products li.product {
   position: absolute;
   top: var(--mrc-wl-button-position-top, 20px);
   right: var(--mrc-wl-button-position-left, 20px);
-  z-index: 10;
+  z-index: 999;
 }
 .merchant-wishlist-button svg {
   fill: var(--mrc-wl-button-icon-fill-color, transparent);
@@ -97,4 +97,17 @@ ul.products li.product {
   -webkit-transform: none;
           transform: none;
   text-decoration: none !important;
+}
+
+.merchant-wishlist-section-cart {
+  margin-block: 30px;
+  clear: both;
+}
+.merchant-wishlist-section-cart .section-title {
+  margin-bottom: 15px;
+}
+
+.woocommerce .merchant-wishlist-items-cart ul.products:not(.elementor-grid),
+.woocommerce-page .merchant-wishlist-items-cart ul.products:not(.elementor-grid) {
+  row-gap: 2em;
 }

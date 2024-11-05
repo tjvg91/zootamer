@@ -90,16 +90,19 @@
   right: -10px;
   background: inherit;
   z-index: -1;
-  clip-path: polygon(0 0, 100% 0%, 34% 100%, 0% 100%);
+  -webkit-clip-path: polygon(0 0, 100% 0%, 34% 100%, 0% 100%);
+          clip-path: polygon(0 0, 100% 0%, 34% 100%, 0% 100%);
 }
 .merchant-product-labels.merchant-product-labels__text-shape-3 {
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
+  -webkit-clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
+          clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
 }
 .merchant-product-labels.merchant-product-labels__text-shape-3 .merchant-label {
   padding-left: 12px;
 }
 .merchant-product-labels.merchant-product-labels__text-shape-4 {
-  clip-path: polygon(100% 0px, 100% 100%, 0% 100%, 10px 50%, 0% 0%);
+  -webkit-clip-path: polygon(100% 0px, 100% 100%, 0% 100%, 10px 50%, 0% 0%);
+          clip-path: polygon(100% 0px, 100% 100%, 0% 100%, 10px 50%, 0% 0%);
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }

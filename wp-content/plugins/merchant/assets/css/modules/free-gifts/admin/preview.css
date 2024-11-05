@@ -7,14 +7,10 @@
   border-color: #5c5f62;
 }
 .merchant-flexible-content-control.free-gifts-style .layout .layout-body {
-  padding: 15px;
   grid-gap: unset;
 }
 .merchant-flexible-content-control.free-gifts-style .layout .layout-body .merchant-module-page-setting-field-title {
   margin: unset;
-}
-.merchant-flexible-content-control.free-gifts-style .layout .layout-body .merchant-module-page-setting-field {
-  margin-bottom: 24px;
 }
 .merchant-flexible-content-control.free-gifts-style .layout .layout-body .merchant-module-page-setting-field-text input {
   padding: 12px 8px;

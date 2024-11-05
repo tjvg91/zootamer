@@ -148,6 +148,10 @@
   font-size: 14px;
   margin-top: 5px;
 }
+.merchant-frequently-bought-together-bundle del,
+.merchant-frequently-bought-together-bundle bdi {
+  font-size: inherit !important;
+}
 
 .merchant-frequently-bought-together-bundle:not(:last-child) {
   border-bottom: 1px solid #ededed;
@@ -219,4 +223,17 @@
 }
 .mrc-fbt-savings-total-mini-cart strong {
   font-weight: 500;
+}
+
+tr.mrc-fbt-savings-total {
+  text-align: left;
+  border: none !important;
+}
+tr.mrc-fbt-savings-total th {
+  border: none;
+  padding-inline: 0;
+}
+tr.mrc-fbt-savings-total th,
+tr.mrc-fbt-savings-total .woocommerce-Price-amount {
+  font-weight: 400;
 }
