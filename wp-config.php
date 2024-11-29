@@ -81,6 +81,8 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG_DISPLAY', true );
+@ini_set( 'display_errors', 1 );
 define( 'SCRIPT_DEBUG', true );
 define( 'SAVEQUERIES', true );
 
