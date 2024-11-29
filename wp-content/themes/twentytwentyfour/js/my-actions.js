@@ -7,6 +7,8 @@ jQuery(function() {
 
 	jQuery('[name="merchant-buy-now"], .single_add_to_cart_button').wrap('<div style="display: flex; justify-content: flex-end;"></div>');
 	scrollToMainSection();
+
+	console.log(document.location);
 });
 
 function scrollToMainSection() {
