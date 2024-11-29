@@ -13,8 +13,7 @@ jQuery(function() {
 
 function scrollToMainSection() {
 	let visited = window.localStorage.getItem("visited");
-	if(visited) {
-		console.log(jQuery('#services-container').offset())
+	if(visited && !!jQuery('#services-container')) {
 		jQuery('html, body').animate({
 			scrollTop: jQuery('#services-container').offset().top - 50
 		}, 900,'swing');
