@@ -8,13 +8,13 @@ jQuery(function() {
 	jQuery('[name="merchant-buy-now"], .single_add_to_cart_button').wrap('<div style="display: flex; justify-content: flex-end;"></div>');
 	scrollToMainSection();
 
-	//let quantityContainer = jQuery(".woocommerce div.product .wc-block-add-to-cart-form form.cart .quantity");
+	let quantityContainer = jQuery(".woocommerce div.product .wc-block-add-to-cart-form form.cart .quantity");
 
-	//if(/^\?product=(day-to-dusk|item-removal|virtual-staging)$/.test(window.document.location.search)) {
-	//	quantityContainer.detach().appendTo(".number-of-files-to-deliver");
-	//} else if(/^\?product=satellite-marketing-video$/.test(window.document.location.search)){
-	//	quantityContainer.hide();
-	//}
+	if(/^\?product=(day-to-dusk|item-removal|virtual-staging)$/.test(window.document.location.search)) {
+		quantityContainer.detach().appendTo(".number-of-files-to-deliver");
+	} else if(/^\?product=satellite-marketing-video$/.test(window.document.location.search)){
+		quantityContainer.hide();
+	}
 });
 
 function scrollToMainSection() {
