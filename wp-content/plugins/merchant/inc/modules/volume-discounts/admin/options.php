@@ -134,14 +134,48 @@ Merchant_Admin_Options::create( array(
 							'desc'        => esc_html__( 'Select the product tags that will show the offer.', 'merchant' ),
 							'condition'   => array( 'rules_to_display', '==', 'tags' ),
 						),
+
 						array(
-							'id'        => 'excluded_products',
-							'type'      => 'products_selector',
-							'title'     => esc_html__( 'Exclude Products', 'merchant' ),
-							'multiple'  => true,
-							'desc'      => esc_html__( 'Exclude products from this campaign.', 'merchant' ),
-							'condition' => array( 'rules_to_display', 'any', 'all|categories|tags' ),
+							'id'         => 'exclusion_enabled',
+							'type'       => 'switcher',
+							'title'      => esc_html__( 'Exclusion List', 'merchant' ),
+							'desc'       => esc_html__( 'Select the products that will not show the offer.', 'merchant' ),
+							'default'    => 0,
+							'conditions' => array(
+								'relation' => 'AND',
+								'terms'    => array(
+									array(
+										'field'    => 'rules_to_display',
+										'operator' => 'in',
+										'value'    => array( 'all', 'categories', 'tags' ),
+									),
+								),
+							),
 						),
+
+						array(
+							'id'         => 'excluded_products',
+							'type'       => 'products_selector',
+							'title'      => esc_html__( 'Exclude Products', 'merchant' ),
+							'multiple'   => true,
+							'desc'       => esc_html__( 'Exclude products from this campaign.', 'merchant' ),
+							'conditions' => array(
+								'relation' => 'AND',
+								'terms'    => array(
+									array(
+										'field'    => 'rules_to_display',
+										'operator' => 'in',
+										'value'    => array( 'all', 'categories', 'tags' ),
+									),
+									array(
+										'field'    => 'exclusion_enabled',
+										'operator' => '===',
+										'value'    => true,
+									),
+								),
+							),
+						),
+
 						array(
 							'id'          => 'excluded_categories',
 							'type'        => 'select_ajax',
@@ -151,8 +185,49 @@ Merchant_Admin_Options::create( array(
 							'options'     => Merchant_Admin_Options::get_category_select2_choices(),
 							'placeholder' => esc_html__( 'Select categories', 'merchant' ),
 							'desc'        => esc_html__( 'Exclude categories from this campaign.', 'merchant' ),
-							'condition'   => array( 'rules_to_display', '==', 'all' ),
+							'conditions'  => array(
+								'relation' => 'AND',
+								'terms'    => array(
+									array(
+										'field'    => 'rules_to_display',
+										'operator' => 'in',
+										'value'    => array( 'all' ),
+									),
+									array(
+										'field'    => 'exclusion_enabled',
+										'operator' => '===',
+										'value'    => true,
+									),
+								),
+							),
 						),
+
+						array(
+							'id'          => 'excluded_tags',
+							'type'        => 'select_ajax',
+							'title'       => esc_html__( 'Exclude Tags', 'merchant' ),
+							'source'      => 'options',
+							'multiple'    => true,
+							'options'     => Merchant_Admin_Options::get_tag_select2_choices(),
+							'placeholder' => esc_html__( 'Select tags', 'merchant' ),
+							'desc'        => esc_html__( 'Exclude tags from this campaign.', 'merchant' ),
+							'conditions'  => array(
+								'relation' => 'AND',
+								'terms'    => array(
+									array(
+										'field'    => 'rules_to_display',
+										'operator' => 'in',
+										'value'    => array( 'all' ),
+									),
+									array(
+										'field'    => 'exclusion_enabled',
+										'operator' => '===',
+										'value'    => true,
+									),
+								),
+							),
+						),
+
 						array(
 							'id'      => 'quantity',
 							'type'    => 'number',
@@ -348,37 +423,65 @@ Merchant_Admin_Options::create( array(
 								),
 
 								array(
+									'id'      => 'title_text_color_hover',
+									'type'    => 'color',
+									'title'   => esc_html__( 'Title text color hover', 'merchant' ),
+									'default' => '#212121',
+								),
+
+								array(
 									'id'      => 'table_item_bg_color',
 									'type'    => 'color',
-									'title'   => esc_html__( 'Choose background color', 'merchant' ),
+									'title'   => esc_html__( 'Background color', 'merchant' ),
+									'default' => '#fcf0f1',
+								),
+
+								array(
+									'id'      => 'table_item_bg_color_hover',
+									'type'    => 'color',
+									'title'   => esc_html__( 'Background color hover', 'merchant' ),
 									'default' => '#fcf0f1',
 								),
 
 								array(
 									'id'      => 'table_item_border_color',
 									'type'    => 'color',
-									'title'   => esc_html__( 'Choose border color', 'merchant' ),
+									'title'   => esc_html__( 'Border color', 'merchant' ),
+									'default' => '#d83b3b',
+								),
+
+								array(
+									'id'      => 'table_item_border_color_hover',
+									'type'    => 'color',
+									'title'   => esc_html__( 'Border color hover', 'merchant' ),
 									'default' => '#d83b3b',
 								),
 
 								array(
 									'id'      => 'table_item_text_color',
 									'type'    => 'color',
-									'title'   => esc_html__( 'Choose text color', 'merchant' ),
+									'title'   => esc_html__( 'Text color', 'merchant' ),
+									'default' => '#3c434a',
+								),
+
+								array(
+									'id'      => 'table_item_text_color_hover',
+									'type'    => 'color',
+									'title'   => esc_html__( 'Text color hover', 'merchant' ),
 									'default' => '#3c434a',
 								),
 
 								array(
 									'id'      => 'table_label_bg_color',
 									'type'    => 'color',
-									'title'   => esc_html__( 'Choose label background color', 'merchant' ),
+									'title'   => esc_html__( 'Label background color', 'merchant' ),
 									'default' => '#d83b3b',
 								),
 
 								array(
 									'id'      => 'table_label_text_color',
 									'type'    => 'color',
-									'title'   => esc_html__( 'Choose label text color', 'merchant' ),
+									'title'   => esc_html__( 'Label text color', 'merchant' ),
 									'default' => '#ffffff',
 								),
 							),

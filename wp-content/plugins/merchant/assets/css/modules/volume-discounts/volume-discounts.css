@@ -10,14 +10,27 @@
 
 .merchant-volume-discounts-item {
   display: block;
+  background-color: var(--merchant-item-bg-color, #fcf0f1);
+  border: 1px solid var(--merchant-item-border-color, #d83b3b);
   position: relative;
-  border: 1px solid #d83b3b;
   margin-top: 25px;
   margin-bottom: 25px;
   padding: 20px 20px 10px;
-  background-color: #fcf0f1;
   border-radius: 5px;
-  color: #3c434a;
+}
+.merchant-volume-discounts-item,
+.merchant-volume-discounts-item ul .woocommerce-Price-amount,
+.merchant-volume-discounts-item .merchant-volume-discounts-buy-label .woocommerce-Price-amount {
+  color: var(--merchant-item-text-color, #3c434a);
+}
+.merchant-volume-discounts-item:hover {
+  color: var(--merchant-item-text-color-hover, var(--merchant-item-text-color));
+  background: var(--merchant-item-bg-color-hover, var(--merchant-item-bg-color));
+  border-color: var(--merchant-item-border-color-hover, var(--merchant-item-border-color));
+}
+.merchant-volume-discounts-item:hover ul .woocommerce-Price-amount,
+.merchant-volume-discounts-item:hover .merchant-volume-discounts-buy-label .woocommerce-Price-amount {
+  color: var(--merchant-item-text-color-hover, var(--merchant-item-text-color));
 }
 .merchant-volume-discounts-item.clickable {
   cursor: pointer;
@@ -147,12 +160,15 @@
 }
 
 .merchant-volume-discounts-item-label > span {
-  background-color: #d83b3b;
-  color: #ffffff;
+  background-color: var(--merchant-label-bg-color, #d83b3b);
   padding: 4px 12px;
   font-weight: bold;
   border-radius: 5px;
   margin-left: 10px;
+}
+.merchant-volume-discounts-item-label > span,
+.merchant-volume-discounts-item-label > span .woocommerce-Price-amount {
+  color: var(--merchant-label-text-color, #ffffff);
 }
 
 .merchant-volume-discounts-item-label {
@@ -160,8 +176,4 @@
   top: -13px;
   left: 6px;
   right: 0;
-}
-
-.merchant-volume-discounts-buy-label span, .merchant-volume-discounts-buy-label bdi, .merchant-volume-discounts-save-label .woocommerce-Price-amount, .merchant-volume-discounts-save-label .woocommerce-Price-amount bdi {
-  color: inherit !important;
 }

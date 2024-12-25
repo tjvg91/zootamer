@@ -59,7 +59,8 @@ if ( ! class_exists( 'AF_Ig_All_Restrictions' ) ) {
 			}
 
 			foreach ( $this->all_payment_rules as $rule_id ) {
-				// Check user requirements.
+
+
 				if ( ! $this->check_user_restrictions( $rule_id ) ) {
 					continue;
 				}
@@ -102,6 +103,30 @@ if ( ! class_exists( 'AF_Ig_All_Restrictions' ) ) {
 			}
 			return true;
 		}
+
+
+		/**
+		 * Restrict payment invoice invoice-gateway for Location.
+		 *
+		 * @param int $rule_id   Id of rule for invoice-gateway.
+		 * @param int $form_data Checkout form data.
+		 *
+		 * @return bool Return true or false for Cash of Delivery invoice-gateway availability.
+		 */
+		public function check_shipping_restrictions_block( $rule_id, $Selected_shipping_method ) {
+			$data = json_decode( get_post_meta( $rule_id, 'af_ig_shipping', true ) );
+			if ( ! empty( $data ) ) {
+				if ( ! $this->ob_location_check->match_shipping( $data ) ) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+			return true;
+		}
+
+
+		
 
 
 		/**
@@ -159,6 +184,8 @@ if ( ! class_exists( 'AF_Ig_All_Restrictions' ) ) {
 		 * @return bool Return true or false for Cash of Delivery invoice-gateway availability.
 		 */
 		public function check_cart_restrictions( $rule_id ) {
+
+
 
 			$flag = false;
 			// Cart Total amount Check.
@@ -227,6 +254,7 @@ if ( ! class_exists( 'AF_Ig_All_Restrictions' ) ) {
 		 */
 		public function check_user_restrictions( $rule_id ) {
 
+
 			$sel_customers = json_decode( get_post_meta( $rule_id, 'af_ig_customer_select', true ) );
 			$sel_roles     = json_decode( get_post_meta( $rule_id, 'af_ig_customer_roles', true ) );
 
@@ -248,13 +276,13 @@ if ( ! class_exists( 'AF_Ig_All_Restrictions' ) ) {
 					return false;
 				}
 			} else {
-
+				
 				$curr_user      = wp_get_current_user();
-				$curr_user_role = current( $curr_user->roles );
-
-				if ( in_array( $curr_user->ID, (array) $sel_customers, true ) ) {
+				$sel_customers  = array_map('trim', $sel_customers);
+				$curr_user_role = $curr_user->roles[0];
+				if ( in_array( $curr_user->ID, $sel_customers , false) ) {
 					return true;
-				} elseif ( ! empty( $curr_user_role ) && in_array( $curr_user_role, (array) $sel_roles, true ) ) {
+				} elseif ( ! empty( $curr_user_role ) && in_array( $curr_user_role, (array) $sel_roles , false) ) {
 					return true;
 				} else {
 					return false;

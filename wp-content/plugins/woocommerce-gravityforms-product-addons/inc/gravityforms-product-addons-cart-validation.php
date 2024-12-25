@@ -58,8 +58,12 @@ class WC_GFPA_Cart_Validation {
 				GFCommon::log_debug( __METHOD__ . '(): Form fields have changed for product ' . $cart_item['product_id'] . '. Revalidating.' );
 
 				// Use the submission helper to revalidate the data.
-				$validation_result = WC_GFPA_Submission_Helpers::revalidate_entry( $form['id'], $cart_item['_gravity_form_lead'] );
-				$is_valid          = $validation_result['is_valid'] ?? false;
+				try {
+					$validation_result = WC_GFPA_Submission_Helpers::revalidate_entry( $form['id'], $cart_item['_gravity_form_lead'] );
+					$is_valid          = $validation_result['is_valid'] ?? false;
+				} catch ( Exception $e ) {
+					$is_valid = false;
+				}
 
 				if ( is_wp_error( $validation_result ) || ! $is_valid ) {
 					GFCommon::log_debug( __METHOD__ . '(): Form fields have changed for product ' . $cart_item['product_id'] . '. Revalidation failed.' );

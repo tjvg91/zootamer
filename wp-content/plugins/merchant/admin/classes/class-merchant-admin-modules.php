@@ -128,7 +128,7 @@ if ( ! class_exists( 'Merchant_Admin_Modules' ) ) {
 					'desc'  => esc_html__( 'Create customizable product labels with display conditions and color settings', 'merchant' ),
 					'tutorial_url' => 'https://docs.athemes.com/article/product-labels/',
 				),
-				'quick-view' => array(
+				'quick-view'                 => array(
 					'pro' => false,
 					'section' => 'convert-more',
 					'icon' => Merchant_SVG_Icons::get_svg_icon( 'module-quick-view' ),
@@ -185,8 +185,6 @@ if ( ! class_exists( 'Merchant_Admin_Modules' ) ) {
 					'tutorial_url' => 'https://docs.athemes.com/article/merchant-recently-viewed-products/',
 				),
 
-				// Boost Revenue.
-
 				// Reduce Cart Abandonment.
 				'buy-now' => array(
 					'pro' => false,
@@ -221,8 +219,8 @@ if ( ! class_exists( 'Merchant_Admin_Modules' ) ) {
 					'tutorial_url' => 'https://docs.athemes.com/article/merchant-cart-reserved-timer/',
 				),
 				'floating-mini-cart' => array(
-					'pro' => true,
-					'section' => 'reduce-abandonment',
+					'pro'          => true,
+					'section'      => 'reduce-abandonment',
 					'icon'         => Merchant_SVG_Icons::get_svg_icon( 'module-floating-mini-cart' ),
 					'title'        => esc_html__( 'Floating Mini Cart', 'merchant' ),
 					'desc'         => esc_html__( 'A cart icon will always be visible and a sliding cart when the customer clicks it', 'merchant' ),
@@ -261,6 +259,14 @@ if ( ! class_exists( 'Merchant_Admin_Modules' ) ) {
 					'title' => esc_html__( 'Advanced Reviews', 'merchant' ),
 					'desc' => esc_html__( 'Enhance your customer reviews with advanced features including photo uploads and more', 'merchant' ),
 					'tutorial_url' => 'https://docs.athemes.com/article/merchant-advanced-reviews/',
+				),
+				'recent-sales-notifications' => array(
+					'pro'          => true,
+					'section'      => 'build-trust',
+					'icon'         => Merchant_SVG_Icons::get_svg_icon( 'recent-sales-notifications' ),
+					'title'        => esc_html__( 'Recent Sales Notifications', 'merchant' ),
+					'desc'         => esc_html__( 'Build trust by displaying real-time notifications of purchases and other user activity on your store', 'merchant' ),
+					'tutorial_url' => 'https://docs.athemes.com/article/merchant-recent-sales-notifications/',
 				),
 				'reasons-to-buy' => array(
 					'pro' => true,
@@ -319,14 +325,6 @@ if ( ! class_exists( 'Merchant_Admin_Modules' ) ) {
 					'title' => esc_html__( 'Real-Time Search', 'merchant' ),
 					'desc' => esc_html__( 'Help visitors instantly find the products they\'re looking for by using predictive search', 'merchant' ),
 					'tutorial_url' => 'https://docs.athemes.com/article/real-time-search/',
-				),
-				'code-snippets' => array(
-					'pro' => false,
-					'section' => 'improve-experience',
-					'icon'         => Merchant_SVG_Icons::get_svg_icon( 'module-code-snippets' ),
-					'title' => esc_html__( 'Code Snippets', 'merchant' ),
-					'desc' => esc_html__( 'Add code snippets in WordPress without having to edit your theme\'s functions.php file ', 'merchant' ),
-					'tutorial_url' => 'https://docs.athemes.com/article/code-snippets/',
 				),
 				'scroll-to-top-button' => array(
 					'pro' => false,
@@ -483,7 +481,7 @@ if ( ! class_exists( 'Merchant_Admin_Modules' ) ) {
 		 *
 		 */
 		public static function get_upsell_modules() {
-			return array_filter( self::$modules_data, function( $module ){
+			return array_filter( self::$modules_data, static function( $module ){
 				return isset( $module[ 'pro' ] ) && $module[ 'pro' ] ? $module : false;
 			} );
 		}

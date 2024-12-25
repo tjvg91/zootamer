@@ -128,6 +128,11 @@ class WC_GFPA_Main {
 			require 'inc/integrations/bookings.php';
 			WC_GFPA_Integrations_Bookings::register();
 		}
+
+		require 'inc/integrations/quick-view-pro.php';
+		WC_GFPA_Quick_View_Pro_Integration::register();
+
+		require 'inc/integrations/gp-nested-forms.php';
 	}
 
 	public function on_init() {
@@ -288,8 +293,18 @@ class WC_GFPA_Main {
 		}
 
 		if ( $enqueue ) {
+
+			WC_GFPA_Quick_View_Pro_Integration::remove_gform_init_scripts_footer();
+
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			wp_register_script( 'accounting', WC()->plugin_url() . '/assets/js/accounting/accounting' . $suffix . '.js', array( 'jquery' ), '0.4.2' );
+			wp_enqueue_script(
+				'wc-gravityforms-product-addons-quickview-pro',
+				self::plugin_url() . '/assets/js/quickview-pro.js',
+				array( 'jquery' ),
+				'1.0.0',
+				true
+			);
 
 			wp_enqueue_script(
 				'wc-gravityforms-product-addons',
@@ -419,7 +434,7 @@ class WC_GFPA_Main {
 				'jquery',
 				'accounting',
 			),
-			'3.2.4',
+			'3.6.6',
 			true
 		);
 
@@ -468,7 +483,6 @@ class WC_GFPA_Main {
 		);
 
 		$wc_gravityforms_params = apply_filters( 'woocommerce_gforms_script_params', $wc_gravityforms_params, $product->get_id() );
-
 		wp_localize_script( 'wc-gravityforms-product-addons', 'wc_gravityforms_params', $wc_gravityforms_params );
 	}
 
@@ -644,18 +658,27 @@ class WC_GFPA_Main {
 			$fields = $form['fields'] = is_array( rgar( $form, 'fields' ) ) ? array_values( $form['fields'] ) : array();
 
 			// Remove any properties from the fields that are not simple values.
-			$fields = array_map(function($field) {
-				return array_filter($field, function($value) {
-					return !is_array($value) && !is_object($value);
-				});
-			}, $fields);
+			$fields = array_map(
+				function ( $field ) {
+					return array_filter(
+						$field,
+						function ( $value ) {
+							return ! is_array( $value ) && ! is_object( $value );
+						}
+					);
+				},
+				$fields
+			);
 
 			// Remove the fields that are not visible.
-			$fields = array_filter( $fields, function ( $field ) {
-				return ! rgar( $field, 'adminOnly' );
-			} );
+			$fields = array_filter(
+				$fields,
+				function ( $field ) {
+					return ! rgar( $field, 'adminOnly' );
+				}
+			);
 
-			$hash   = md5( wp_json_encode( $fields ) );
+			$hash = md5( wp_json_encode( $fields ) );
 		}
 
 		return $hash;

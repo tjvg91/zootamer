@@ -7,14 +7,40 @@
 jQuery(document).ready(function ($) {
   'use strict';
 
+  var _merchant;
+  var _ref = ((_merchant = merchant) === null || _merchant === void 0 ? void 0 : _merchant.setting) || {},
+    _ref$side_cart = _ref.side_cart,
+    sideCartObj = _ref$side_cart === void 0 ? {} : _ref$side_cart,
+    ajax_url = _ref.ajax_url,
+    nonce = _ref.nonce;
+  var $body = $('body');
+  $(document).on('click', '.js-merchant-side-cart-toggle-handler', function (e) {
+    e.preventDefault();
+    $body.toggleClass('merchant-side-cart-show');
+    $(window).trigger('merchant.side-cart-resize');
+  });
+
+  // Manually update Side Cart as for some reason `wc_fragment_refresh` doesn't refresh the Side Cart widget.
+  $body.on('wc_cart_emptied', function (e, context) {
+    $('.merchant_widget_shopping_cart_content').fadeOut(function () {
+      $(this).empty().append("<p class=\"woocommerce-mini-cart__empty-message\">".concat((sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.side_cart_empty_message) || '', "</p>")).fadeIn();
+    });
+    var $floatingCart = $('.merchant-side-cart-floating-cart');
+    if ($floatingCart.length) {
+      $floatingCart.find('.merchant-side-cart-floating-cart-counter').text(0);
+      if ((sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.icon_display) === 'cart-not-empty') {
+        $floatingCart.removeClass('merchant-show');
+      }
+    }
+  });
+
   /**
    * Check if the current device is allowed to show the side cart.
    *
    * @returns {boolean}
    */
   function merchant_is_allowed_device() {
-    var _merchant_side_cart_p;
-    var allowed_devices = (_merchant_side_cart_p = merchant_side_cart_params) === null || _merchant_side_cart_p === void 0 ? void 0 : _merchant_side_cart_p.allowed_devices;
+    var allowed_devices = sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.allowed_devices;
     var screenWidth = window.innerWidth;
     if (screenWidth <= 768 && allowed_devices.includes('mobile')) {
       return true;
@@ -25,42 +51,39 @@ jQuery(document).ready(function ($) {
   }
 
   // Toggle side cart
-  if (merchant.setting.hasOwnProperty('show_after_add_to_cart_single_product') && merchant_is_allowed_device()) {
+  if (sideCartObj.hasOwnProperty('show_after_add_to_cart_single_product') && merchant_is_allowed_device()) {
     var isSingleProductPage = $('body.single-product').length;
     var isNoticeVisible = $('.woocommerce-notices-wrapper').is(':visible') && !$('.woocommerce-notices-wrapper').is(':empty');
     var isBlockNoticeVisible = $('.wc-block-components-notice-banner').is(':visible') && !$('.wc-block-components-notice-banner').is(':empty');
     if (isSingleProductPage && (isNoticeVisible || isBlockNoticeVisible)) {
-      $('body').toggleClass('merchant-floating-side-mini-cart-show');
-      $(window).trigger('merchant.floating-mini-cart-resize');
+      $body.toggleClass('merchant-side-cart-show');
+      $(window).trigger('merchant.side-cart-resize');
     }
   }
 
   // Add to cart AJAX event.
-  if (merchant.setting.hasOwnProperty('add_to_cart_slide_out') && merchant_is_allowed_device()) {
+  if (sideCartObj.hasOwnProperty('add_to_cart_slide_out') && merchant_is_allowed_device()) {
     $(document.body).on('added_to_cart', function (event, fragments, cart_hash, $button, $context) {
       if ($context !== 'side-cart') {
-        $('body').toggleClass('merchant-floating-side-mini-cart-show');
+        $body.toggleClass('merchant-side-cart-show');
       }
-      $(window).trigger('merchant.floating-mini-cart-resize');
+      $(window).trigger('merchant.side-cart-resize');
     });
   }
 
   // On cart URL click
-  if (merchant.setting.hasOwnProperty('cart_url') && merchant_is_allowed_device()) {
-    $('[href="' + merchant.setting.cart_url + '"]').on('click', function (e) {
+  if (sideCartObj.hasOwnProperty('cart_url') && merchant_is_allowed_device()) {
+    $('[href="' + (sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.cart_url) + '"]:not(.merchant-side-cart-view-cart-btn)').on('click', function (e) {
       e.preventDefault();
-      $(window).trigger('merchant.floating-mini-cart-resize');
-      $('body').toggleClass('merchant-floating-side-mini-cart-show');
+      $(window).trigger('merchant.side-cart-resize');
+      $body.toggleClass('merchant-side-cart-show');
     });
   }
 
   // Update Product quantity in Side Cart
-  if ((merchant.setting.hasOwnProperty('add_to_cart_slide_out') || merchant.setting.hasOwnProperty('floating_mini_cart_count')) && merchant_is_allowed_device()) {
+  if (sideCartObj.hasOwnProperty('add_to_cart_slide_out') && merchant_is_allowed_device()) {
     var merchant_update_side_cart_quantity = function merchant_update_side_cart_quantity($input) {
-      var _ref = merchant.setting || {},
-        ajax_url = _ref.ajax_url,
-        side_cart_nonce = _ref.side_cart_nonce;
-      if (!$input.length || !ajax_url || !side_cart_nonce) {
+      if (!$input.length || !ajax_url || !nonce) {
         return;
       }
       var cartItemKey = $input.attr('name');
@@ -79,7 +102,7 @@ jQuery(document).ready(function ($) {
             action: 'update_side_cart_quantity',
             cart_item_key: cartItemKey,
             quantity: quantity,
-            nonce: side_cart_nonce
+            nonce: nonce
           },
           beforeSend: function beforeSend() {
             if ($cart_item.length) {
@@ -161,7 +184,6 @@ jQuery(document).ready(function ($) {
             $('.merchant-mini-cart-upsells.upsells-layout-carousel').slick('slickPlay');
           }
         });
-        self.sideCartBtns();
       }, 500);
     },
     bindEvents: function bindEvents() {
@@ -232,19 +254,17 @@ jQuery(document).ready(function ($) {
      * @return {void}
      */
     fetchVariationDetails: function fetchVariationDetails(container, productID, selectedAttributes, self) {
-      var _merchant_side_cart_p2, _merchant_side_cart_p3;
       $.ajax({
         type: 'POST',
-        url: (_merchant_side_cart_p2 = merchant_side_cart_params) === null || _merchant_side_cart_p2 === void 0 ? void 0 : _merchant_side_cart_p2.ajax_url,
+        url: ajax_url,
         data: {
           action: 'merchant_get_variation_data',
           product_id: productID,
-          nonce: (_merchant_side_cart_p3 = merchant_side_cart_params) === null || _merchant_side_cart_p3 === void 0 ? void 0 : _merchant_side_cart_p3.variation_info_nonce,
+          nonce: sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.variation_info_nonce,
           attributes: selectedAttributes
         },
         success: function success(response) {
           if (response.success) {
-            console.log(response.data);
             container.attr('data-variation-id', response.data.id);
             self.updateProductThumbnail(container, response.data.thumbnail_url);
           }
@@ -298,16 +318,15 @@ jQuery(document).ready(function ($) {
       }
     },
     addToCart: function addToCart(self, productType, productId, variationId, btn) {
-      var _merchant_side_cart_p4, _merchant_side_cart_p5;
       var data = {
         action: 'merchant_side_cart_upsells_add_to_cart',
         product_id: productId,
         variation_id: variationId,
-        nonce: (_merchant_side_cart_p4 = merchant_side_cart_params) === null || _merchant_side_cart_p4 === void 0 ? void 0 : _merchant_side_cart_p4.nonce
+        nonce: nonce
       };
       $.ajax({
         type: 'POST',
-        url: (_merchant_side_cart_p5 = merchant_side_cart_params) === null || _merchant_side_cart_p5 === void 0 ? void 0 : _merchant_side_cart_p5.ajax_url,
+        url: ajax_url,
         data: data,
         beforeSend: function beforeSend() {
           btn.addClass('loading');
@@ -326,7 +345,7 @@ jQuery(document).ready(function ($) {
     handleSuccess: function handleSuccess(response) {
       if (response.data.fragments) {
         $(document).trigger('merchant_destroy_carousel');
-        $(document.body).trigger('added_to_cart', [response.data.fragments, response.data.cart_hash, null, 'side-cart']);
+        $(document.body).trigger('added_to_cart', [response.data.fragments, response.data.cart_hash, $('.merchant-upsell-add-to-cart'), 'side-cart']);
         $(document).trigger('merchant_init_carousel');
       }
     },
@@ -342,11 +361,9 @@ jQuery(document).ready(function ($) {
       $(document).trigger('merchant_init_carousel');
     },
     initCarousel: function initCarousel() {
-      var _merchant_side_cart_p6;
       // check if slick is initialized
       var carousel = $(document).find('.merchant-mini-cart-upsells.upsells-layout-carousel');
-      if ('carousel' === ((_merchant_side_cart_p6 = merchant_side_cart_params) === null || _merchant_side_cart_p6 === void 0 ? void 0 : _merchant_side_cart_p6.upsells_style) && !carousel.hasClass('slick-initialized')) {
-        var _merchant_side_cart_p7;
+      if ('carousel' === (sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.upsells_style) && !carousel.hasClass('slick-initialized')) {
         carousel.slick({
           infinite: true,
           arrows: true,
@@ -360,15 +377,14 @@ jQuery(document).ready(function ($) {
           pauseOnHover: true,
           prevArrow: '<button type="button" class="slick-prev"><</button>',
           nextArrow: '<button type="button" class="slick-next">></button>',
-          rtl: ((_merchant_side_cart_p7 = merchant_side_cart_params) === null || _merchant_side_cart_p7 === void 0 ? void 0 : _merchant_side_cart_p7.is_rtl) === '1'
+          rtl: (sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.is_rtl) === '1'
         });
       }
     },
     destroyCarousel: function destroyCarousel() {
-      var _merchant_side_cart_p8;
       // check if slick is initialized
       var carousel = $(document).find('.merchant-mini-cart-upsells.upsells-layout-carousel');
-      if ('carousel' === ((_merchant_side_cart_p8 = merchant_side_cart_params) === null || _merchant_side_cart_p8 === void 0 ? void 0 : _merchant_side_cart_p8.upsells_style) && carousel.hasClass('slick-initialized')) {
+      if ('carousel' === (sideCartObj === null || sideCartObj === void 0 ? void 0 : sideCartObj.upsells_style) && carousel.hasClass('slick-initialized')) {
         carousel.slick('unslick');
       }
     },
@@ -384,15 +400,14 @@ jQuery(document).ready(function ($) {
       this.applyCoupon(self, couponCode, container);
     },
     applyCoupon: function applyCoupon(self, couponCode, container) {
-      var _merchant_side_cart_p9, _merchant_side_cart_p10;
       var data = {
         action: 'merchant_side_cart_apply_coupon',
         coupon_code: couponCode,
-        nonce: (_merchant_side_cart_p9 = merchant_side_cart_params) === null || _merchant_side_cart_p9 === void 0 ? void 0 : _merchant_side_cart_p9.nonce
+        nonce: nonce
       };
       $.ajax({
         type: 'POST',
-        url: (_merchant_side_cart_p10 = merchant_side_cart_params) === null || _merchant_side_cart_p10 === void 0 ? void 0 : _merchant_side_cart_p10.ajax_url,
+        url: ajax_url,
         data: data,
         beforeSend: function beforeSend() {
           container.addClass('loading');
@@ -409,15 +424,14 @@ jQuery(document).ready(function ($) {
       });
     },
     removeCoupon: function removeCoupon(self, couponCode) {
-      var _merchant_side_cart_p11, _merchant_side_cart_p12;
       var data = {
         action: 'merchant_side_cart_remove_coupon',
         coupon_code: couponCode,
-        nonce: (_merchant_side_cart_p11 = merchant_side_cart_params) === null || _merchant_side_cart_p11 === void 0 ? void 0 : _merchant_side_cart_p11.nonce
+        nonce: nonce
       };
       $.ajax({
         type: 'POST',
-        url: (_merchant_side_cart_p12 = merchant_side_cart_params) === null || _merchant_side_cart_p12 === void 0 ? void 0 : _merchant_side_cart_p12.ajax_url,
+        url: ajax_url,
         data: data,
         beforeSend: function beforeSend() {},
         success: function success(response) {
@@ -429,9 +443,9 @@ jQuery(document).ready(function ($) {
       });
     },
     handleCouponSuccess: function handleCouponSuccess(response) {
-      if (response.fragments !== undefined) {
+      if ((response === null || response === void 0 ? void 0 : response.fragments) !== undefined) {
         $(document).trigger('merchant_destroy_carousel');
-        $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, null, 'side-cart']);
+        $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $('.merchant-coupon-form button'), 'side-cart']);
         $(document).trigger('merchant_init_carousel');
       }
     },
@@ -443,37 +457,7 @@ jQuery(document).ready(function ($) {
       var self = this,
         btn = $(event.currentTarget),
         couponCode = btn.attr('data-coupon');
-      console.log(btn);
       this.removeCoupon(self, couponCode);
-    },
-    sideCartBtns: function sideCartBtns() {
-      var _merchant_side_cart_p13, _merchant_side_cart_p14, _merchant_side_cart_p15, _merchant_side_cart_p16;
-      var showCheckoutBtn = ((_merchant_side_cart_p13 = merchant_side_cart_params) === null || _merchant_side_cart_p13 === void 0 ? void 0 : _merchant_side_cart_p13.show_checkout_btn) === '1',
-        showViewCartBtn = ((_merchant_side_cart_p14 = merchant_side_cart_params) === null || _merchant_side_cart_p14 === void 0 ? void 0 : _merchant_side_cart_p14.show_view_cart_btn) === '1',
-        checkoutBtnTxt = (_merchant_side_cart_p15 = merchant_side_cart_params) === null || _merchant_side_cart_p15 === void 0 ? void 0 : _merchant_side_cart_p15.checkout_btn_text,
-        viewCartBtnTxt = (_merchant_side_cart_p16 = merchant_side_cart_params) === null || _merchant_side_cart_p16 === void 0 ? void 0 : _merchant_side_cart_p16.view_cart_btn_text,
-        buttonsWrapper = $(document).find('.merchant-floating-side-mini-cart-body .woocommerce-mini-cart__buttons'),
-        checkoutBtn = buttonsWrapper.find('.checkout'),
-        viewCartBtn = buttonsWrapper.find('a:not(.checkout)');
-
-      // handled in PHP.
-      // Todo: remove following hide code.
-      if (!showCheckoutBtn && !showViewCartBtn) {
-        //buttonsWrapper.hide();
-        return;
-      }
-      if (!showCheckoutBtn) {
-        //checkoutBtn.hide();
-      }
-      if (!showViewCartBtn) {
-        //viewCartBtn.hide();
-      }
-      if (checkoutBtnTxt !== '') {
-        checkoutBtn.text(checkoutBtnTxt);
-      }
-      if (viewCartBtnTxt !== '') {
-        viewCartBtn.text(viewCartBtnTxt);
-      }
     }
   };
   merchant_upsells.init();

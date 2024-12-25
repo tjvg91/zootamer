@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit595a21dda8d9c0943a32df05723b0e28
+class ComposerStaticInit2f2c365c1ebb8b6af6e0df8c0ba64709
 {
     public static $files = array (
         '3773ef3f09c37da5478d578e32b03a4b' => __DIR__ . '/..' . '/automattic/jetpack-assets/actions.php',
@@ -347,10 +347,14 @@ class ComposerStaticInit595a21dda8d9c0943a32df05723b0e28
         'WCPay\\MultiCurrency\\FrontendCurrencies' => __DIR__ . '/../..' . '/includes/multi-currency/FrontendCurrencies.php',
         'WCPay\\MultiCurrency\\FrontendPrices' => __DIR__ . '/../..' . '/includes/multi-currency/FrontendPrices.php',
         'WCPay\\MultiCurrency\\Geolocation' => __DIR__ . '/../..' . '/includes/multi-currency/Geolocation.php',
-        'WCPay\\MultiCurrency\\Helpers\\OrderMetaHelper' => __DIR__ . '/../..' . '/includes/multi-currency/Helpers/OrderMetaHelper.php',
+        'WCPay\\MultiCurrency\\Interfaces\\MultiCurrencyAccountInterface' => __DIR__ . '/../..' . '/includes/multi-currency/Interfaces/MultiCurrencyAccountInterface.php',
+        'WCPay\\MultiCurrency\\Interfaces\\MultiCurrencyApiClientInterface' => __DIR__ . '/../..' . '/includes/multi-currency/Interfaces/MultiCurrencyApiClientInterface.php',
+        'WCPay\\MultiCurrency\\Interfaces\\MultiCurrencyCacheInterface' => __DIR__ . '/../..' . '/includes/multi-currency/Interfaces/MultiCurrencyCacheInterface.php',
+        'WCPay\\MultiCurrency\\Interfaces\\MultiCurrencyLocalizationInterface' => __DIR__ . '/../..' . '/includes/multi-currency/Interfaces/MultiCurrencyLocalizationInterface.php',
+        'WCPay\\MultiCurrency\\Interfaces\\MultiCurrencySettingsInterface' => __DIR__ . '/../..' . '/includes/multi-currency/Interfaces/MultiCurrencySettingsInterface.php',
+        'WCPay\\MultiCurrency\\Logger' => __DIR__ . '/../..' . '/includes/multi-currency/Logger.php',
         'WCPay\\MultiCurrency\\MultiCurrency' => __DIR__ . '/../..' . '/includes/multi-currency/MultiCurrency.php',
         'WCPay\\MultiCurrency\\Notes\\NoteMultiCurrencyAvailable' => __DIR__ . '/../..' . '/includes/multi-currency/Notes/NoteMultiCurrencyAvailable.php',
-        'WCPay\\MultiCurrency\\PaymentMethodsCompatibility' => __DIR__ . '/../..' . '/includes/multi-currency/PaymentMethodsCompatibility.php',
         'WCPay\\MultiCurrency\\RestController' => __DIR__ . '/../..' . '/includes/multi-currency/RestController.php',
         'WCPay\\MultiCurrency\\Settings' => __DIR__ . '/../..' . '/includes/multi-currency/Settings.php',
         'WCPay\\MultiCurrency\\SettingsOnboardCta' => __DIR__ . '/../..' . '/includes/multi-currency/SettingsOnboardCta.php',
@@ -402,9 +406,9 @@ class ComposerStaticInit595a21dda8d9c0943a32df05723b0e28
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit595a21dda8d9c0943a32df05723b0e28::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit595a21dda8d9c0943a32df05723b0e28::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit595a21dda8d9c0943a32df05723b0e28::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2f2c365c1ebb8b6af6e0df8c0ba64709::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2f2c365c1ebb8b6af6e0df8c0ba64709::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2f2c365c1ebb8b6af6e0df8c0ba64709::$classMap;
 
         }, null, ClassLoader::class);
     }

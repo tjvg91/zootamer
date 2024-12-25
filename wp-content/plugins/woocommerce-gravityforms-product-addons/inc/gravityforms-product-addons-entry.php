@@ -30,7 +30,6 @@ class WC_GFPA_Entry {
 		add_action( 'woocommerce_resume_order', array( $this, 'on_woocommerce_resume_order' ), 10, 1 );
 		add_action( 'woocommerce_order_status_changed', array( $this, 'on_woocommerce_order_status_changed' ), 10, 3 );
 
-
 		//Subscription renewal handling:
 		add_filter( 'wcs_new_order_created', array( $this, 'on_wcs_new_order_created' ), 10, 3 );
 	}
@@ -74,7 +73,6 @@ class WC_GFPA_Entry {
 				GFCommon::log_debug( "Gravity Forms Product Addons: Processing Order (#{$order_id}) - Type (#{$order_type})" );
 				GFCommon::log_debug( "Gravity Forms Product Addons: Processing Order Item (#{$order_item->get_id()})" );
 
-
 				$gravity_forms_history_value = array_pop( $gravity_forms_history );
 
 				if ( empty( $gravity_forms_history_value ) ) {
@@ -97,23 +95,22 @@ class WC_GFPA_Entry {
 						$create_entries_on_specific_status = array( $create_entries_on_specific_status );
 					}
 
-					GFCommon::log_debug( "Gravity Forms Product Addons: Will Create Entries For Specific Status " . print_r( $create_entries_on_specific_status ) );
+					GFCommon::log_debug( 'Gravity Forms Product Addons: Will Create Entries For Specific Status ' . print_r( $create_entries_on_specific_status, true ) );
 
 					$order_status = $the_order->get_status();
-					GFCommon::log_debug( "Gravity Forms Product Addons: Order Status " . $order_status );
+					GFCommon::log_debug( 'Gravity Forms Product Addons: Order Status ' . $order_status );
 
 					if ( in_array( $order_status, $create_entries_on_specific_status ) ) {
 						$create_entries = true;
-						GFCommon::log_debug( "Gravity Forms Product Addons: Order Status Match" );
+						GFCommon::log_debug( 'Gravity Forms Product Addons: Order Status Match' );
 					} else {
 						$create_entries = false;
 					}
 				} else {
 					$create_entries = true;
-					GFCommon::log_debug( "Gravity Forms Product Addons: Will Create Entries ( no specific status )" );
+					GFCommon::log_debug( 'Gravity Forms Product Addons: Will Create Entries ( no specific status )' );
 
 				}
-
 
 				//Cart item key is set when the order is first created.
 				$cart_item_key = isset( $gravity_forms_history_value->value['_gravity_form_cart_item_key'] ) ? $gravity_forms_history_value->value['_gravity_form_cart_item_key'] : false;
@@ -132,34 +129,37 @@ class WC_GFPA_Entry {
 
 				}
 
-
 				if ( $create_entries && empty( $entry_id ) ) {
 
 					GFCommon::log_debug( "Gravity Forms Product Addons: Creating Entry for Order (#{$order_id})" );
 					GFCommon::log_debug( "Gravity Forms Product Addons: Creating Entry for Order Item (#{$order_item->get_id()})" );
-
 
 					//Prevent Zapier from sending duplicate data
 					add_filter( 'gform_zapier_use_stored_body', '__return_false' );
 
 					unset( $lead_data['lead_id'] );
 
-					add_filter( 'gform_is_feed_asynchronous', function ( $async ) {
-						return false;
-					}, 99999 );
+					add_filter(
+						'gform_is_feed_asynchronous',
+						function ( $async ) {
+							return false;
+						},
+						99999
+					);
 
 					$default_created_by = $form_data['created_by'] ?? get_current_user_id();
-					$user_id = $the_order->get_user_id() ? $the_order->get_user_id() : $default_created_by;
-					if ($user_id) {
+					$user_id            = $the_order->get_user_id() ? $the_order->get_user_id() : $default_created_by;
+					if ( $user_id ) {
 						$lead_data['created_by'] = $user_id;
 					}
 
 					$entry_id = GFAPI::add_entry( $lead_data );
-
+					do_action( 'woocommerce_gravityforms_entry_created', $entry_id, $order_id, $order_item, $form_data, $lead_data );
 					if ( $entry_id && ! is_wp_error( $entry_id ) ) {
 
 						$form  = GFAPI::get_form( $form_data['id'] );
 						$entry = GFAPI::get_entry( $entry_id );
+						$entry = apply_filters( 'woocommerce_gravityforms_order_entry', $entry, $entry_id, $form, $lead_data, $order_id, $order_item );
 
 						if ( $entry ) {
 
@@ -191,10 +191,8 @@ class WC_GFPA_Entry {
 
 							GFAPI::update_entry( $entry );
 
-
 							gf_do_action( array( 'gform_after_submission', $form_data['id'] ), $entry, $form );
-
-							do_action( 'woocommerce_gravityforms_entry_created', $entry_id, $order_id, $order_item, $form_data, $lead_data );
+							do_action( 'woocommerce_gravityforms_after_submission', $entry_id, $order_id, $order_item, $form_data, $lead_data );
 
 						}
 					}
@@ -235,7 +233,6 @@ class WC_GFPA_Entry {
 						do_action( 'woocommerce_gravityforms_entry_details_updated', $entry_id, $order_id );
 					}
 
-
 					//slash it so that unicode doesn't get stripped out by WP add_metadata wp_unslash
 					$cart_item_lead = wp_slash( $gravity_forms_history_value->value['_gravity_form_lead'] );
 
@@ -243,7 +240,7 @@ class WC_GFPA_Entry {
 						'_gravity_form_cart_item_key'   => $cart_item_key,
 						'_gravity_form_linked_entry_id' => $entry_id,
 						'_gravity_form_lead'            => $cart_item_lead,
-						'_gravity_form_data'            => $gravity_forms_history_value->value['_gravity_form_data']
+						'_gravity_form_data'            => $gravity_forms_history_value->value['_gravity_form_data'],
 					);
 
 					wc_update_order_item_meta( $order_item->get_id(), '_gravity_forms_history', $new_history );
@@ -274,20 +271,16 @@ class WC_GFPA_Entry {
 						break;
 					}
 				}
-
 			} else {
 				$gravity_forms_history = wp_list_filter( $meta_data, array( 'key' => '_gravity_forms_history' ) );
 			}
 
-
 			if ( $gravity_forms_history ) {
-
 
 				$gravity_forms_history_value = array_pop( $gravity_forms_history );
 				$entry_id                    = isset( $gravity_forms_history_value->value['_gravity_form_linked_entry_id'] ) && ! empty( $gravity_forms_history_value->value['_gravity_form_linked_entry_id'] ) ?
 					$gravity_forms_history_value->value['_gravity_form_linked_entry_id'] : false;
 				$form_data                   = $gravity_forms_history_value->value['_gravity_form_data'];
-
 
 				if ( $entry_id && ! is_wp_error( $entry_id ) ) {
 
@@ -299,9 +292,7 @@ class WC_GFPA_Entry {
 
 						if ( $entry ) {
 
-
 							GFCommon::log_debug( "Gravity Forms Product Addons: Update Payment Status for GF Entry: (#{$entry_id}), WC Order: (#{$order_id}), WC Order Item: (#{$order_item->get_id()})" );
-
 
 							//updating the entry properties
 							GFAPI::update_entry_property( $entry['id'], 'payment_status', $the_order->get_status() );
@@ -363,7 +354,6 @@ class WC_GFPA_Entry {
 						break;
 					}
 				}
-
 			} else {
 				$gravity_forms_history = wp_list_filter( $meta_data, array( 'key' => '_gravity_forms_history' ) );
 			}
@@ -373,7 +363,7 @@ class WC_GFPA_Entry {
 				$gravity_forms_history_value = array_pop( $gravity_forms_history );
 				$cart_item_key               = isset( $gravity_forms_history_value->value['_gravity_form_cart_item_key'] ) ? $gravity_forms_history_value->value['_gravity_form_cart_item_key'] : false;
 
-				$entry_id                                              = isset( $gravity_forms_history_value->value['_gravity_form_linked_entry_id'] ) ? $gravity_forms_history_value->value['_gravity_form_linked_entry_id'] : false;
+				$entry_id = isset( $gravity_forms_history_value->value['_gravity_form_linked_entry_id'] ) ? $gravity_forms_history_value->value['_gravity_form_linked_entry_id'] : false;
 				$this->_resuming_orders[ $order_id ][ $cart_item_key ] = $entry_id;
 			}
 		}
@@ -390,7 +380,6 @@ class WC_GFPA_Entry {
 		}
 
 		return $order;
-
 	}
 
 
@@ -419,14 +408,14 @@ class WC_GFPA_Entry {
 			echo '<h3>' . __( 'WooCommerce Order Item', 'wc_gf_addons' ) . '</h3>';
 			if ( $the_order ) {
 				echo '<p>';
-				echo sprintf( _x( 'This entry was created as part WooCommerce Order %s', 'Order number', 'woocommerce' ), '<a href="' . admin_url( 'post.php?post=' . absint( $order_id ) . '&action=edit' ) . '" class="row-title"><strong>#' . esc_attr( $the_order->get_order_number() ) . '</strong></a>' );
+				printf( _x( 'This entry was created as part WooCommerce Order %s', 'Order number', 'woocommerce' ), '<a href="' . admin_url( 'post.php?post=' . absint( $order_id ) . '&action=edit' ) . '" class="row-title"><strong>#' . esc_attr( $the_order->get_order_number() ) . '</strong></a>' );
 				echo '<br />';
 				echo '<br />';
 				echo '<em>' . __( 'Any changes made on this entry directly will not be reflected on the actual order.', 'wc_gf_addons' ) . '</em>';
 				echo '</p>';
 			} else {
 				echo '<p>';
-				echo sprintf( _x( 'This entry was created as part WooCommerce Order %s', 'Order number', 'woocommerce' ), $order_id );
+				printf( _x( 'This entry was created as part WooCommerce Order %s', 'Order number', 'woocommerce' ), $order_id );
 				echo '<br />';
 				echo '<br />';
 				echo '<em>' . __( 'The WooCommerce order no longer exists.', 'wc_gf_addons' ) . '</em>';
@@ -480,18 +469,16 @@ class WC_GFPA_Entry {
 
 					$username .= '</a>';
 
-				} else {
-					if ( $the_order->get_billing_first_name() || $the_order->get_billing_last_name() ) {
+				} elseif ( $the_order->get_billing_first_name() || $the_order->get_billing_last_name() ) {
 						/* translators: 1: first name 2: last name */
 						$username = trim( sprintf( _x( '%1$s %2$s', 'full name', 'woocommerce' ), $the_order->get_billing_first_name(), $the_order->get_billing_last_name() ) );
-					} elseif ( $the_order->get_billing_company() ) {
-						$username = trim( $the_order->get_billing_company() );
-					} else {
-						$username = __( 'Guest', 'woocommerce' );
-					}
+				} elseif ( $the_order->get_billing_company() ) {
+					$username = trim( $the_order->get_billing_company() );
+				} else {
+					$username = __( 'Guest', 'woocommerce' );
 				}
 
-				echo '<p><strong>' . __( 'Order', 'wc_gf_addons' ) . ': </strong>' . sprintf( _x( '%s by %s', 'Order number by X', 'woocommerce' ), '<a href="' . admin_url( 'post.php?post=' . absint( $order_id ) . '&action=edit' ) . '" class="row-title"><strong>#' . esc_attr( $the_order->get_order_number() ) . '</strong></a>', $username );
+				echo '<p><strong>' . __( 'Order', 'wc_gf_addons' ) . ': </strong>' . sprintf( _x( '%1$s by %2$s', 'Order number by X', 'woocommerce' ), '<a href="' . admin_url( 'post.php?post=' . absint( $order_id ) . '&action=edit' ) . '" class="row-title"><strong>#' . esc_attr( $the_order->get_order_number() ) . '</strong></a>', $username );
 
 				$order_item = $the_order->get_item( $order_item_id );
 
@@ -499,15 +486,11 @@ class WC_GFPA_Entry {
 					echo '<p><strong>' . __( 'Product', 'wc_gf_addons' ) . ': </strong>' . '<a href="' . admin_url( 'post.php?post=' . absint( $order_item->get_product_id() ) . '&action=edit' ) . '">' . $order_item->get_name() . '</a></p>';
 				}
 
-
 				echo '<p><strong>' . __( 'Order Status', 'wc_gf_addons' ) . ': </strong>' . '<a href="' . admin_url( 'post.php?post=' . absint( $order_id ) . '&action=edit' ) . '">' . ucwords( $the_order->get_status() ) . '</a></p>';
-
 
 			}
 
 			echo '</div>';
 		}
-
-
 	}
 }

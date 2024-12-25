@@ -189,7 +189,7 @@
         if (elements.length === 0) {
           return;
         }
-        elements.each(function () {
+        elements.each(function (index) {
           var input = $(this).find('input'),
             options = {
               locale: JSON.parse(merchant_datepicker_locale),
@@ -200,10 +200,11 @@
                   datepicker = _ref.datepicker;
                 if (typeof formattedDate === "undefined") {
                   // allow removing date
-                  input.val('');
+                  // input.val('');
+                  datepicker.$el.value = '';
                 }
                 input.trigger('change.merchant');
-                input.trigger('change.merchant-datepicker', [formattedDate, input]);
+                input.trigger('change.merchant-datepicker', [formattedDate, input, options, index]);
               }
             },
             fieldOptions = $(this).data('options');
@@ -220,8 +221,9 @@
             }
             options = Object.assign(options, fieldOptions);
           }
-          new AirDatepicker(input.getPath(), options);
+          var datepickerObj = new AirDatepicker(input.getPath(), options);
           input.attr('readonly', true);
+          $(document).trigger('initiated.merchant-datepicker', [datepickerObj, input, options, index]);
         });
       },
       events: function events() {
@@ -430,6 +432,336 @@
           var status_element = element.find('.field-status');
           status_element.removeClass('hidden active inactive').text(selected_label).addClass(selected_value);
         });
+      }
+    };
+    var ReviewsSelector = {
+      accordion: null,
+      activePopupContainer: null,
+      // Initialize the Reviews Selector
+      init: function init() {
+        var self = this;
+        self.initAccordion();
+        self.events();
+        // Skip the flexible content hidden elements that will be cloned when initialize the sortable reviews functionality
+        self.makeSelectedReviewsSortable($('.merchant-reviews-selector').not('.layouts .merchant-reviews-selector'));
+      },
+      // Set up event listeners
+      events: function events() {
+        var self = this;
+        $(document).on('input', '.merchant-reviews-selector .products-search', self.ajaxSearch.bind(self));
+        $(document).on('change', '.merchant-reviews-selector .product-review input[type="checkbox"]', self.toggleReview.bind(self));
+        $(document).on('click', '.merchant-reviews-selector .review-photo img', self.requestReviewImages.bind(self));
+        $(document).on('click', '.review-photos-popup .overlay', self.dismissImagesGallery.bind(self));
+        $(document).on('click', '.merchant-reviews-selector .product-reviews-load-more button', self.loadMoreReviews.bind(self));
+        $(document).on('click', '.merchant-reviews-selector .popup-trigger', self.initPopUp.bind(self));
+        $(document).on('click', '.merchant-reviews-selector .popup-header .close, .merchant-reviews-selector > .overlay', self.dismissPopUp.bind(self));
+        $(document).on('click', '.merchant-reviews-selector .product-review-delete', self.deleteSelectedReview.bind(self));
+        // Listen to escape key
+        $(document).on('keyup', function (e) {
+          if (e.key === "Escape") {
+            var isGallery = self.dismissImagesGallery();
+            if (isGallery) {
+              return;
+            }
+            self.dismissPopUp(self);
+          }
+        });
+        $(document).on('merchant-flexible-content-added', function (e, layout) {
+          self.makeSelectedReviewsSortable();
+          self.initAccordion();
+        });
+      },
+      // Make selected reviews sortable
+      makeSelectedReviewsSortable: function makeSelectedReviewsSortable() {
+        var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : $(document).find('.merchant-reviews-selector').not('.layouts .merchant-reviews-selector');
+        var self = this;
+        var selectedReviews = container.find('.selected-reviews .product-reviews');
+        selectedReviews.sortable({
+          axis: 'y',
+          cursor: 'move',
+          helper: 'original',
+          handle: '.product-review-move',
+          cancel: '',
+          placeholder: 'placeholder',
+          // Add a class for styling
+          update: function update(event, ui) {
+            var container = ui.item.closest('.merchant-reviews-selector');
+            self.saveModifications(container);
+          },
+          start: function start(event, ui) {
+            ui.placeholder.height(ui.item.height()); // Match height
+          }
+        });
+        // $('.product-reviews').sortable('refresh');
+        // console.log('selectedReviews',selectedReviews.sortable('instance'))
+      },
+      // Delete selected review
+      deleteSelectedReview: function deleteSelectedReview(e) {
+        var self = this;
+        var review = $(e.target).closest('.product-review');
+        var container = review.closest('.merchant-reviews-selector');
+        review.remove();
+        self.saveModifications(container);
+        self.updateSelectedReviewsCheckboxState(container);
+        self.countSelectedReviewsInProduct(container);
+      },
+      // Handle AJAX search for reviews
+      ajaxSearch: function ajaxSearch(e) {
+        var self = this;
+        var searchField = $(e.target);
+        var container = searchField.closest('.merchant-reviews-selector');
+        var header = container.find('.popup-header');
+
+        // check value length > 3
+        if (searchField.val().length === 0 || searchField.val().length >= 3) {
+          $.ajax({
+            url: merchant_admin_options.ajaxurl,
+            type: 'POST',
+            data: {
+              action: 'merchant_search_reviews',
+              search: searchField.val(),
+              nonce: merchant_admin_options.ajaxnonce
+            },
+            beforeSend: function beforeSend() {
+              header.addClass('loading');
+              self.destroyAccordion(container);
+            },
+            success: function success(response) {
+              if (response.success) {
+                header.removeClass('popup-error');
+                container.find('.products-search-results').html(response.data);
+                self.initAccordion(container);
+              } else {
+                header.addClass('popup-error');
+              }
+            },
+            complete: function complete() {
+              header.removeClass('loading');
+            },
+            error: function error() {
+              header.addClass('popup-error');
+            }
+          });
+        }
+      },
+      // Load more reviews
+      loadMoreReviews: function loadMoreReviews(e) {
+        var self = this;
+        var product = $(e.target).closest('.product-item');
+        var offset = product.find('.product-review').length;
+        $.ajax({
+          url: merchant_admin_options.ajaxurl,
+          type: 'POST',
+          data: {
+            action: 'merchant_load_more_reviews',
+            product_id: product.attr('data-id'),
+            offset: offset,
+            nonce: merchant_admin_options.ajaxnonce
+          },
+          beforeSend: function beforeSend() {
+            product.addClass('loading');
+          },
+          success: function success(response) {
+            if (response.success) {
+              product.find('.product-reviews .reviews-wrapper').append(response.data.reviews);
+              if (response.data.load_more === '') {
+                self.hideLoadMoreButton(product);
+              }
+              self.updateSelectedReviewsCheckboxState(product.closest('.merchant-reviews-selector'));
+              self.countSelectedReviewsInProduct(product.closest('.merchant-reviews-selector'));
+            }
+          },
+          complete: function complete() {
+            product.removeClass('loading');
+          }
+        });
+      },
+      // Hide load more button
+      hideLoadMoreButton: function hideLoadMoreButton(product) {
+        product.find('.product-reviews-load-more').remove();
+      },
+      // Initialize the popup
+      initPopUp: function initPopUp(e) {
+        var self = this;
+        var container = $(e.target).closest('.merchant-reviews-selector');
+        var popup = container.find('.selector-popup');
+        var overlay = container.find('.overlay');
+        popup.addClass('active');
+        overlay.addClass('active');
+        self.activePopupContainer = container;
+      },
+      // Dismiss the popup
+      dismissPopUp: function dismissPopUp() {
+        var self = this;
+        var container = self.activePopupContainer;
+        if (container === null) {
+          return;
+        }
+        var popup = container.find('.selector-popup');
+        var overlay = container.find('.overlay');
+        popup.removeClass('active');
+        overlay.removeClass('active');
+        self.activePopupContainer = null;
+      },
+      // Initialize the accordion
+      initAccordion: function initAccordion() {
+        var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : $(document).find('.merchant-reviews-selector');
+        var self = this;
+        container.each(function () {
+          var elements = $(this).find('.popup-content .product-item.product-item-has-reviews');
+          elements.each(function () {
+            elements.accordion({
+              collapsible: true,
+              heightStyle: "content",
+              icons: false,
+              // Disable icons
+              active: elements.hasClass('opened') ? 0 : false,
+              activate: function activate(event, ui) {
+                // Check if a new panel is being activated
+                if (ui.newPanel.length) {
+                  // Add 'opened' class to the parent product item
+                  ui.newPanel.parent().addClass('opened');
+                } else {
+                  // Remove 'opened' class from all product items
+                  elements.removeClass('opened');
+                }
+              }
+            });
+          });
+          elements.find('a').on('click', function (e) {
+            e.stopPropagation(); // Prevent event from bubbling up to the accordion header
+          });
+          self.updateSelectedReviewsCheckboxState($(this));
+          self.countSelectedReviewsInProduct($(this));
+        });
+      },
+      // Destroy the accordion
+      destroyAccordion: function destroyAccordion(container) {
+        var elements = container.find('.selector-popup .product-item.product-item-has-reviews');
+        elements.each(function () {
+          if ($(this).hasClass('ui-accordion')) {
+            // Check if it has the accordion class
+            $(this).accordion('destroy');
+          }
+        });
+      },
+      // Toggle review selection
+      toggleReview: function toggleReview(e) {
+        var self = this;
+        var checked = $(e.target).prop('checked');
+        var reviewsFieldContainer = $(e.target).closest('.merchant-reviews-selector');
+        var review = $(e.target).closest('.product-review');
+        var reviewId = review.attr('data-id');
+        var selectedReviews = reviewsFieldContainer.find('.selected-reviews .product-reviews');
+        var selectedReview = selectedReviews.find(".product-review[data-id=\"".concat(reviewId, "\"]"));
+        if (checked) {
+          if (selectedReview.length === 0) {
+            var newReview = review.clone();
+            selectedReviews.append(newReview);
+            self.makeSelectedReviewsSortable();
+          }
+        } else {
+          selectedReview.remove();
+        }
+        setTimeout(function () {
+          self.saveModifications(reviewsFieldContainer);
+        }, 150);
+      },
+      // Save modifications to the selected reviews
+      saveModifications: function saveModifications(container) {
+        var self = this;
+        var reviewsSavedIdsField = container.find('.review-saved-ids');
+        var selectedReviews = container.find('.selected-reviews .product-reviews');
+        var reviews = selectedReviews.find('.product-review');
+        var reviewsIds = [];
+        reviews.each(function () {
+          var id = $(this).attr('data-id');
+          reviewsIds.push(id);
+        });
+        reviewsSavedIdsField.val(reviewsIds.join(','));
+        reviewsSavedIdsField.trigger('change');
+        // reviewsSavedIds;
+        self.updateSelectedReviewsCheckboxState(container);
+        self.countSelectedReviewsInProduct(container);
+      },
+      // Mark selected reviews checkbox
+      updateSelectedReviewsCheckboxState: function updateSelectedReviewsCheckboxState(container) {
+        var popupContent = container.find('.selector-popup');
+        var reviewsSavedIds = container.find('.review-saved-ids');
+        var reviews = popupContent.find('.product-review');
+        var reviewsIds = reviewsSavedIds.val().split(',');
+        reviews.each(function () {
+          var reviewId = $(this).attr('data-id');
+          var checkbox = container.find(".product-review[data-id=\"".concat(reviewId, "\"] input[type=\"checkbox\"]"));
+          if (reviewsIds.includes(reviewId)) {
+            checkbox.prop('checked', true);
+          } else {
+            checkbox.prop('checked', false);
+          }
+        });
+      },
+      // Count selected reviews in product
+      countSelectedReviewsInProduct: function countSelectedReviewsInProduct(container) {
+        var self = this;
+        var products = container.find('.selector-popup .product-item');
+        var reviewsSavedIds = container.find('.review-saved-ids');
+        var reviewsIds = reviewsSavedIds.val().split(',');
+        products.each(function () {
+          var selectedReviews = 0;
+          var product = $(this);
+          var productReviews = product.find('.product-review');
+          productReviews.each(function () {
+            var review = $(this);
+            var reviewId = review.attr('data-id');
+            if (reviewsIds.includes(reviewId)) {
+              selectedReviews++;
+            }
+          });
+          product.find('.selected-reviews-count .counter').text(selectedReviews);
+        });
+      },
+      // Request review images
+      requestReviewImages: function requestReviewImages(e) {
+        var reviewContainer = $(e.target).closest('.product-review');
+        var image = $(e.target);
+        var reviewId = reviewContainer.attr('data-id');
+        $.ajax({
+          url: merchant_admin_options.ajaxurl,
+          type: 'POST',
+          data: {
+            action: 'merchant_get_review_images',
+            review_id: reviewId,
+            nonce: merchant_admin_options.ajaxnonce
+          },
+          beforeSend: function beforeSend() {
+            // Show loading spinner
+            image.addClass('loading');
+          },
+          success: function success(response) {
+            if (response.success) {
+              $('body').append(response.data);
+              setTimeout(function () {
+                $('body').find('.review-photos-popup').addClass('active');
+              }, 300);
+            }
+          },
+          complete: function complete() {
+            // Hide loading spinner
+            image.removeClass('loading');
+          }
+        });
+      },
+      // Dismiss the images gallery
+      dismissImagesGallery: function dismissImagesGallery() {
+        var gallery = $('body').find('.review-photos-popup');
+        if (gallery.length) {
+          gallery.removeClass('active');
+          setTimeout(function () {
+            gallery.remove();
+          }, 300);
+          return true;
+        }
+        return false;
       }
     };
 
@@ -716,6 +1048,7 @@
     // Initialize Flexible Content.
     FlexibleContentField.init();
     GroubField.init();
+    ReviewsSelector.init();
 
     // Products selector.
     // Handle keyup event for the search input
@@ -1107,7 +1440,8 @@
           $wrapper.empty();
           var item = wpMediaFrame.state().get('selection').first().attributes;
           var thumb = item.sizes && item.sizes.thumbnail && item.sizes.thumbnail.url ? item.sizes.thumbnail.url : item.url;
-          $wrapper.append('<div class="merchant-upload-image"><i class="merchant-upload-remove dashicons dashicons-no-alt"></i><img src="' + thumb + '" /></div>');
+          var sizes = item.sizes ? JSON.stringify(item.sizes) : '';
+          $wrapper.append('<div class="merchant-upload-image" data-sizes=\'' + sizes + '\'><i class="merchant-upload-remove dashicons dashicons-no-alt"></i><img src="' + thumb + '" /></div>');
           $input.val(item.id).trigger('change');
           $this.find('.merchant-upload-button-drag-drop').hide();
           $this.find('.merchant-upload-remove').on('click', function (e) {

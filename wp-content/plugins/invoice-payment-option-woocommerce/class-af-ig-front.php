@@ -18,15 +18,66 @@ class AF_IG_Front {
 		add_action('woocommerce_checkout_order_created', array( $this, 'send_custom_emails_on_new_order' ), 10, 1);
 		add_filter('woocommerce_my_account_my_orders_actions', array( $this, 'af_ig_add_download_pdf_button' ), 10, 2);
 		add_action('init', array( $this, 'af_ig_handle_pdf_download' ));
+		add_action('wp_footer', array( $this, 'af_ig_handle_block_validation_session' ));
+
+		add_action('woocommerce_store_api_checkout_update_order_from_request', array( $this, 'send_custom_emails_on_new_order_for_blocks' ), 10, 2);
 	}
 
-	public function send_custom_emails_on_new_order( $order_id ) {
+	public function send_custom_emails_on_new_order_for_blocks( $order, $request ) {
+
+		WC()->session->set( 'af_ig_payment_method_validation_block_check', 'hide_val' );
+
+		$af_ig_payment_method_validation_block = WC()->session->get( 'af_ig_payment_method_validation_block' );
 		
+		if (!empty($af_ig_payment_method_validation_block)) {
 	
+			$af_ig_block_validation_message ='' . __('Select a Valid Payment Method', 'af_ig_td');
+
+
+			wc_add_notice($af_ig_block_validation_message, 'error');    
+			return;  
+
+		}
+
+		// $order = wc_get_order($order_id);
+
+		if (empty($order )) {
+
+			return;
+		}
+
 		
-	// Retrieve the order object
-	$order = wc_get_order($order_id);
-	
+	// Check if payment method is invoice
+		if ($order && $order->get_payment_method() == 'invoice') {
+
+			$af_inv_enable_admin_email = get_option('af_inv_enable_admin_email');
+
+			// Attach PDF and send admin email
+			if ('yes'== $af_inv_enable_admin_email) {
+				$this->send_admin_email_with_pdf($order);
+			}
+			// Attach PDF and send customer email
+			$af_inv_enable_customer_email = get_option('af_inv_enable_customer_email');
+			if ('yes'==$af_inv_enable_customer_email) {
+				$this->send_customer_email_with_pdf($order);
+			}
+		}
+	}
+
+	public function af_ig_handle_block_validation_session() {
+		
+		WC()->session->set( 'af_ig_payment_method_validation_block_check', '');
+	}
+
+	public function send_custom_emails_on_new_order( $order ) {
+
+				
+	// $order = wc_get_order($order_id);
+		if (empty($order )) {
+
+			return;
+		}
+
 	// Check if payment method is invoice
 		if ($order && $order->get_payment_method() == 'invoice') {
 
@@ -69,7 +120,6 @@ class AF_IG_Front {
 
 			return;
 		}
-
 		 
 		if ($order && $order->get_payment_method() == 'invoice' && 'yes' == get_option('af_invoice_enable_pdf')) { 
 			$af_invoice_template = get_option('af_invoice_template') ? get_option('af_invoice_template') : 'temp1';
@@ -106,17 +156,24 @@ class AF_IG_Front {
 	}
 
 	public function af_ig_front_assets() {
-		wp_enqueue_style('af_ig-front', plugins_url('/include/css/af_ig_front.css', __FILE__), false, '1.0');
-		wp_enqueue_style('af_ig-select2', plugins_url('/include/css/select2.css', __FILE__), false, '1.0');
-		wp_enqueue_style('af_ig-attachment', plugins_url('/include/css/attachment.css', __FILE__), false, '1.0');
-		wp_enqueue_script('af_ig-select2', plugins_url('/include/js/select2.js', __FILE__), array( 'jquery' ), '4.1.0', true);
-		wp_enqueue_script('af_ig-front', plugins_url('/include/js/af_ig_front.js', __FILE__), array( 'jquery', 'af_ig-select2' ), '1.0.0', true);
+		if (( is_checkout() )||( WC_Blocks_Utils::has_block_in_page( wc_get_page_id('checkout'), 'woocommerce/checkout' ) )) {
 
-		$af_ig_data = array(
-			'admin_url' => admin_url('admin-ajax.php'),
-			'nonce'     => wp_create_nonce('af-ig-ajax-nonce'),
-		);
-		wp_localize_script('af_ig-front', 'af_ig_php_vars', $af_ig_data);
+			wp_enqueue_script('wp-api-fetch'); // Enqueue the apiFetch package
+			wp_enqueue_style('af_ig-front', plugins_url('/include/css/af_ig_front.css', __FILE__), false, '1.0');
+			wp_enqueue_style('af_ig-select2', plugins_url('/include/css/select2.css', __FILE__), false, '1.0');
+			wp_enqueue_style('af_ig-attachment', plugins_url('/include/css/attachment.css', __FILE__), false, '1.0');
+			wp_enqueue_script('af_ig-select2', plugins_url('/include/js/select2.js', __FILE__), array( 'jquery' ), '4.1.0', true);
+			wp_enqueue_script('af_ig-front', plugins_url('/include/js/af_ig_front.js', __FILE__), array( 'jquery', 'af_ig-select2' ), '1.0.0', true);
+
+		
+
+			$af_ig_data = array(
+				'admin_url' => admin_url('admin-ajax.php'),
+				'nonce'     => wp_create_nonce('af-ig-ajax-nonce'),
+			);
+			wp_localize_script('af_ig-front', 'af_ig_php_vars', $af_ig_data);
+
+		} 
 	}
 
 	public function af_ig_handle_pdf_download() {

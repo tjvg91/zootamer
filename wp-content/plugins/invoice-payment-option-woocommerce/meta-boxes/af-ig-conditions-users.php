@@ -26,7 +26,7 @@ $sel_roles1     = is_array( $sel_roles1 ) ? $sel_roles1 : array();
 			<th>
 				<div class="option-head">
 					<h3>
-						<?php echo esc_html__( 'Enable Invoice for customers', 'af_ig_td' ); ?>
+						<?php echo esc_html__( 'Enable Invoice for Customers', 'af_ig_td' ); ?>
 					</h3>
 				</div>
 			</th>

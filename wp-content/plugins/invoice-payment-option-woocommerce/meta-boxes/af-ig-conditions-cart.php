@@ -82,13 +82,13 @@ $cart_quantity[1] = isset( $cart_quantity[1] ) ? $cart_quantity[1] : '';
 			<th>
 				<div class="option-head">
 					<h3>
-						<?php echo esc_html__( 'Enable invoice payment option for all products.', 'af_ig_td' ); ?>
+						<?php echo esc_html__( 'Enable for All Products', 'af_ig_td' ); ?>
 					</h3>
 				</div>
 			</th>
 			<td>
 				<input type="checkbox" name="af_ig_enable_products" class="af_ig_products" value="yes" <?php checked( 'yes', $af_ig_enable_products ); ?> >
-				<p><?php echo esc_html__( 'Use this option to show Invoice for all Products. Atleast 1 product should be in cart', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Use this option to show invoice payment option for all products. Atleast 1 product should be in cart', 'af_ig_td' ); ?></p>
 			</td>
 		</tr>
 
@@ -97,7 +97,7 @@ $cart_quantity[1] = isset( $cart_quantity[1] ) ? $cart_quantity[1] : '';
 			<th>
 				<div class="option-head">
 					<h3>
-						<?php echo esc_html__( 'Enable Invoice for Products, Categories & tags', 'af_ig_td' ); ?>
+						<?php echo esc_html__( 'Enable for Products, Categories & Tags', 'af_ig_td' ); ?>
 					</h3>
 				</div>
 			</th>
@@ -108,11 +108,11 @@ $cart_quantity[1] = isset( $cart_quantity[1] ) ? $cart_quantity[1] : '';
 				?>
 				<input type="radio" name="af_ig_cart_products[0]"  value="disallow" <?php echo checked( 'disallow', $enable ); ?> /><?php echo esc_html__( 'Disallow other products ', 'af_ig_td' ); ?>
 				<input type="radio" name="af_ig_cart_products[0]"  value="only" <?php echo checked( 'only', $enable ); ?> /><?php echo esc_html__( 'Allow other products', 'af_ig_td' ); ?>
-				<input type="radio" name="af_ig_cart_products[0]"  value="any" <?php echo checked( 'any', $enable ); ?> /><?php echo esc_html__( 'At least one Product', 'af_ig_td' ); ?>
+				<input type="radio" name="af_ig_cart_products[0]"  value="any" <?php echo checked( 'any', $enable ); ?> /><?php echo esc_html__( 'At least one product', 'af_ig_td' ); ?>
 				<br>
-				<p><?php echo esc_html__( 'Invoice Payment Option will NOT display if there is any other product in cart beside the products selected below', 'af_ig_td' ); ?></p>
-				<p><?php echo esc_html__( 'Invoice Payment Option will display if any of the selected product is in cart. No matter if there is any other product in cart.', 'af_ig_td' ); ?></p>
-				<p><?php echo esc_html__( 'Any one of selected Product in cart. (Other products can be in cart)', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Invoice payment option will not display if there is any other product in cart beside the products selected below', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Invoice payment option will display if any of the selected product is in cart. No matter if there is any other product in cart.', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Any one of selected product in cart. (Other products can be in cart)', 'af_ig_td' ); ?></p>
 				<br>
 				<select name="af_ig_cart_products[1][]" data-placeholder="Choose Products..."  class="af-ig-ajax-products-search" multiple>
 					<?php
@@ -171,13 +171,13 @@ $cart_quantity[1] = isset( $cart_quantity[1] ) ? $cart_quantity[1] : '';
 			<th>
 				<div class="option-head">
 					<h3>
-						<?php echo esc_html__( 'Enable Invoice For Virtual Product.', 'af_ig_td' ); ?>
+						<?php echo esc_html__( 'Enable For Virtual Product', 'af_ig_td' ); ?>
 					</h3>
 				</div>
 			</th>
 			<td>
 				<input type="checkbox" name="af_ig_enable_tax" value="yes"  <?php checked( 'yes', $tax_enable ); ?> >
-				<p><?php echo esc_html__( 'Use this option to enable Invoice for Virtual Product. Atleast 1 virtual product should be in cart', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Use this option to enable invoice for virtual product. Atleast 1 virtual product should be in cart', 'af_ig_td' ); ?></p>
 			</td>
 		</tr>
 

@@ -17,11 +17,12 @@ use WCPay\Core\Server\Request\Update_Account;
 use WCPay\Exceptions\API_Exception;
 use WCPay\Logger;
 use WCPay\Database_Cache;
+use WCPay\MultiCurrency\Interfaces\MultiCurrencyAccountInterface;
 
 /**
  * Class handling any account connection functionality
  */
-class WC_Payments_Account {
+class WC_Payments_Account implements MultiCurrencyAccountInterface {
 
 	// ACCOUNT_OPTION is only used in the supporting dev tools plugin, it can be removed once everyone has upgraded.
 	const ACCOUNT_OPTION                                        = 'wcpay_account_data';
@@ -129,7 +130,7 @@ class WC_Payments_Account {
 	}
 
 	/**
-	 * Wipes the account data option, forcing to re-fetch the account status from WP.com.
+	 * Wipes the account data option, forcing to re-fetch the account data from WP.com.
 	 */
 	public function clear_cache() {
 		$this->database_cache->delete( Database_Cache::ACCOUNT_KEY );
@@ -172,6 +173,18 @@ class WC_Payments_Account {
 	}
 
 	/**
+	 * Checks if the account is connected to the payment provider.
+	 * Note: This method is a proxy for `is_stripe_connected` for the MultiCurrencyAccountInterface.
+	 *
+	 * @param bool $on_error Value to return on server error, defaults to false.
+	 *
+	 * @return bool True if the account is connected, false otherwise, $on_error on error.
+	 */
+	public function is_provider_connected( bool $on_error = false ): bool {
+		return $this->is_stripe_connected( $on_error );
+	}
+
+	/**
 	 * Determine if the store has a working Jetpack connection.
 	 *
 	 * @return bool Whether the Jetpack connection is established and working or not.
@@ -188,7 +201,7 @@ class WC_Payments_Account {
 	 * @return boolean Whether there is account data.
 	 */
 	public function has_account_data(): bool {
-		$account_data = $this->database_cache->get( Database_Cache::ACCOUNT_KEY );
+		$account_data = $this->database_cache->get( Database_Cache::ACCOUNT_KEY, true );
 		if ( ! empty( $account_data['account_id'] ) ) {
 			return true;
 		}
@@ -291,7 +304,7 @@ class WC_Payments_Account {
 		}
 
 		$account = $this->get_cached_account_data();
-		return 'under_review' === $account['status'];
+		return 'under_review' === ( $account['status'] ?? false );
 	}
 
 	/**
@@ -636,9 +649,20 @@ class WC_Payments_Account {
 	 *
 	 * @return array Currencies.
 	 */
-	public function get_account_customer_supported_currencies() {
+	public function get_account_customer_supported_currencies(): array {
 		$account = $this->get_cached_account_data();
 		return ! empty( $account ) && isset( $account['customer_currencies']['supported'] ) ? $account['customer_currencies']['supported'] : [];
+	}
+
+	/**
+	 * List of countries enabled for Stripe platform account. See also this URL:
+	 * https://woocommerce.com/document/woopayments/compatibility/countries/#supported-countries
+	 *
+	 * @return array
+	 */
+	public function get_supported_countries(): array {
+		// This is a wrapper function because of the MultiCurrencyAccountInterface.
+		return WC_Payments_Utils::supported_countries();
 	}
 
 	/**
@@ -1119,12 +1143,12 @@ class WC_Payments_Account {
 		 *
 		 * 0. Make changes to the account data if needed (e.g. reset account, disable test mode onboarding)
 		 *    as instructed by the GET params.
-		 *    0.1 If we reset the account -> redirect to CONNECT PAGE
+		 *    0.1 If we reset the account -> redirect to CONNECT PAGE / SETTINGS PAGE If redirect to settings page flag set
 		 * 1. Returning from the WPCOM/Jetpack connection screen.
 		 *      1.1 SUCCESSFUL connection
 		 *          1.1.1 NO Stripe account connected -> redirect to ONBOARDING WIZARD
 		 *          1.1.2 Stripe account connected -> redirect to OVERVIEW PAGE
-		 *      1.2 UNSUCCESSFUL connection -> redirect to CONNECT PAGE with ERROR message
+		 *      1.2 UNSUCCESSFUL connection -> redirect to CONNECT PAGE with ERROR message / SETTINGS PAGE if redirect to settings page flag set
 		 * 2. Working WPCOM/Jetpack connection and fully onboarded Stripe account -> redirect to OVERVIEW PAGE
 		 * 3. Specific `from` places -> redirect to CONNECT PAGE regardless of the account status
 		 * 4. NO [working] WPCOM/Jetpack connection:
@@ -1143,6 +1167,7 @@ class WC_Payments_Account {
 		 *         5.1.3 All other cases -> redirect to ONBOARDING WIZARD
 		 *    5.2 If PARTIALLY onboarded Stripe account connected -> redirect to STRIPE KYC
 		 *    5.3 If fully onboarded Stripe account connected -> redirect to OVERVIEW PAGE
+		 *         5.3.1 If redirect to settings page flags set -> redirect to SETTINGS PAGE
 		 *
 		 * This logic is so complex because we use connect links as a catch-all place to
 		 * handle everything and anything related to the WooPayments account setup. It reduces the complexity on the
@@ -1158,6 +1183,7 @@ class WC_Payments_Account {
 			$progressive                 = ! empty( $_GET['progressive'] ) && 'true' === $_GET['progressive'];
 			$collect_payout_requirements = ! empty( $_GET['collect_payout_requirements'] ) && 'true' === $_GET['collect_payout_requirements'];
 			$create_test_drive_account   = ! empty( $_GET['test_drive'] ) && 'true' === $_GET['test_drive'];
+			$redirect_to_settings_page   = ! empty( $_GET['redirect_to_settings_page'] ) && 'true' === $_GET['redirect_to_settings_page'];
 			// There is no point in auto starting test drive onboarding if we are not in the test drive mode.
 			$auto_start_test_drive_onboarding = $create_test_drive_account &&
 												! empty( $_GET['auto_start_test_drive_onboarding'] ) &&
@@ -1229,7 +1255,16 @@ class WC_Payments_Account {
 
 				$this->cleanup_on_account_reset();
 
-				// When we reset the account we want to always go the Connect page. Redirect immediately!
+				// When we reset the account and want to go back to the settings page - redirect immediately!
+				if ( $redirect_to_settings_page ) {
+					$this->redirect_service->redirect_to_settings_page(
+						WC_Payments_Onboarding_Service::FROM_RESET_ACCOUNT,
+						[ 'source' => $onboarding_source ]
+					);
+					return;
+				}
+
+				// Otherwise, when we reset the account we want to always go the Connect page. Redirect immediately!
 				$this->redirect_service->redirect_to_connect_page(
 					null,
 					WC_Payments_Onboarding_Service::FROM_RESET_ACCOUNT,
@@ -1288,6 +1323,16 @@ class WC_Payments_Account {
 						array_merge( $tracks_props, [ 'mode' => WC_Payments_Onboarding_Service::is_test_mode_enabled() ? 'test' : 'live' ] )
 					);
 
+					if ( $redirect_to_settings_page ) {
+						$this->redirect_service->redirect_to_settings_page(
+							WC_Payments_Onboarding_Service::FROM_WPCOM_CONNECTION,
+							[
+								'source' => $onboarding_source,
+								'wcpay-connect-jetpack-error' => '1',
+							]
+						);
+					}
+
 					$this->redirect_service->redirect_to_connect_page(
 						sprintf(
 						/* translators: %s: WooPayments */
@@ -1319,15 +1364,23 @@ class WC_Payments_Account {
 				&& $this->has_working_jetpack_connection()
 				&& $this->is_stripe_account_valid() ) {
 
+				$params = [
+					'source'                   => $onboarding_source,
+					// Carry over some parameters as they may be used by our frontend logic.
+					'wcpay-connection-success' => ! empty( $_GET['wcpay-connection-success'] ) ? '1' : false,
+					'wcpay-sandbox-success'    => ! empty( $_GET['wcpay-sandbox-success'] ) ? 'true' : false,
+					'test_drive_error'         => ! empty( $_GET['test_drive_error'] ) ? 'true' : false,
+				];
+				if ( $redirect_to_settings_page ) {
+					$this->redirect_service->redirect_to_settings_page(
+						$from,
+						$params
+					);
+					return;
+				}
 				$this->redirect_service->redirect_to_overview_page(
 					$from,
-					[
-						'source'                   => $onboarding_source,
-						// Carry over some parameters as they may be used by our frontend logic.
-						'wcpay-connection-success' => ! empty( $_GET['wcpay-connection-success'] ) ? '1' : false,
-						'wcpay-sandbox-success'    => ! empty( $_GET['wcpay-sandbox-success'] ) ? 'true' : false,
-						'test_drive_error'         => ! empty( $_GET['test_drive_error'] ) ? 'true' : false,
-					]
+					$params
 				);
 				return;
 			}
@@ -1337,13 +1390,14 @@ class WC_Payments_Account {
 				in_array(
 					$from,
 					[
-						WC_Payments_Onboarding_Service::FROM_WCADMIN_PAYMENTS_SETTINGS,
 						WC_Payments_Onboarding_Service::FROM_STRIPE,
 					],
 					true
 				)
 				// This is a weird case, but it is best to handle it.
 				|| ( WC_Payments_Onboarding_Service::FROM_ONBOARDING_WIZARD === $from && ! $this->has_working_jetpack_connection() )
+				// Redirect merchants coming from settings page to the connect page only if $redirect_to_settings_page is false.
+				|| ( WC_Payments_Onboarding_Service::FROM_WCADMIN_PAYMENTS_SETTINGS === $from && ! $redirect_to_settings_page )
 			) {
 				$this->redirect_service->redirect_to_connect_page(
 					! empty( $_GET['wcpay-connection-error'] ) ? sprintf(
@@ -1386,7 +1440,7 @@ class WC_Payments_Account {
 							'auto_start_test_drive_onboarding' => $auto_start_test_drive_onboarding ? 'true' : false,
 							'from'                        => WC_Payments_Onboarding_Service::FROM_WPCOM_CONNECTION,
 							'source'                      => $onboarding_source,
-
+							'redirect_to_settings_page'   => $redirect_to_settings_page ? 'true' : false,
 						],
 						self::get_connect_url( $wcpay_connect_param ) // Instruct Jetpack to return here (connect link).
 					),
@@ -1456,6 +1510,7 @@ class WC_Payments_Account {
 								'auto_start_test_drive_onboarding' => 'true', // This is critical.
 								'test_mode'  => $should_onboard_in_test_mode ? 'true' : false,
 								'source'     => $onboarding_source,
+								'redirect_to_settings_page' => $redirect_to_settings_page ? 'true' : false,
 							]
 						);
 						return;
@@ -1629,6 +1684,21 @@ class WC_Payments_Account {
 	}
 
 	/**
+	 * Get provider onboarding page url.
+	 *
+	 * @return string
+	 */
+	public function get_provider_onboarding_page_url(): string {
+		return add_query_arg(
+			[
+				'page' => 'wc-admin',
+				'path' => '/payments/connect',
+			],
+			admin_url( 'admin.php' )
+		);
+	}
+
+	/**
 	 * Get connect url.
 	 *
 	 * @param string $wcpay_connect_from Optional. A value to inform the connect logic where the user came from.
@@ -1664,21 +1734,6 @@ class WC_Payments_Account {
 				'page'   => 'wc-admin',
 				'task'   => 'payments',
 				'method' => 'wcpay',
-			],
-			admin_url( 'admin.php' )
-		);
-	}
-
-	/**
-	 * Get Connect page url.
-	 *
-	 * @return string
-	 */
-	public static function get_connect_page_url(): string {
-		return add_query_arg(
-			[
-				'page' => 'wc-admin',
-				'path' => '/payments/connect',
 			],
 			admin_url( 'admin.php' )
 		);
@@ -2116,6 +2171,10 @@ class WC_Payments_Account {
 	 */
 	public function update_account_data( $property, $data ) {
 		$account_data = $this->database_cache->get( Database_Cache::ACCOUNT_KEY );
+		if ( ! is_array( $account_data ) ) {
+			// Bail if we don't have any cached account data.
+			return;
+		}
 
 		$account_data[ $property ] = is_array( $data ) ? array_merge( $account_data[ $property ] ?? [], $data ) : $data;
 
@@ -2125,7 +2184,7 @@ class WC_Payments_Account {
 	/**
 	 * Refetches account data and returns the fresh data.
 	 *
-	 * @return array|bool|string Either the new account data or false if unavailable.
+	 * @return array|bool Either the new account data or false if unavailable.
 	 */
 	public function refresh_account_data() {
 		return $this->get_cached_account_data( true );

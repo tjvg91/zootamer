@@ -238,40 +238,41 @@ class WC_Stripe_Helper {
 		return apply_filters(
 			'wc_stripe_localized_messages',
 			[
-				'invalid_number'           => __( 'The card number is not a valid credit card number.', 'woocommerce-gateway-stripe' ),
-				'invalid_expiry_month'     => __( 'The card\'s expiration month is invalid.', 'woocommerce-gateway-stripe' ),
-				'invalid_expiry_year'      => __( 'The card\'s expiration year is invalid.', 'woocommerce-gateway-stripe' ),
-				'invalid_cvc'              => __( 'The card\'s security code is invalid.', 'woocommerce-gateway-stripe' ),
-				'incorrect_number'         => __( 'The card number is incorrect.', 'woocommerce-gateway-stripe' ),
-				'incomplete_number'        => __( 'The card number is incomplete.', 'woocommerce-gateway-stripe' ),
-				'incomplete_cvc'           => __( 'The card\'s security code is incomplete.', 'woocommerce-gateway-stripe' ),
-				'incomplete_expiry'        => __( 'The card\'s expiration date is incomplete.', 'woocommerce-gateway-stripe' ),
-				'expired_card'             => __( 'The card has expired.', 'woocommerce-gateway-stripe' ),
-				'incorrect_cvc'            => __( 'The card\'s security code is incorrect.', 'woocommerce-gateway-stripe' ),
-				'incorrect_zip'            => __( 'The card\'s zip code failed validation.', 'woocommerce-gateway-stripe' ),
-				'postal_code_invalid'      => __( 'Invalid zip code, please correct and try again', 'woocommerce-gateway-stripe' ),
-				'invalid_expiry_year_past' => __( 'The card\'s expiration year is in the past', 'woocommerce-gateway-stripe' ),
-				'card_declined'            => __( 'The card was declined.', 'woocommerce-gateway-stripe' ),
-				'missing'                  => __( 'There is no card on a customer that is being charged.', 'woocommerce-gateway-stripe' ),
-				'processing_error'         => __( 'An error occurred while processing the card.', 'woocommerce-gateway-stripe' ),
-				'invalid_sofort_country'   => __( 'The billing country is not accepted by Sofort. Please try another country.', 'woocommerce-gateway-stripe' ),
-				'email_invalid'            => __( 'Invalid email address, please correct and try again.', 'woocommerce-gateway-stripe' ),
-				'invalid_request_error'    => is_add_payment_method_page()
+				'invalid_number'                        => __( 'The card number is not a valid credit card number.', 'woocommerce-gateway-stripe' ),
+				'invalid_expiry_month'                  => __( 'The card\'s expiration month is invalid.', 'woocommerce-gateway-stripe' ),
+				'invalid_expiry_year'                   => __( 'The card\'s expiration year is invalid.', 'woocommerce-gateway-stripe' ),
+				'invalid_cvc'                           => __( 'The card\'s security code is invalid.', 'woocommerce-gateway-stripe' ),
+				'incorrect_number'                      => __( 'The card number is incorrect.', 'woocommerce-gateway-stripe' ),
+				'incomplete_number'                     => __( 'The card number is incomplete.', 'woocommerce-gateway-stripe' ),
+				'incomplete_cvc'                        => __( 'The card\'s security code is incomplete.', 'woocommerce-gateway-stripe' ),
+				'incomplete_expiry'                     => __( 'The card\'s expiration date is incomplete.', 'woocommerce-gateway-stripe' ),
+				'expired_card'                          => __( 'The card has expired.', 'woocommerce-gateway-stripe' ),
+				'incorrect_cvc'                         => __( 'The card\'s security code is incorrect.', 'woocommerce-gateway-stripe' ),
+				'incorrect_zip'                         => __( 'The card\'s zip code failed validation.', 'woocommerce-gateway-stripe' ),
+				'postal_code_invalid'                   => __( 'Invalid zip code, please correct and try again', 'woocommerce-gateway-stripe' ),
+				'invalid_expiry_year_past'              => __( 'The card\'s expiration year is in the past', 'woocommerce-gateway-stripe' ),
+				'card_declined'                         => __( 'The card was declined.', 'woocommerce-gateway-stripe' ),
+				'missing'                               => __( 'There is no card on a customer that is being charged.', 'woocommerce-gateway-stripe' ),
+				'processing_error'                      => __( 'An error occurred while processing the card.', 'woocommerce-gateway-stripe' ),
+				'invalid_sofort_country'                => __( 'The billing country is not accepted by Sofort. Please try another country.', 'woocommerce-gateway-stripe' ),
+				'email_invalid'                         => __( 'Invalid email address, please correct and try again.', 'woocommerce-gateway-stripe' ),
+				'invalid_request_error'                 => is_add_payment_method_page()
 					? __( 'Unable to save this payment method, please try again or use alternative method.', 'woocommerce-gateway-stripe' )
 					: __( 'Unable to process this payment, please try again or use alternative method.', 'woocommerce-gateway-stripe' ),
-				'amount_too_large'         => __( 'The order total is too high for this payment method', 'woocommerce-gateway-stripe' ),
-				'amount_too_small'         => __( 'The order total is too low for this payment method', 'woocommerce-gateway-stripe' ),
-				'country_code_invalid'     => __( 'Invalid country code, please try again with a valid country code', 'woocommerce-gateway-stripe' ),
-				'tax_id_invalid'           => __( 'Invalid Tax Id, please try again with a valid tax id', 'woocommerce-gateway-stripe' ),
-				'invalid_wallet_type'      => __( 'Invalid wallet payment type, please try again or use an alternative method.', 'woocommerce-gateway-stripe' ),
+				'amount_too_large'                      => __( 'The order total is too high for this payment method', 'woocommerce-gateway-stripe' ),
+				'amount_too_small'                      => __( 'The order total is too low for this payment method', 'woocommerce-gateway-stripe' ),
+				'country_code_invalid'                  => __( 'Invalid country code, please try again with a valid country code', 'woocommerce-gateway-stripe' ),
+				'tax_id_invalid'                        => __( 'Invalid Tax Id, please try again with a valid tax id', 'woocommerce-gateway-stripe' ),
+				'invalid_wallet_type'                   => __( 'Invalid wallet payment type, please try again or use an alternative method.', 'woocommerce-gateway-stripe' ),
+				'payment_intent_authentication_failure' => __( 'We are unable to authenticate your payment method. Please choose a different payment method and try again.', 'woocommerce-gateway-stripe' ),
 			]
 		);
 	}
 
 	/**
 	 * List of currencies supported by Stripe that has no decimals
-	 * https://stripe.com/docs/currencies#zero-decimal from https://stripe.com/docs/currencies#presentment-currencies
-	 * ugx is an exception and not in this list for being a special cases in Stripe https://stripe.com/docs/currencies#special-cases
+	 * https://docs.stripe.com/currencies#zero-decimal from https://docs.stripe.com/currencies#presentment-currencies
+	 * ugx is an exception and not in this list for being a special cases in Stripe https://docs.stripe.com/currencies#special-cases
 	 *
 	 * @return array $currencies
 	 */
@@ -665,7 +666,7 @@ class WC_Stripe_Helper {
 	 */
 	public static function get_upe_ordered_payment_method_ids( $gateway ) {
 		$stripe_settings            = self::get_stripe_settings();
-		$testmode                   = isset( $stripe_settings['testmode'] ) && 'yes' === $stripe_settings['testmode'];
+		$testmode                   = WC_Stripe_Mode::is_test();
 		$ordered_payment_method_ids = isset( $stripe_settings['stripe_upe_payment_method_order'] ) ? $stripe_settings['stripe_upe_payment_method_order'] : [];
 
 		// When switched to the new checkout experience, the UPE method order is not set. Copy the legacy order to the UPE order to persist previous settings.
@@ -1087,7 +1088,7 @@ class WC_Stripe_Helper {
 	 * Converts a WooCommerce locale to the closest supported by Stripe.js.
 	 *
 	 * Stripe.js supports only a subset of IETF language tags, if a country specific locale is not supported we use
-	 * the default for that language (https://stripe.com/docs/js/appendix/supported_locales).
+	 * the default for that language (https://docs.stripe.com/js/appendix/supported_locales).
 	 * If no match is found we return 'auto' so Stripe.js uses the browser locale.
 	 *
 	 * @param string $wc_locale The locale to convert.
@@ -1095,7 +1096,7 @@ class WC_Stripe_Helper {
 	 * @return string Closest locale supported by Stripe ('auto' if NONE).
 	 */
 	public static function convert_wc_locale_to_stripe_locale( $wc_locale ) {
-		// List copied from: https://stripe.com/docs/js/appendix/supported_locales.
+		// List copied from: https://docs.stripe.com/js/appendix/supported_locales.
 		$supported = [
 			'ar',     // Arabic.
 			'bg',     // Bulgarian (Bulgaria).
@@ -1495,8 +1496,11 @@ class WC_Stripe_Helper {
 	 *
 	 * @param WC_Order $order The order.
 	 * @return bool
+	 *
+	 * @deprecated 8.9.0
 	 */
 	public static function is_wallet_payment_method( $order ) {
+		wc_deprecated_function( __METHOD__, '8.9.0', 'in_array( $order->get_meta( \'_stripe_upe_payment_type\' ), WC_Stripe_Payment_Methods::WALLET_PAYMENT_METHODS, true )' );
 		return in_array( $order->get_meta( '_stripe_upe_payment_type' ), WC_Stripe_Payment_Methods::WALLET_PAYMENT_METHODS, true );
 	}
 

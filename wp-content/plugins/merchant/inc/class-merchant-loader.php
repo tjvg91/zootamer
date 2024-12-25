@@ -68,6 +68,7 @@ if ( ! class_exists( 'Merchant_Loader' ) ) {
 			require_once MERCHANT_DIR . 'inc/classes/class-merchant-modules.php';
 			require_once MERCHANT_DIR . 'inc/classes/class-merchant-custom-css.php';
 			require_once MERCHANT_DIR . 'inc/classes/class-merchant-svg-icons.php';
+			require_once MERCHANT_DIR . 'inc/classes/class-merchant-db-tables.php';
 
 			// Metabox
 			require_once MERCHANT_DIR . 'inc/classes/class-merchant-metabox.php';
@@ -335,6 +336,11 @@ if ( ! class_exists( 'Merchant_Loader' ) ) {
 			wp_localize_script( 'merchant', 'merchant', array( 
 				'general' => array(
 					'wooCurrencySymbol' => class_exists( 'Woocommerce' ) ? html_entity_decode( get_woocommerce_currency_symbol() ) : '',
+					'wooCurrencyPosition' => class_exists( 'Woocommerce' ) ? get_option( 'woocommerce_currency_pos' ) : 'left',
+					'wooThousandsSeparator' => class_exists( 'Woocommerce' ) ? wc_get_price_thousand_separator() : ',',
+					'wooDecimalSeparator' => class_exists( 'Woocommerce' ) ? wc_get_price_decimal_separator() : '.',
+					'wooNumberOfDecimals' => class_exists( 'Woocommerce' ) ? wc_get_price_decimals() : 2,
+
 				),
 				'setting' => $setting,
 			) );

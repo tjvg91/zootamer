@@ -13,7 +13,14 @@
   $(document).on('change.merchant keyup', function () {
     initPreview();
   });
+  $(document).on('change', '.merchant-module-page-setting-field-select select', function () {
+    var _merchant;
+    var selectedHook = $(this).val();
+    var priority = ((_merchant = merchant) === null || _merchant === void 0 || (_merchant = _merchant.fbt_object) === null || _merchant === void 0 ? void 0 : _merchant.hooks[selectedHook]) || 10;
+    $(this).closest('.merchant-module-page-setting-field-hook_select').find('.merchant-module-page-setting-field-number input').val(priority);
+  });
   function initPreview() {
+    var _merchant2, _merchant3, _merchant4;
     var layout = $('.merchant-flexible-content-control.frequently-bought-together-style').find('.layout.active'),
       titleTextColor = layout.find('.merchant-field-title input').val(),
       totalText = layout.find('.merchant-field-price_label input').val(),
@@ -47,11 +54,11 @@
     $('.merchant-cart-preview .my-cart .cart-table .cart-item .product .product-info .upsell-product .upsell-info p').text(cartSaveLabel.replace('{amount}', '10%'));
     $('.merchant-cart-preview .my-cart .cart-table .cart-item .product .product-info .upsell-product .upsell-info .add-to-cart').text(cartBundleButtonText);
     $('.merchant-checkout-preview .offer-title').text(checkoutTitle.replace('{offer_quantity}', '3'));
-    $('.merchant-checkout-preview .product-details .product-info p').text(checkoutDiscountText.replace('{discount}', '10%').replace('{fbt_products}', fbt_object.product_names));
+    $('.merchant-checkout-preview .product-details .product-info p').text(checkoutDiscountText.replace('{discount}', '10%').replace('{fbt_products}', (_merchant2 = merchant) === null || _merchant2 === void 0 ? void 0 : _merchant2.fbt_object.product_names));
     $('.merchant-checkout-preview .product-details .product-info .add-to-order').text(checkoutButtonText);
     $('.merchant-thank-you-preview .offer-title').text(thankYouTitle.replace('{offer_quantity}', '3').replace('{discount}', '10%'));
-    $('.merchant-thank-you-preview .product-details .product-info p').text(thankYouDiscountText.replace('{discount}', '10%').replace('{fbt_products}', fbt_object.product_names));
-    $('.merchant-thank-you-preview .merchant-tooltip .tooltip-text').html(thankYouBonusTipText.replace('{discount}', '10%').replace('{fbt_products}', fbt_object.product_names));
+    $('.merchant-thank-you-preview .product-details .product-info p').text(thankYouDiscountText.replace('{discount}', '10%').replace('{fbt_products}', (_merchant3 = merchant) === null || _merchant3 === void 0 ? void 0 : _merchant3.fbt_object.product_names));
+    $('.merchant-thank-you-preview .merchant-tooltip .tooltip-text').html(thankYouBonusTipText.replace('{discount}', '10%').replace('{fbt_products}', (_merchant4 = merchant) === null || _merchant4 === void 0 ? void 0 : _merchant4.fbt_object.product_names));
     $('.merchant-thank-you-preview .product-details .product-info .add-to-order').text(thankYouButtonText);
   }
   $('.merchant-flexible-content-control .layout:first-child').addClass('active').trigger('click');

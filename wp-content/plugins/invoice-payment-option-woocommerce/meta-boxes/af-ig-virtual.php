@@ -46,7 +46,7 @@ $ship_method = is_array( $ship_method ) ? $ship_method : array();
 				}
 				?>
 				</div>
-				<p><?php echo esc_html__( 'Show Invoice on shipping method bases. Leave empty for all', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Show invoice payment option on shipping method bases. Leave empty for all', 'af_ig_td' ); ?></p>
 			</td>
 		</tr>
 		

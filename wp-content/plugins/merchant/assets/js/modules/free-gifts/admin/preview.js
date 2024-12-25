@@ -35,9 +35,15 @@
         productNames.push($(this).attr('title'));
       });
       productName = productNames.length ? productNames.join(', ') : 'Categories';
+    } else if (rule === 'tags') {
+      var _productNames = [];
+      layout.find('.merchant-field-tag_slugs .select2-selection__choice').each(function () {
+        _productNames.push($(this).attr('title'));
+      });
+      productName = _productNames.length ? _productNames.join(', ') : 'Tags';
     }
     spendingText = (_spendingText = spendingText) === null || _spendingText === void 0 ? void 0 : _spendingText.replace(/{amount}|{goalAmount}/g, spendingGoal);
-    spendingText = (_spendingText2 = spendingText) === null || _spendingText2 === void 0 ? void 0 : _spendingText2.replace(/{productName}|{categories}/g, productName);
+    spendingText = (_spendingText2 = spendingText) === null || _spendingText2 === void 0 ? void 0 : _spendingText2.replace(/{productName}|{categories}|{tags}/g, productName);
     $('.merchant-free-gifts-widget-offer-label').html(spendingText);
     $(document).on('change', '.merchant-field-rules_to_apply select', function () {
       var value = $(this).val();

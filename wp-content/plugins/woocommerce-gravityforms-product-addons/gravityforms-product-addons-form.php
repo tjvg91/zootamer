@@ -74,6 +74,7 @@ class woocommerce_gravityforms_product_form {
 
 			$form = str_replace( 'gform_submit', 'gform_old_submit', $form );
 			$form .= wp_nonce_field( 'gform_submit_' . $this->form_id, '_gform_submit_nonce_' . $this->form_id, true, false );
+            wp_nonce_field( 'add_to_cart' );
 
 			$this->current_page  = GFFormDisplay::get_current_page( $this->form_id );
 			$this->next_page     = $this->current_page + 1;
@@ -95,7 +96,7 @@ class woocommerce_gravityforms_product_form {
 			echo '<input type="hidden" name="wc_gforms_product_id" value="' . $this->product_id . '" />';
 			echo '<input type="hidden" name="product_id" value="' . $this->product_id . '" />';
 
-			wp_nonce_field( 'add_to_cart' );
+
 
 			if ( $disable_anchor != 'yes' ) {
 				$css = apply_filters( 'woocommerce_gravityforms_anchor_css', '' );

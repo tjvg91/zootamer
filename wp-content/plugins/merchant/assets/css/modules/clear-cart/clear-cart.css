@@ -60,12 +60,12 @@ button.merchant-clear-cart-button--mini-cart.merchant-clear-cart-button--outline
     margin-left: 10px;
   }
 }
-.merchant-floating-side-mini-cart-widget .woocommerce button.merchant-clear-cart-button--mini-cart,
-.merchant-floating-side-mini-cart-widget button.merchant-clear-cart-button--mini-cart {
+.merchant-side-cart-widget .woocommerce button.merchant-clear-cart-button--mini-cart,
+.merchant-side-cart-widget button.merchant-clear-cart-button--mini-cart {
   display: none !important;
 }
-.merchant-floating-side-mini-cart-widget .woocommerce button.merchant-clear-cart-button--side-cart,
-.merchant-floating-side-mini-cart-widget button.merchant-clear-cart-button--side-cart {
+.merchant-side-cart-widget .woocommerce button.merchant-clear-cart-button--side-cart,
+.merchant-side-cart-widget button.merchant-clear-cart-button--side-cart {
   display: block;
 }
 

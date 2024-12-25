@@ -123,6 +123,10 @@ class WC_GFPA_Cart {
 		$context           = ( isset( $_POST['add-variations-to-cart'] ) && $_POST['add-variations-to-cart'] ) ? 'bulk' : 'single';
 		$gravity_form_data = wc_gfpa()->get_gravity_form_data( $product_id, $context );
 
+		if ( ! $gravity_form_data ) {
+			return $valid;
+		}
+
 		if ( is_array( $gravity_form_data ) && $gravity_form_data['id'] && empty( $_POST['gform_form_id'] ) ) {
 			return false;
 		}
@@ -131,7 +135,20 @@ class WC_GFPA_Cart {
 		$product = wc_get_product( $product_id );
 		if ( empty( $variation_id ) && $product && $product->is_type( 'variable' ) ) {
 			// No variation was selected.
-			$valid = false;
+			if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+				// For Quick View Pro compatibility, we may need to lookup the variation id from the request.
+				$variation_id = WC_GFPA_Quick_View_Pro_Integration::get_variation_id();
+
+				if ( ! $variation_id ) {
+					$valid = false;
+				}
+			} else {
+				$valid = false;
+			}
+		}
+
+		if ( ! $valid ) {
+			return false;
 		}
 
 		if ( $gravity_form_data && is_array( $gravity_form_data ) && isset( $gravity_form_data['id'] ) && intval( $gravity_form_data['id'] ) > 0 && isset( $_POST['gform_form_id'] ) && is_numeric( $_POST['gform_form_id'] ) ) {
@@ -219,15 +236,15 @@ class WC_GFPA_Cart {
 			}
 			//GFCommon::log_debug( __METHOD__ . "(): [woocommerce-gravityforms-product-addons] Add to Cart Validation - Deleting Entry #{$lead['id']}." );
 
-			error_reporting( $err_level );
-		}
-
-		if ( ! $valid && ! $changing_pages ) {
-			$validation_message = $gravity_form_data['validation_message'];
-			$show_wc_notices    = $gravity_form_data['show_wc_notices'] === 'yes';
-			if ( $show_wc_notices ) {
-				wc_add_notice( $validation_message, 'error' );
+			if ( ! $valid && ! $changing_pages ) {
+				$validation_message = $gravity_form_data['validation_message'];
+				$show_wc_notices    = $gravity_form_data['show_wc_notices'] === 'yes';
+				if ( $show_wc_notices ) {
+					wc_add_notice( $validation_message, 'error' );
+				}
 			}
+
+			error_reporting( $err_level );
 		}
 
 		return $valid;
@@ -525,8 +542,8 @@ class WC_GFPA_Cart {
 						// Controls the use_text option for the field
 						$use_label_as_value = apply_filters( 'woocommerce_gforms_use_label_as_value', true, $value, $field, $lead, $form_meta );
 
-						$display_value    = GFCommon::get_lead_field_display( $field, $value, $currency, false );
-						$display_value    = apply_filters( 'gform_entry_field_value', $display_value, $field, $lead, $form_meta );
+						$display_value = GFCommon::get_lead_field_display( $field, $value, $currency, false );
+						$display_value = apply_filters( 'gform_entry_field_value', $display_value, $field, $lead, $form_meta );
 
 						$display_text = GFCommon::get_lead_field_display( $field, $value, $currency, $use_label_as_value );
 						$display_text = apply_filters( 'woocommerce_gforms_field_display_text', $display_text, $display_value, $field, $lead, $form_meta );
@@ -955,44 +972,6 @@ class WC_GFPA_Cart {
 
 
 	private function disable_hooks( $form_id ) {
-		//MUST disable notifications manually.
-		/*
-		add_filter( 'gform_disable_notification', [ $this, 'disable_notifications' ], 999, 3 );
-
-		add_filter( 'gform_disable_user_notification', [ $this, 'disable_notifications' ], 999, 3 );
-		add_filter(
-			'gform_disable_user_notification_' . $form_id,
-			[
-				$this,
-				'disable_notifications',
-			],
-			999,
-			3
-		);
-
-		add_filter(
-			'gform_disable_admin_notification' . $form_id,
-			[
-				$this,
-				'disable_notifications',
-			],
-			10,
-			3
-		);
-
-		add_filter(
-			'gform_disable_admin_notification_' . $form_id,
-			[
-				$this,
-				'disable_notifications',
-			],
-			10,
-			3
-		);
-
-		add_filter( 'gform_disable_notification_' . $form_id, [ $this, 'disable_notifications' ], 999, 3 );
-		*/
-
 		add_filter( 'gform_confirmation_' . $form_id, array( $this, 'disable_confirmation' ), 998, 4 );
 		add_filter( 'gform_pre_send_email', array( $this, 'suppress_form_submission_notifications' ), 50, 4 );
 	}

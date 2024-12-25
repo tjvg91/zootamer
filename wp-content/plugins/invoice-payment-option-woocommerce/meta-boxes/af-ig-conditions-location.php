@@ -46,7 +46,7 @@ $countires = WC()->countries->get_countries();
 							</option>
 					<?php endforeach; ?>
 				</select>
-				<p><?php echo esc_html__( 'Choose Countries. Leave it empty for all countries.', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Choose countries. Leave it empty for all countries.', 'af_ig_td' ); ?></p>
 			</td>
 		</tr>
 		<tr class="addify-option-field">
@@ -83,7 +83,7 @@ $countires = WC()->countries->get_countries();
 					}
 					?>
 				</select>
-				<p><?php echo esc_html__( 'Select States. Leave empty for all states.', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Select states. Leave empty for all states.', 'af_ig_td' ); ?></p>
 			</td>
 		</tr>
 		<tr class="addify-option-field">
@@ -97,7 +97,7 @@ $countires = WC()->countries->get_countries();
 			<td>
 				<textarea name="af_ig_cities" id="af_ig_cities" cols="45" rows="5"><?php echo esc_attr( $sel_cities ); ?></textarea>
 				<p><?php echo esc_html__( 'Enter Cities. Leave it empty for all cities', 'af_ig_td' ); ?></p>
-				<p><?php echo esc_html__( 'Insert all Cities separated by comma(,). e.g. new york,Rawalpindi,Lahore etc', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Insert all cities separated by comma(,). e.g. New York, Rawalpindi, Lahore etc', 'af_ig_td' ); ?></p>
 			</td>
 		</tr>
 		<tr class="addify-option-field">
@@ -110,9 +110,9 @@ $countires = WC()->countries->get_countries();
 			</th>
 			<td>
 				<textarea name="af_ig_zip_codes" id="af_ig_zip_codes" cols="45" rows="5"><?php echo esc_attr( $sel_zips ); ?></textarea>
-				<p><?php echo esc_html__( 'Enter Zip Codes. Leave it empty for all Zip Codes.', 'af_ig_td' ); ?></p>
-				<p><?php echo esc_html__( 'Insert all zip codes separated by comma(,). e.g. 45000,46000,47000 etc', 'af_ig_td' ); ?></p>
-				<p><?php echo esc_html__( 'For range of zip codes use hyphen(-). e.g. 45000-46000', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Enter ZIP codes. Leave it empty for all ZIP codes.', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'Insert all ZIP codes separated by comma(,). e.g. 45000,46000,47000 etc', 'af_ig_td' ); ?></p>
+				<p><?php echo esc_html__( 'For range of ZIP codes use hyphen(-). e.g. 45000-46000', 'af_ig_td' ); ?></p>
 			</td>
 		</tr>        
 	</table>

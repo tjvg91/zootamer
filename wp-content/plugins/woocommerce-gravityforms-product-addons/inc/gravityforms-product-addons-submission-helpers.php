@@ -10,22 +10,47 @@ class WC_GFPA_Submission_Helpers {
 		$_POST = array_intersect_key( $_POST, array_flip( $post_keys ) );
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public static function revalidate_entry( $form_id, $entry_data ) {
 		if ( empty( $form_id ) || empty( $entry_data ) ) {
 			return false;
 		}
 
-		$form      = GFAPI::get_form( $form_id );
-		$post_data = [];
+		$form = GFAPI::get_form( $form_id );
+
+		// Check if the form exists
+		if (!$form || is_wp_error( $form ) ) {
+			return false;
+		}
+
+		$post_data = array();
 		foreach ( $entry_data as $key => $value ) {
+			$field = GFAPI::get_field( $form, $key );
+			if ( ! $field ) {
+				continue;
+			}
+
+			if ( $field->get_input_type() == 'list' && $field->enableColumns ) {
+				$value = maybe_unserialize( $value );
+
+				if ( is_array( $value ) ) {
+					$value = array_merge( ...array_map( 'array_values', $value ) );
+				}
+			}
+
 			$post_data[ 'input_' . str_replace( '.', '_', $key ) ] = $value;
 		}
 
 		//Find any upload fields in the form.
-		$upload_fields = array_filter( $form['fields'], function ( $field ) {
-			// $field->type === 'fileupload';
-			//TODO: See if we can enable file uploads for revalidation. It's not working as of 3.6.2
-		} );
+		$upload_fields = array_filter(
+			$form['fields'],
+			function ( $field ) {
+				// $field->type === 'fileupload';
+				//TODO: See if we can enable file uploads for revalidation. It's not working as of 3.6.2
+			}
+		);
 
 		//If there are any upload_fields, hydrate the globals. This is necessary for the file upload field to work and validate properly.
 		if ( ! empty( $upload_fields ) ) {
@@ -61,14 +86,14 @@ class WC_GFPA_Submission_Helpers {
 		$form = GFAPI::get_form( $form_id );
 
 		// Prepare to hydrate the post data.
-		$post_data = [];
+		$post_data = array();
 		foreach ( $entry_data as $key => $value ) {
 			$post_data[ 'input_' . str_replace( '.', '_', $key ) ] = $value;
 		}
 
 		// If we are hydrating the defaults, we need to get the default values for the form.
 		if ( $hydrate_defaults ) {
-			$defaults = [];
+			$defaults = array();
 
 			foreach ( $form['fields'] as $field ) {
 				$f                                 = GFAPI::get_field( $form, $field->id );
@@ -80,9 +105,12 @@ class WC_GFPA_Submission_Helpers {
 		}
 
 		// Find any upload fields in the form.
-		$upload_fields = array_filter( $form['fields'], function ( $field ) {
-			return $field->type === 'fileupload';
-		} );
+		$upload_fields = array_filter(
+			$form['fields'],
+			function ( $field ) {
+				return $field->type === 'fileupload';
+			}
+		);
 
 		// If there are any upload_fields, hydrate the globals. This is necessary for the file upload field to work and validate properly.
 		if ( ! empty( $upload_fields ) ) {
@@ -133,13 +161,16 @@ class WC_GFPA_Submission_Helpers {
 	}
 
 	public static function ignore_field_validation_rules( $result, $value, $form, $field ) {
-		$fields_to_ignore = apply_filters( 'woocommerce_gforms_field_validation_to_ignore', [
-			'signature',
-			'creditcard',
-			'password',
-			'fileupload',
-			'captcha',
-		] );
+		$fields_to_ignore = apply_filters(
+			'woocommerce_gforms_field_validation_to_ignore',
+			array(
+				'signature',
+				'creditcard',
+				'password',
+				'fileupload',
+				'captcha',
+			)
+		);
 
 		$field_type = is_array( $field ) ? $field['type'] : $field->type;
 		if ( in_array( $field_type, $fields_to_ignore, true ) ) {
@@ -161,9 +192,9 @@ class WC_GFPA_Submission_Helpers {
 				$uploaded_files[ 'input_' . $field->id ] = array();
 				foreach ( $files as $file ) {
 					$filename                                  = basename( $file );
-					$uploaded_files[ 'input_' . $field->id ][] = [
+					$uploaded_files[ 'input_' . $field->id ][] = array(
 						'uploaded_filename' => $filename,
-					];
+					);
 				}
 
 				$_POST['gform_uploaded_files'] = GFCommon::json_encode( $uploaded_files );
@@ -186,5 +217,4 @@ class WC_GFPA_Submission_Helpers {
 
 		return $file_path;
 	}
-
 }

@@ -1,9 +1,9 @@
 === Merchant - All-in-One WooCommerce Plugin for Pre-Orders, Product Labels, Buy Now, Quick View, and More ===
 Tags: pre-orders, buy now button, product labels, quick view, clear cart
 Requires at least: 5.5
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 1.10.3
+Stable tag: 1.11.1
 Contributors: aThemes
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -218,6 +218,24 @@ Absolutely not. You can enable and customize modules without any coding knowledg
 15. Cookie Banner Module
 
 == Changelog ==
+= 1.11.1 =
+* Added - Christmas banner
+
+= 1.11.0 =
+* Added - Pre-orders: Added validation for shipping date selection. System now prevents setting pre-order start/end dates when shipping date is unselected and shows an alert message
+* Fixed - Pre-Orders: Resolved fatal error occurring on newer PHP versions when variable products lack pricing information
+* Fixed - Pre-Orders: Restored missing strikethrough pricing display for variable products
+* Fixed - Product Labels: Resolved compatibility issues with XStore WordPress theme
+* Fixed - Product Labels: Corrected functionality of {sale} and {sale_amount} codes when used with Storewide Sale
+
+= 1.10.5 =
+* Removed - Code Snippets: Module has been removed
+* Fixed - Pre-Orders: Discounts were not applied to variable products
+* Fixed - Product Labels: Fix incorrect price values for codes {sale} and {sale_amount} under certain WooCommerce tax settings
+
+= 1.10.4 =
+* Fixed - Product Labels: Label wasn't appearing with "Woo - Products" widget in Ultimate Addons for Elementor
+
 = 1.10.3 =
 * Fixed - Default values from flexible content field not being applied when a new entry is added.
 

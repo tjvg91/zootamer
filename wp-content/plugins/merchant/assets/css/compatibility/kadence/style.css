@@ -6,9 +6,9 @@
   transition: 300ms all !important;
   padding: 0.4em 1em !important;
 }
-.merchant-theme-kadence .merchant-floating-side-mini-cart-widget .product_list_widget span.quantity {
+.merchant-theme-kadence .merchant-side-cart .product_list_widget span.quantity {
   padding-left: 73px;
 }
-.merchant-theme-kadence .merchant-floating-side-mini-cart-widget .product_list_widget li dl.variation {
+.merchant-theme-kadence .merchant-side-cart .product_list_widget li dl.variation {
   padding-left: 73px;
 }

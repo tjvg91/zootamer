@@ -111,16 +111,7 @@ class AF_IG_Admin {
 		$array_keys      = array_keys( $sections );
 		$current_section = empty( $current_section ) ? 'general-setting' : $current_section;
 		?>
-
-		<ul class="subsubsub">
-			<?php
-			foreach ( $sections as $id => $label ) {
-
-				echo wp_kses_post( '<li><a href="' . admin_url( 'admin.php?page=wc-settings&tab=' . $tab_id . '&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . $label . '</a> ' . ( end( $array_keys ) == $id ? '' : '|' ) . ' </li>' );
-			}
-
-			?>
-		</ul><br class="clear" />
+<br class="clear" />
 		<?php
 	}
 
@@ -132,7 +123,7 @@ class AF_IG_Admin {
 			$settings = array(
 				// Title
 				array(
-					'title' => __( 'General', 'woocommerce' ),
+					'title' => __( 'General Setting', 'woocommerce' ),
 					'type'  => 'title',
 					'id'    => 'custom_settings14',
 				),
@@ -140,16 +131,16 @@ class AF_IG_Admin {
 
 				// Select
 				array(
-					'title'       => __( 'Enable pdf ', 'woocommerce' ),
+					'title'       => __( 'Enable PDF ', 'woocommerce' ),
 					'placeholder' => __( 'checked this checkedbox to enable pdf', 'af_ig_td' ),
 					'type'        => 'checkbox',
 					'id'          => 'af_invoice_enable_pdf',
 					'class'       => 'af_invoice_enable_pdf',
 				),
 				array(
-					'title'    => __( 'Choose style for pdf', 'woocommerce' ),
+					'title'    => __( 'Choose style for PDF', 'woocommerce' ),
 					'type'     => 'radio',
-					'desc'     => __( 'Choose the pdf style', 'woocommerce' ),
+					'desc'     => __( 'Choose the PDF style', 'woocommerce' ),
 					'desc_tip' => true,
 					'id'       => 'af_invoice_template',
 					'class'    => 'af_invoice_template',
@@ -157,11 +148,12 @@ class AF_IG_Admin {
 						'temp1.php' => 'Tempate1',
 						'temp2.php' => 'Tempate2',
 						'temp3.php' => 'Tempate3',
+						'temp4.php' => 'Tempate4',
 
 					),
 				),
 				array(
-					'title'       => __( 'Upload icon for pdf', 'af_ig_td' ),
+					'title'       => __( 'Upload icon for PDF', 'af_ig_td' ),
 					'placeholder' => __( 'Text for button', 'af_ig_td' ),
 					'type'        => 'text',
 					'id'          => 'af_invoice_upload_icon',
@@ -170,7 +162,7 @@ class AF_IG_Admin {
 
 				array(
 					'title'    => __( 'Show company detail', 'af_ig_td' ),
-					'desc'     => __( 'Checked to show all company detail', 'af_ig_td' ),
+					'desc'     => __( 'Check to show all company detail', 'af_ig_td' ),
 					'desc_tip' => true,
 					'type'     => 'checkbox',
 					'id'       => 'af_invoice_comp_detail',
@@ -182,7 +174,7 @@ class AF_IG_Admin {
 				),
 
 				array(
-					'title'    => __( 'Customize PDF Theme', 'af_ig_td' ),
+					'title'    => __( 'Customize PDF theme', 'af_ig_td' ),
 					'desc'     => __( 'Customize color scheme of your PDF theme', 'af_ig_td' ),
 					'desc_tip' => true,
 					'type'     => 'checkbox',
@@ -265,18 +257,18 @@ class AF_IG_Admin {
 				),
 
 				array(
-					'title'    => __( 'Separate Email for Customers', 'af_ig_td' ),
+					'title'    => __( 'Separate email for customers', 'af_ig_td' ),
 					'type'     => 'checkbox',
-					'desc'     => __( 'Enable separate order email notification for customers when order is placed using Invoice Payment Method', 'woocommerce' ),
+					'desc'     => __( 'Enable separate order email notification for customers when order is placed using invoice payment method', 'woocommerce' ),
 					'desc_tip' => true,
 					'id'       => 'af_inv_enable_customer_email',
 
 				),
 
 				array(
-					'title'    => __( 'Separate Email for Admin', 'af_ig_td' ),
+					'title'    => __( 'Separate email for admin', 'af_ig_td' ),
 					'type'     => 'checkbox',
-					'desc'     => __( 'Enable separate order email notification for admin when order is placed using Invoice Payment Method', 'woocommerce' ),
+					'desc'     => __( 'Enable separate order email notification for admin when order is placed using invoice payment method', 'woocommerce' ),
 					'desc_tip' => true,
 					'id'       => 'af_inv_enable_admin_email',
 
@@ -444,6 +436,18 @@ class AF_IG_Admin {
 				/>
 				<label for="choose-2">
 					<img style="  width: 140px!important; height:192px!important;" src="<?php echo esc_attr( AF_IG_URL . 'uploads\temp3.png' ); ?>" />
+				</label>
+			</div>
+			<div class="af_invoice_templates" style="">
+				<input style="display: none;" type="radio" name="af_invoice_template" class="af_inv_step_style" id="choose2" value="temp4.php" 
+				<?php
+				if ( 'temp4.php' == $af_invoice_template ) {
+					echo 'checked';
+				}
+				?>
+				/>
+				<label for="choose-2">
+					<img style="  width: 140px!important; height:192px!important;" src="<?php echo esc_attr( AF_IG_URL . 'uploads\temp4.png' ); ?>" />
 				</label>
 			</div>
 			

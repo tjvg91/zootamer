@@ -117,13 +117,12 @@ jQuery(document).ready(function($) {
         // Check if clicked element has value "temp1.php"
     	fill_pdf_color_fields();
 
-
+        $('.woocommerce-save-button').removeAttr('disabled');
     });
     fill_pdf_color_fields();
 
    function fill_pdf_color_fields() {
     var selectedValue = $('.af_inv_step_style:checked').val();
-    console.log(selectedValue);
     
     if (selectedValue === 'temp1.php') {
         $('#af_invoice_header_color, #af_invo_pro_table, #af_inv_footer_backgrond_color').each(function() {
@@ -143,7 +142,6 @@ jQuery(document).ready(function($) {
             }
         });
     } else if (selectedValue === 'temp2.php') {
-    	console.log('aaaaa');
         $('#af_invoice_header_color, #af_invo_pro_table, #af_inv_footer_backgrond_color').each(function() {
             // if (!$(this).val()) {
             if (!$(this).data('db_value')) {
@@ -238,6 +236,7 @@ jQuery(document).ready(function ($) {
             var image_url = uploaded_image.toJSON().url;
             $('#af_invoice_upload_icon').val(image_url);
             $('#af_invoice_upload_icon_img').attr("src", image_url);
+            $('.woocommerce-save-button').removeAttr('disabled');
         });
     });
 

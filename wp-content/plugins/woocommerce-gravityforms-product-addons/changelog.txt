@@ -1,6 +1,29 @@
 *** Gravity Forms Product Add-Ons Changelog ***
+2024.12.09 - version 3.6.7
+    * Update - WC and WP Compatibility Tags.
+    * Update - Add the wp_nonce_field back for gravity forms processing.
+    * New - Add filter, woocommerce_gravityforms_order_entry, to allow filtering the entry which is created during the order process.  This is useful for setting entry field values before we send notifications or process feeds.
+    * New - Add specific integration with GP Nested Forms.  This allows for the creation of entries for nested forms when a product is ordered.
+
+2024.11.19 - version 3.6.6
+    * Update - Handle the fix from 3.6.5 better.  The data-formid attribute was not being added to the form element in all situations.
+    * Update - Bump script versions to force cache busting.
+    * Update - WC and WP Compatibility Tags.
+
+2024.11.18 - version 3.6.5
+    * Fix - Fix issue with Gravity Forms 2.9.0.  Needed to add a data-formid attribute to the WooCommerce form element.
+    * Fix - Fix issue with logging custom woocommerce_gravityforms_create_entries_on_specific_statuses filter.
+    * Fix - Fix issue with missing form during reorder validation.
+
+2024.11.17 - version 3.6.4
+    * Update - WP and WC Compatibility Tags.
+    * Fix - Fix problem where add to cart validation would generate a warning on products with no form attached.
+    * Fix - Fix issue with reordering a product with a list field that uses multiple columns.
+    * Fix - Fix issue with WooCommerce Quick View Pro
+    * Tweak - Remove the noonce generation when we render the product form.
+
 2024.06.26 - version 3.6.3
-    * Fix: Fix issue with reordering products with file upload fields and required fields.
+    * Fix: Fix issue with re-ordering products with file upload fields and required fields.
     * Fix: Fix issue where variable products could not be added to a Wishlist properly.
     * Update: Respect the woocommerce_gforms_use_label_as_value setting for fields that do not have entry inputs.
     * Update: Better handling for Limit purchases to 1 item per order.  Filter the cart_id to remove data that changes or could change between form submissions, but is not related to the actual data of the form.

@@ -202,7 +202,12 @@ class WC_GFPA_Reorder {
 						// Revalidate the entry to get make sure it is still valid.
 						$validation_result = WC_GFPA_Submission_Helpers::revalidate_entry( $gravity_form_data['id'], $previous_entry_data );
 
-						if ( is_wp_error( $validation_result ) ) {
+						if ($validation_result === false) {
+							// Somehow the validation failed.  Use the previous entry data as is.
+							// The revalidation function will return false if the form is missing or there was an error revalidating.
+							// This is fine, since revalidation is more of a nice to have feature than anything else.
+							$entry = $previous_entry_data;
+						} else if ( is_wp_error( $validation_result ) ) {
 							GFCommon::log_debug( "Gravity Forms Product Addons: Order Again Item Data - Error Revalidating Entry (#{$order_id}), Item: (#{$order_item_id})" );
 							GFCommon::log_debug( $validation_result->get_error_message() );
 						} else if ( ! $validation_result['is_valid'] ) {

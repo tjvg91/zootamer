@@ -1,5 +1,19 @@
 *** Invoice Payment Option Change log ***
 
+2024-12-04 - version 1.4.2
+* Fix - Fixed email issue that occurred when an order is placed from checkout blocks.
+* Fix - Fixed a bug with product prices in PDFs when a product is on sale.
+
+2024-11-18 - version 1.4.1
+* Fix - Fixed JS conflicts on the frontend.
+
+2024-11-12 - version 1.4.0
+* Update - Now compatible with WooCommerce cart & checkout blocks.
+* Fix - Typo fixes.
+* Fix - Invoice payment method restriction applied to billing fields instead of shipping fields.
+* Fix - Fixed PDF design issues.
+
+
 2024-09-19 - version 1.3.3
 * Fix - Fixed bug with PDF email.
 * Fix - Fixed bug with currency symbol in PDF invoice.

@@ -42,9 +42,13 @@ if ( ! class_exists( 'AF_Location_Check' ) ) {
 		public function match_shipping_zone( $shipping_zones, $enable = 'enable' ) {
 
 			// Get Current Shipping Zone.
-			$_country  = isset( $this->checkout_form_data['s_country'] ) ? $this->checkout_form_data['s_country'] : '';
-			$_state    = isset( $this->checkout_form_data['s_state'] ) ? $this->checkout_form_data['s_state'] : '';
-			$_zip_code = isset( $this->checkout_form_data['s_postcode'] ) ? $this->checkout_form_data['s_postcode'] : '';
+			$_country  = isset( $this->checkout_form_data['country'] ) ? $this->checkout_form_data['country'] : '';
+			$_state    = isset( $this->checkout_form_data['state'] ) ? $this->checkout_form_data['state'] : '';
+			$_zip_code = isset( $this->checkout_form_data['postcode'] ) ? $this->checkout_form_data['postcode'] : '';
+
+
+
+
 
 			$cache_key = WC_Cache_Helper::get_cache_prefix( 'shipping_zones' ) . 'wc_shipping_zone_' . md5( sprintf( '%s+%s+%s', $_country, $_state, $_zip_code ) );
 			$zone_id   = wp_cache_get( $cache_key, 'shipping_zones' );
@@ -85,7 +89,8 @@ if ( ! class_exists( 'AF_Location_Check' ) ) {
 		 */
 		public function match_country( $countries, $enable = 'enable' ) {
 
-			$_country = isset( $this->checkout_form_data['s_country'] ) ? $this->checkout_form_data['s_country'] : '';
+			$_country = isset( $this->checkout_form_data['country'] ) ? $this->checkout_form_data['country'] : '';
+			
 			if ( ! empty( $_country ) ) {
 				// Check enable and disable for countries.
 				switch ( $enable ) {
@@ -162,8 +167,8 @@ if ( ! class_exists( 'AF_Location_Check' ) ) {
 		 * @return bool Return true or false for payment-invoice availability.
 		 */
 		public function match_state( $states, $enable = 'enable' ) {
-			$_country = isset( $this->checkout_form_data['s_country'] ) ? $this->checkout_form_data['s_country'] : '';
-			$_state   = isset( $this->checkout_form_data['s_state'] ) ? $this->checkout_form_data['s_state'] : '';
+			$_country = isset( $this->checkout_form_data['country'] ) ? $this->checkout_form_data['country'] : '';
+			$_state   = isset( $this->checkout_form_data['state'] ) ? $this->checkout_form_data['state'] : '';
 			$_state   = $_country . ':' . $_state;
 			if ( ! empty( $_state ) ) {
 				// Check enable and disable for countries.
@@ -194,7 +199,7 @@ if ( ! class_exists( 'AF_Location_Check' ) ) {
 		 */
 		public function match_city( $cities, $enable = 'enable' ) {
 
-			$_city  = isset( $this->checkout_form_data['s_city'] ) ? strtolower( trim( preg_replace( '/[\t\n\r\s]+/', ' ', $this->checkout_form_data['s_city'] ) ) ) : '';
+			$_city  = isset( $this->checkout_form_data['city'] ) ? strtolower( trim( preg_replace( '/[\t\n\r\s]+/', ' ', $this->checkout_form_data['city'] ) ) ) : '';
 			$cities = isset( $cities[0] ) ? $cities[0] : array();
 			if ( ! empty( $_city ) ) {
 				// Check enable and disable for countries.
@@ -225,7 +230,7 @@ if ( ! class_exists( 'AF_Location_Check' ) ) {
 		 */
 		public function af_match_zip_code( $zip_codes, $enable = 'enable' ) {
 
-			$_zip_code = isset( $this->checkout_form_data['s_postcode'] ) ? strtolower( trim( preg_replace( '/[\t\n\r\s]+/', ' ', $this->checkout_form_data['s_postcode'] ) ) ) : '';
+			$_zip_code = isset( $this->checkout_form_data['postcode'] ) ? strtolower( trim( preg_replace( '/[\t\n\r\s]+/', ' ', $this->checkout_form_data['postcode'] ) ) ) : '';
 
 			$nor_zip_codes   = isset( $zip_codes[0] ) ? $zip_codes[0] : array();
 			$range_zip_codes = isset( $zip_codes[1] ) ? $zip_codes[1] : array();

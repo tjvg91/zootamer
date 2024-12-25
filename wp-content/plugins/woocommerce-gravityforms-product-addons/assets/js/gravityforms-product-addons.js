@@ -1,5 +1,6 @@
 let ajax_price_req;
 let wc_gforms_current_variation;
+
 //See the gravity forms documentation for this function.
 function gform_product_total(formId, total) {
     let product_id = jQuery("input[name=product_id]").val();
@@ -50,63 +51,63 @@ function update_dynamic_price(gform_total, formId = '') {
     // Function moved in delay so that variation prices are updated - Vidish - 16-10-2017
     //setTimeout(function () {
 
-        const product_id = $form.find("input[name=product_id]").val();
-        const variation_id = $form.find("input[name=variation_id]").val();
+    const product_id = $form.find("input[name=product_id]").val();
+    const variation_id = $form.find("input[name=variation_id]").val();
 
-        if (product_id || variation_id) {
-            let the_id = 0;
-            if (variation_id) {
-                the_id = variation_id;
-            } else {
-                the_id = product_id;
-            }
-
-            let base_price = wc_gravityforms_params.prices[the_id];
-            if ($form.find('.wc-bookings-booking-cost').attr('data-raw-price')) {
-                base_price = $form.find('.wc-bookings-booking-cost').attr('data-raw-price');
-            }
-
-            if (base_price === 'UNAVAILABLE') {
-                $form.find('.formattedBasePrice').html('--');
-                $form.find('.formattedVariationTotal').html(accounting.formatMoney(gform_total, {
-                        symbol: wc_gravityforms_params.currency_format_symbol,
-                        decimal: wc_gravityforms_params.currency_format_decimal_sep,
-                        thousand: wc_gravityforms_params.currency_format_thousand_sep,
-                        precision: wc_gravityforms_params.currency_format_num_decimals,
-                        format: wc_gravityforms_params.currency_format
-                    }
-                ));
-                $form.find('.formattedTotalPrice').html('--');
-            } else {
-
-                $form.find('.formattedBasePrice').html(accounting.formatMoney(base_price, {
-                        symbol: wc_gravityforms_params.currency_format_symbol,
-                        decimal: wc_gravityforms_params.currency_format_decimal_sep,
-                        thousand: wc_gravityforms_params.currency_format_thousand_sep,
-                        precision: wc_gravityforms_params.currency_format_num_decimals,
-                        format: wc_gravityforms_params.currency_format
-                    }
-                ));
-
-                $form.find('.formattedVariationTotal').html(accounting.formatMoney(gform_total, {
-                        symbol: wc_gravityforms_params.currency_format_symbol,
-                        decimal: wc_gravityforms_params.currency_format_decimal_sep,
-                        thousand: wc_gravityforms_params.currency_format_thousand_sep,
-                        precision: wc_gravityforms_params.currency_format_num_decimals,
-                        format: wc_gravityforms_params.currency_format
-                    }
-                ));
-
-                $form.find('.formattedTotalPrice').html(accounting.formatMoney(parseFloat(base_price) + parseFloat(gform_total), {
-                        symbol: wc_gravityforms_params.currency_format_symbol,
-                        decimal: wc_gravityforms_params.currency_format_decimal_sep,
-                        thousand: wc_gravityforms_params.currency_format_thousand_sep,
-                        precision: wc_gravityforms_params.currency_format_num_decimals,
-                        format: wc_gravityforms_params.currency_format
-                    }
-                ) + wc_gravityforms_params.price_suffix[product_id]);
-            }
+    if (product_id || variation_id) {
+        let the_id = 0;
+        if (variation_id) {
+            the_id = variation_id;
+        } else {
+            the_id = product_id;
         }
+
+        let base_price = wc_gravityforms_params.prices[the_id];
+        if ($form.find('.wc-bookings-booking-cost').attr('data-raw-price')) {
+            base_price = $form.find('.wc-bookings-booking-cost').attr('data-raw-price');
+        }
+
+        if (base_price === 'UNAVAILABLE') {
+            $form.find('.formattedBasePrice').html('--');
+            $form.find('.formattedVariationTotal').html(accounting.formatMoney(gform_total, {
+                    symbol: wc_gravityforms_params.currency_format_symbol,
+                    decimal: wc_gravityforms_params.currency_format_decimal_sep,
+                    thousand: wc_gravityforms_params.currency_format_thousand_sep,
+                    precision: wc_gravityforms_params.currency_format_num_decimals,
+                    format: wc_gravityforms_params.currency_format
+                }
+            ));
+            $form.find('.formattedTotalPrice').html('--');
+        } else {
+
+            $form.find('.formattedBasePrice').html(accounting.formatMoney(base_price, {
+                    symbol: wc_gravityforms_params.currency_format_symbol,
+                    decimal: wc_gravityforms_params.currency_format_decimal_sep,
+                    thousand: wc_gravityforms_params.currency_format_thousand_sep,
+                    precision: wc_gravityforms_params.currency_format_num_decimals,
+                    format: wc_gravityforms_params.currency_format
+                }
+            ));
+
+            $form.find('.formattedVariationTotal').html(accounting.formatMoney(gform_total, {
+                    symbol: wc_gravityforms_params.currency_format_symbol,
+                    decimal: wc_gravityforms_params.currency_format_decimal_sep,
+                    thousand: wc_gravityforms_params.currency_format_thousand_sep,
+                    precision: wc_gravityforms_params.currency_format_num_decimals,
+                    format: wc_gravityforms_params.currency_format
+                }
+            ));
+
+            $form.find('.formattedTotalPrice').html(accounting.formatMoney(parseFloat(base_price) + parseFloat(gform_total), {
+                    symbol: wc_gravityforms_params.currency_format_symbol,
+                    decimal: wc_gravityforms_params.currency_format_decimal_sep,
+                    thousand: wc_gravityforms_params.currency_format_thousand_sep,
+                    precision: wc_gravityforms_params.currency_format_num_decimals,
+                    format: wc_gravityforms_params.currency_format
+                }
+            ) + wc_gravityforms_params.price_suffix[product_id]);
+        }
+    }
     //}, 1000);
 
 
@@ -210,6 +211,7 @@ function update_dynamic_price_ajax(gform_total, formId = '') {
         }
 
         $form.attr('id', 'gform_' + form_id);
+        $form.attr('data-formid', form_id);
 
         $form.on('found_variation', function (e, variation) {
             try {
@@ -306,18 +308,51 @@ function update_dynamic_price_ajax(gform_total, formId = '') {
     });
 
 
-    $(document).on('quick-view-displayed', function () {
-        console.log('quick view displayed');
-        setTimeout(function () {
+    $(document).on('quick_view_pro:open_complete', function (event, productId, $trigger) {
 
-            $.globalEval($('.quick-view-content').find('script').text());
-            $('.quick-view-content').find('form').each(function (i, form) {
-                $(form).wc_gravity_form();
-            })
+        // Wait until the content is fully appended
+        const quickViewContentId = '#quick-view-' + productId; // Adjust this selector based on your modal ID structure
 
-        }, 0);
+        if (!$(quickViewContentId).length) {
+            console.debug('Quick View Pro: No quick view content found.');
+            return;
+        }
+
+        const $quickViewContent = $(quickViewContentId);
+
+        // Execute scripts only after the content has been appended
+        if ($quickViewContent.find('form.cart').length) {
+
+            // console.debug('Quick View Pro: Reinitializing Gravity Forms scripts');
+
+            // Re-run inline scripts within the quick view content
+            $quickViewContent.find('script').each(function () {
+                const scripts = this.text || this.textContent || this.innerHTML || '';
+                $.globalEval(scripts);
+            });
+
+            // Reinitialize Gravity Forms scripts
+            if (typeof window.gformInitSpinner !== 'undefined') {
+                window.gformInitSpinner();
+            }
+
+            if (typeof window.gformInitDatepicker !== 'undefined') {
+                window.gformInitDatepicker();
+            }
+
+            if (typeof window.gformInitPriceFields !== 'undefined') {
+                console.debug('Reinitializing price fields');
+                window.gformInitPriceFields();
+            }
+
+            // Initialize Gravity Forms for WooCommerce
+            $quickViewContent.find('form.cart').each(function (index, form) {
+                if ($.fn.wc_gravity_form) {
+                    $(form).wc_gravity_form();
+                }
+            });
+        }
     });
-
 
     /** The following section shims Bookings so that when it completes an AJAX request it fires an event on the form that we can listen for. */
     function handleBookingsAjaxCompletedEvent(event, jqXHR, ajaxOptions, $form) {

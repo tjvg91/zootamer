@@ -2,10 +2,10 @@
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Square 4.8.2\n"
+"Project-Id-Version: WooCommerce Square 4.8.4\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/woocommerce-square\n"
-"POT-Creation-Date: 2024-10-14 14:43:43+00:00\n"
+"POT-Creation-Date: 2024-12-09 15:11:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -103,7 +103,7 @@ msgstr ""
 
 #: includes/Admin/Product_Editor_Compatibility.php:143
 #: includes/Framework/PaymentGateway/Payment_Gateway.php:2558
-#: includes/Handlers/Products.php:918
+#: includes/Handlers/Products.php:917
 msgid "Square Gift Card"
 msgstr ""
 
@@ -112,8 +112,8 @@ msgid "Enable to create this product as a gift card"
 msgstr ""
 
 #: includes/Admin/Product_Editor_Compatibility.php:163
-#: includes/Handlers/Products.php:322 includes/Handlers/Products.php:806
-#: includes/Handlers/Products.php:840 includes/Handlers/Products.php:851
+#: includes/Handlers/Products.php:321 includes/Handlers/Products.php:805
+#: includes/Handlers/Products.php:839 includes/Handlers/Products.php:850
 msgid "Sync with Square"
 msgstr ""
 
@@ -425,8 +425,8 @@ msgid "Status"
 msgstr ""
 
 #: includes/Admin/Sync_Page.php:288 includes/Admin/Sync_Page.php:329
-#: includes/Handlers/Order.php:600 includes/Handlers/Products.php:1017
-#: includes/Handlers/Products.php:1215
+#: includes/Handlers/Order.php:600 includes/Handlers/Products.php:1016
+#: includes/Handlers/Products.php:1214
 msgid "Message"
 msgstr ""
 
@@ -481,7 +481,7 @@ msgstr ""
 msgid "Inventory tracking is disabled for this product"
 msgstr ""
 
-#: includes/Admin.php:149 includes/Handlers/Products.php:237
+#: includes/Admin.php:149 includes/Handlers/Products.php:236
 msgid "Synced with Square"
 msgstr ""
 
@@ -2581,22 +2581,22 @@ msgstr ""
 msgid "Disconnect from Square"
 msgstr ""
 
-#: includes/Handlers/Order.php:588 includes/Handlers/Products.php:1002
-#: includes/Handlers/Products.php:1187
+#: includes/Handlers/Order.php:588 includes/Handlers/Products.php:1001
+#: includes/Handlers/Products.php:1186
 msgid "Sender's name"
 msgstr ""
 
-#: includes/Handlers/Order.php:592 includes/Handlers/Products.php:1007
-#: includes/Handlers/Products.php:1194
+#: includes/Handlers/Order.php:592 includes/Handlers/Products.php:1006
+#: includes/Handlers/Products.php:1193
 msgid "Recipient's email"
 msgstr ""
 
-#: includes/Handlers/Order.php:596 includes/Handlers/Products.php:1012
-#: includes/Handlers/Products.php:1208
+#: includes/Handlers/Order.php:596 includes/Handlers/Products.php:1011
+#: includes/Handlers/Products.php:1207
 msgid "Recipient's name"
 msgstr ""
 
-#: includes/Handlers/Order.php:604 includes/Handlers/Products.php:1201
+#: includes/Handlers/Order.php:604 includes/Handlers/Products.php:1200
 msgid "Gift card number"
 msgstr ""
 
@@ -2683,49 +2683,49 @@ msgid ""
 "account."
 msgstr ""
 
-#: includes/Handlers/Products.php:211
+#: includes/Handlers/Products.php:210
 msgid "Square Onboarding Setup Wizard"
 msgstr ""
 
-#: includes/Handlers/Products.php:212
+#: includes/Handlers/Products.php:211
 msgid ""
 "If you need to access the Square onboarding setup wizard again, please "
 "click on the button below."
 msgstr ""
 
-#: includes/Handlers/Products.php:213
+#: includes/Handlers/Products.php:212
 msgid "Setup wizard"
 msgstr ""
 
-#: includes/Handlers/Products.php:317
+#: includes/Handlers/Products.php:316
 msgid "Update product data with Square data"
 msgstr ""
 
-#: includes/Handlers/Products.php:317
+#: includes/Handlers/Products.php:316
 msgid "Send product data to Square"
 msgstr ""
 
-#: includes/Handlers/Products.php:358
+#: includes/Handlers/Products.php:357
 msgid "Sync with Square?"
 msgstr ""
 
-#: includes/Handlers/Products.php:362
+#: includes/Handlers/Products.php:361
 msgid "No change"
 msgstr ""
 
-#: includes/Handlers/Products.php:364
+#: includes/Handlers/Products.php:363
 msgid "No"
 msgstr ""
 
-#: includes/Handlers/Products.php:365
+#: includes/Handlers/Products.php:364
 msgid "Yes"
 msgstr ""
 
-#: includes/Handlers/Products.php:371
+#: includes/Handlers/Products.php:370
 msgid "This product"
 msgstr ""
 
-#: includes/Handlers/Products.php:736
+#: includes/Handlers/Products.php:735
 #. translators: Placeholder: %1$s - date (localized), %2$s - time (localized),
 #. %3$s - opening <a> HTML link tag, %4$s closing </a> HTML link tag
 msgid ""
@@ -2734,55 +2734,55 @@ msgid ""
 "records%4$s."
 msgstr ""
 
-#: includes/Handlers/Products.php:919
+#: includes/Handlers/Products.php:918
 msgid ""
 "Square Gift cards are virtual products that can be purchased by customers "
 "and gifted to one or more recipients. Gift card code holders can redeem and "
 "use them as store credit."
 msgstr ""
 
-#: includes/Handlers/Products.php:992
+#: includes/Handlers/Products.php:991
 msgid "Buy a new gift card"
 msgstr ""
 
-#: includes/Handlers/Products.php:997
+#: includes/Handlers/Products.php:996
 msgid "Add value to an existing gift card"
 msgstr ""
 
-#: includes/Handlers/Products.php:1023
+#: includes/Handlers/Products.php:1022
 msgid "Enter the Gift Card number"
 msgstr ""
 
-#: includes/Handlers/Products.php:1024
+#: includes/Handlers/Products.php:1023
 msgid "Gift Card number"
 msgstr ""
 
-#: includes/Handlers/Products.php:1105
+#: includes/Handlers/Products.php:1104
 msgid "Sorry, this coupon is not applicable to gift card products."
 msgstr ""
 
-#: includes/Handlers/Products.php:1160
+#: includes/Handlers/Products.php:1159
 msgid "The gift card number field is empty."
 msgstr ""
 
-#: includes/Handlers/Products.php:1168
+#: includes/Handlers/Products.php:1167
 msgid "The gift card number is either invalid or does not exist."
 msgstr ""
 
-#: includes/Handlers/Products.php:1246 includes/Handlers/Products.php:1443
-msgid "Buy Gift Card"
-msgstr ""
-
-#: includes/Handlers/Products.php:1279
+#: includes/Handlers/Products.php:1251
 msgid "Placeholder"
 msgstr ""
 
-#: includes/Handlers/Products.php:1352
+#: includes/Handlers/Products.php:1324
 msgid "You can only add 1 gift card product to your cart per order."
 msgstr ""
 
-#: includes/Handlers/Products.php:1354
+#: includes/Handlers/Products.php:1326
 msgid "View cart"
+msgstr ""
+
+#: includes/Handlers/Products.php:1415
+msgid "Buy Gift Card"
 msgstr ""
 
 #: includes/Handlers/Sync.php:288
@@ -2981,37 +2981,37 @@ msgid ""
 msgstr ""
 
 #: includes/Sync/Interval_Polling.php:200
-#: includes/Sync/Manual_Synchronization.php:1588
+#: includes/Sync/Manual_Synchronization.php:1614
 #. translators: Placeholder %1$s Product Name, %2$s Exception message
 msgid "%1$s was deleted in Square but could not be hidden in WooCommerce. %2$s."
 msgstr ""
 
 #: includes/Sync/Interval_Polling.php:223
-#: includes/Sync/Manual_Synchronization.php:1371
+#: includes/Sync/Manual_Synchronization.php:1397
 #. translators: Placeholder %1$s Product Name, %2$s Exception message
 msgid "Could not sync %1$s data from Square. %2$s."
 msgstr ""
 
-#: includes/Sync/Manual_Synchronization.php:740
+#: includes/Sync/Manual_Synchronization.php:757
 #. translators: Placeholder: %s - product ID
 msgid "Product #%s could not be updated."
 msgstr ""
 
-#: includes/Sync/Manual_Synchronization.php:978
+#: includes/Sync/Manual_Synchronization.php:1003
 #. translators: Placeholder: %s - product ID
 msgid "Product %s could not be updated in Square."
 msgstr ""
 
-#: includes/Sync/Manual_Synchronization.php:1336
+#: includes/Sync/Manual_Synchronization.php:1362
 #. translators: Placeholder %s Product ID
 msgid "%s does not exist in the Square catalog."
 msgstr ""
 
-#: includes/Sync/Manual_Synchronization.php:1347
+#: includes/Sync/Manual_Synchronization.php:1373
 msgid "This product failed to be hidden."
 msgstr ""
 
-#: includes/Sync/Manual_Synchronization.php:1535
+#: includes/Sync/Manual_Synchronization.php:1561
 #. translators: %1$s - Item Variation ID
 msgid ""
 "[Pull Inventory] The product does not exist in the WooCommerce store for "
