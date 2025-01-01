@@ -33,6 +33,7 @@ class Helpers {
 				'smtp2go',
 				'sparkpost',
 				'mailjet',
+				'elasticemail',
 			],
 			true
 		);

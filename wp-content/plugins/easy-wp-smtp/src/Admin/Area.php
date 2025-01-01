@@ -119,27 +119,6 @@ class Area {
 			add_action( 'init', [ $this, 'get_parent_pages' ] );
 		}
 
-		// Fix WP 6.5+ translation issue.
-		if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '6.5', '>=' ) ) {
-			add_filter(
-				'gettext',
-				static function ( $translation, $text, $domain ) {
-					$translation = (string) $translation;
-					$text        = (string) $text;
-					$domain      = (string) $domain;
-
-					// Fallback to the original text if the translation is empty.
-					if ( $translation === '' && strpos( $domain, 'easy-wp-smtp' ) === 0 ) {
-						$translation = $text;
-					}
-
-					return $translation;
-				},
-				10,
-				3
-			);
-		}
-
 		( new UserFeedback() )->init();
 		( new SetupWizard() )->hooks();
 

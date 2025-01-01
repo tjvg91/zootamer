@@ -4,7 +4,7 @@ Tags: email, smtp, email logs, gmail, outlook
 Requires at least: 5.2
 Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 2.8.0
+Stable tag: 2.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -312,6 +312,11 @@ And we will try to help out as soon as possible.
 10. Setup Wizard - Step 2
 
 == Changelog ==
+
+= 2.9.0 - 2024-12-26 =
+* Added: New Elastic Email transactional mailer.
+* Added: Ability to configure credentials through constants.
+* Changed: Improved keyboard navigation styles in Setup Wizard.
 
 = 2.8.0 - 2024-12-12 =
 * Added: New Mailjet transactional mailer.

@@ -26,3 +26,10 @@ Your domain has been verified with Apple Pay!
 Your domain has been verified with Apple Pay!
 ====End Log====
 
+2024-12-25T06:01:12+00:00 DEBUG 
+====Stripe Version: 9.0.0====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+

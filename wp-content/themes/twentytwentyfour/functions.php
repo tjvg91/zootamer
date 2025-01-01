@@ -204,24 +204,3 @@ if ( ! function_exists( 'twentytwentyfour_pattern_categories' ) ) :
 endif;
 
 add_action( 'init', 'twentytwentyfour_pattern_categories' );
-
-
-function my_theme_scripts() {
-	wp_enqueue_script( 'my-actions', get_template_directory_uri() . '/js/my-actions.js', array( 'jquery' ), '1.0.0', true );
-}
-
-add_action('wp_enqueue_scripts', 'my_theme_scripts');
-
-
-
-function weplugins_modify_auth_cookie_defaults($cookie, $user_id, $expiration, $scheme, $token) { 
-	echo '<pre>'.print_r($expiration,true).'</pre>';
-
-	// Update the $cookie variable according to your website requirements and return this variable. You can modify the $cookie variable conditionally too if you want.
-	return $cookie; 
-}
-
-// add the filter
-
-add_filter("auth_cookie", "weplugins_modify_auth_cookie_defaults", 10, 5);
-	
