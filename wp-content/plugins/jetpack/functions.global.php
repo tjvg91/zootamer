@@ -50,10 +50,8 @@ function jetpack_deprecated_function( $function, $replacement, $version ) { // p
 	) {
 		error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			sprintf(
-				doing_action( 'after_setup_theme' ) || did_action( 'after_setup_theme' ) ?
-					/* Translators: 1. Function name. 2. Jetpack version number. */
-					__( 'The %1$s function will be removed from the Jetpack plugin in version %2$s.', 'jetpack' )
-					: 'The %1$s function will be removed from the Jetpack plugin in version %2$s.',
+				/* Translators: 1. Function name. 2. Jetpack version number. */
+				__( 'The %1$s function will be removed from the Jetpack plugin in version %2$s.', 'jetpack' ),
 				$function,
 				$removed_version
 			)

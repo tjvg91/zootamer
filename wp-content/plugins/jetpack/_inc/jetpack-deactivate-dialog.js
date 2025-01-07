@@ -1,4 +1,3 @@
-/* globals analytics, deactivate_dialog, tb_remove */
 /**
  * Adds the Deactivation modal.
  *
@@ -29,10 +28,10 @@
 						// NodeList is static, we need to modify this in the DOM
 
 						$( '#TB_window' ).addClass( 'jetpack-disconnect-modal' );
-						window.deactivationModalCentralize();
+						deactivationModalCentralize();
 
 						$( '#TB_closeWindowButton, #TB_overlay' ).on( 'click', function () {
-							window.deactivationModalTrackCloseEvent();
+							deactivationModalTrackCloseEvent();
 						} );
 
 						document.onkeyup = function ( e ) {
@@ -46,7 +45,7 @@
 							}
 							if ( keycode === 27 ) {
 								// close
-								window.deactivationModalTrackCloseEvent();
+								deactivationModalTrackCloseEvent();
 							}
 						};
 
@@ -86,7 +85,7 @@
 
 	$( '#jetpack_deactivation_dialog_content__button-cancel' ).on( 'click', function () {
 		tb_remove();
-		window.deactivationModalTrackCloseEvent();
+		deactivationModalTrackCloseEvent();
 	} );
 
 	$( '#jetpack_deactivation_dialog_content__button-deactivate' ).on( 'click', function ( e ) {
@@ -94,6 +93,6 @@
 
 		$( this ).prop( 'disabled', true );
 		analytics.tracks.recordEvent( 'jetpack_termination_dialog_termination_click', tracksProps );
-		window.deactivateJetpack();
+		deactivateJetpack();
 	} );
 } )( jQuery );

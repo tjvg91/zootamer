@@ -339,15 +339,9 @@ class REST_Connector {
 	 *
 	 * @return WP_Error|array
 	 */
-	public function remote_provision( WP_REST_Request $request ) {
-		$request_data = $request->get_params();
-
-		if ( did_action( 'application_password_did_authenticate' ) && current_user_can( 'jetpack_connect_user' ) ) {
-			$request_data['local_user'] = get_current_user_id();
-		}
-
+	public static function remote_provision( WP_REST_Request $request ) {
 		$xmlrpc_server = new Jetpack_XMLRPC_Server();
-		$result        = $xmlrpc_server->remote_provision( $request_data );
+		$result        = $xmlrpc_server->remote_provision( $request );
 
 		if ( is_a( $result, 'IXR_Error' ) ) {
 			$result = new WP_Error( $result->code, $result->message );
@@ -399,20 +393,9 @@ class REST_Connector {
 	/**
 	 * Remote provision endpoint permission check.
 	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
 	 * @return true|WP_Error
 	 */
-	public function remote_provision_permission_check( WP_REST_Request $request ) {
-		// We allow the app password authentication only if 'local_user' is empty for security reasons.
-		if ( empty( $request['local_user'] ) && did_action( 'application_password_did_authenticate' ) ) {
-			if ( current_user_can( 'jetpack_connect_user' ) ) {
-				return true;
-			}
-
-			return new WP_Error( 'invalid_user_permission_remote_provision', self::get_user_permissions_error_msg(), array( 'status' => rest_authorization_required_code() ) );
-		}
-
+	public function remote_provision_permission_check() {
 		return Rest_Authentication::is_signed_with_blog_token()
 			? true
 			: new WP_Error( 'invalid_permission_remote_provision', self::get_user_permissions_error_msg(), array( 'status' => rest_authorization_required_code() ) );

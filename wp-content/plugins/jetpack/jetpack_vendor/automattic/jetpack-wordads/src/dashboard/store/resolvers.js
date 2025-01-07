@@ -15,7 +15,7 @@ export function* getWordAdsModuleStatus() {
 		if ( settings ) {
 			return setJetpackSettings( settings );
 		}
-	} catch {
+	} catch ( e ) {
 		return errorNotice( __( 'Error fetching settings…', 'jetpack-wordads' ) );
 	}
 }

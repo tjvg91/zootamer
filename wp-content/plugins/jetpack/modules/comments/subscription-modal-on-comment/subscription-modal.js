@@ -24,9 +24,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				'jetpack-subscription-modal-on-comment-scroll-to',
 				destinationUrl.hash
 			);
-		} catch {
-			// Ok if we can't set it.
-		}
+			// eslint-disable-next-line no-empty
+		} catch ( e ) {}
 
 		// Add cache-busting parameter
 		destinationUrl.searchParams.set( '_ctn', Date.now() );
@@ -38,7 +37,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		if ( typeof message === 'string' ) {
 			try {
 				message = JSON.parse( message );
-			} catch {
+			} catch ( err ) {
 				return;
 			}
 		}
@@ -95,9 +94,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 					reloadOnCloseSubscriptionModal( data.url );
 					return;
 				}
-			} catch {
-				// Ignore any errors.
-			}
+				// eslint-disable-next-line no-empty
+			} catch ( e ) {}
 
 			new Image().src =
 				document.location.protocol +
@@ -107,6 +105,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			modal.classList.toggle( 'open' );
 			hasLoaded = true;
 			redirectUrl = data.url;
+			return;
 		}
 	}
 

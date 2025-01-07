@@ -11,10 +11,12 @@
 		pd.src = w.crowdsignal_shortcode_options.script_url;
 		s = d.getElementsByTagName( c )[ 0 ];
 		s.parentNode.insertBefore( pd, s );
-	} else if ( typeof w.jQuery !== 'undefined' ) {
-		// In environments where jQuery is present, dispatch with jQuery.
-		w.jQuery( d.body ).trigger( 'pd-script-load' );
 	} else {
-		d.body.dispatchEvent( new Event( 'pd-script-load' ) );
+		// In environments where jQuery is present, dispatch with jQuery.
+		if ( typeof w.jQuery !== 'undefined' ) {
+			w.jQuery( d.body ).trigger( 'pd-script-load' );
+		} else {
+			d.body.dispatchEvent( new Event( 'pd-script-load' ) );
+		}
 	}
 } )( window, document, 'script', 'pd-polldaddy-loader' );

@@ -704,17 +704,16 @@ class Sender {
 	 *
 	 * @param string $action_name The action.
 	 * @param array  $data The data associated with the action.
-	 * @param string $key The key to use for the action.
 	 *
 	 * @return array Items processed. TODO: this doesn't make much sense anymore, it should probably be just a bool.
 	 */
-	public function send_action( $action_name, $data = null, $key = null ) {
+	public function send_action( $action_name, $data = null ) {
 		if ( ! Settings::is_sender_enabled( 'full_sync' ) ) {
 			return array();
 		}
 
 		// Compose the data to be sent.
-		$action_to_send = $this->create_action_to_send( $action_name, $data, $key );
+		$action_to_send = $this->create_action_to_send( $action_name, $data );
 
 		list( $items_to_send, $skipped_items_ids, $items, $preprocess_duration ) = $this->get_items_to_send( $action_to_send, true ); // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		Settings::set_is_sending( true );
@@ -742,12 +741,11 @@ class Sender {
 	 *
 	 * @param string $action_name The action.
 	 * @param array  $data The data associated with the action.
-	 * @param string $key The key to use for the action.
 	 * @return array An array of synthetic sync actions keyed by current microtime(true)
 	 */
-	private function create_action_to_send( $action_name, $data, $key = null ) {
+	private function create_action_to_send( $action_name, $data ) {
 		return array(
-			$key ?? (string) microtime( true ) => array(
+			(string) microtime( true ) => array(
 				$action_name,
 				$data,
 				get_current_user_id(),

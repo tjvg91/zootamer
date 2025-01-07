@@ -66,6 +66,7 @@ const BackupVideoSection = ( {
 				/>
 			</div>
 
+			{ /* eslint-disable-next-line jsx-a11y/media-has-caption */ }
 			<video poster={ backupVideoThumbnail } controls>
 				<source
 					src="https://videos.files.wordpress.com/VNRR7Mkj/audio_jetpack_backup_-3.mov"

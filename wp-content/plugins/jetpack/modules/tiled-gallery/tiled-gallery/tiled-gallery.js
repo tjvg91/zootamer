@@ -75,8 +75,9 @@
 			var top = attribute === 'border' ? 'borderTopWidth' : attribute + 'Top';
 			var bottom = attribute === 'border' ? 'borderBottomWidth' : attribute + 'Bottom';
 			return ( parseInt( el.style[ top ], 10 ) || 0 ) + ( parseInt( el.style[ bottom ], 10 ) || 0 );
+		} else {
+			return 0;
 		}
-		return 0;
 	};
 
 	TiledGallery.prototype.resize = function () {
