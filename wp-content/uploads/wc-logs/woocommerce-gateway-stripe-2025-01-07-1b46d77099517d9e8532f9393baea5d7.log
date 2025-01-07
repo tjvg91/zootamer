@@ -19,3 +19,17 @@ account
 account
 ====End Log====
 
+2025-01-07T19:49:33+00:00 DEBUG 
+====Stripe Version: 9.0.0====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
+2025-01-07T21:49:39+00:00 DEBUG 
+====Stripe Version: 9.0.0====
+====Stripe Plugin API Version: 2024-06-20====
+====Start Log====
+account
+====End Log====
+
