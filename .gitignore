@@ -23,6 +23,9 @@ wp-config.php
 # Uploads
 /wp-content/uploads/
 
+#Database
+/wp-content/database/
+
 # Log files
 *.log
 
