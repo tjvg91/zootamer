@@ -13,6 +13,8 @@ jQuery(function() {
 
 	if(/^\?product=(day-to-dusk|item-removal|virtual-staging)$/.test(window.document.location.search)) {
 		quantityContainer.css("cssText", "");
+
+		jQuery(".quantity-cart-container .screen-reader-text").text("Expected no. of files");
 	} else if(/^\?product=satellite-marketing-video$/.test(window.document.location.search)){
 		quantityContainer.css("cssText", "display: none !important");
 	}
